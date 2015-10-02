@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:project.properties</value>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:connection.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <context:component-scan base-package="bugztracker">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.connection.provider_class">${jdbc.provider}</prop>
+                <prop key="hibernate.hikari.minimumIdle">${jdbc.minidle}</prop>
+                <prop key="hibernate.hikari.maximumPoolSize">${jdbc.maxpoolsize}</prop>
+                <prop key="hibernate.hikari.idleTimeout">${jdbc.idletimeout}</prop>
+                <prop key="hibernate.hikari.dataSourceClassName">${jdbc.driverclassname}</prop>
+                <prop key="hibernate.hikari.dataSource.url">${jdbc.databaseurl}</prop>
+                <prop key="hibernate.hikari.dataSource.user">${jdbc.username}</prop>
+                <prop key="hibernate.hikari.dataSource.password">${jdbc.password}</prop>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.connection.charSet">${encoding.filter}</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

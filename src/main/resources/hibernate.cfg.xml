@@ -1,0 +1,13 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="bugztracker.entity.Issue"/>
+        <mapping class="bugztracker.entity.IssueAttachment"/>
+        <mapping class="bugztracker.entity.IssueComment"/>
+        <mapping class="bugztracker.entity.Participant"/>
+        <mapping class="bugztracker.entity.Project"/>
+        <mapping class="bugztracker.entity.User"/>
+    </session-factory>
+</hibernate-configuration>
