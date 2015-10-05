@@ -23,10 +23,10 @@ public class SessionFilter implements Filter {
         HttpSession session = req.getSession();
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/logout");
         User user = (User) session.getAttribute("user");
-
+        int sessionTimeout = session.getMaxInactiveInterval();
         if (user == null) {
             requestDispatcher.forward(request, response);
-        } else if (user.getDateExpired() != null && user.getDateExpired().getTime() > System.currentTimeMillis()) {
+        } else if (user.getDateExpired() != null && user.getDateExpired().getTime() - System.currentTimeMillis() < sessionTimeout) {
                 //to do
         }
 

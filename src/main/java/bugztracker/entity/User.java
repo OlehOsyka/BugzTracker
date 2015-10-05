@@ -1,8 +1,11 @@
 package bugztracker.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 /**
@@ -28,6 +31,8 @@ public class User {
     }
 
     @Column(name = "full_name", nullable = false)
+    @NotBlank(message = "Full name is required! ")
+    @Size(max = 100, message = "Please, shorten your full name to 100 symbols! ")
     public String getFullName() {
         return fullName;
     }
@@ -37,6 +42,7 @@ public class User {
     }
 
     @Column(nullable = false)
+    @NotBlank(message = "Password is required! ")
     public String getPassword() {
         return password;
     }
@@ -46,6 +52,8 @@ public class User {
     }
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Email is required! ")
+    @Size(max = 50, message = "Please, use email 50 symbols length! ")
     public String getEmail() {
         return email;
     }

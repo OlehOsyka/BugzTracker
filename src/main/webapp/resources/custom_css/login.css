@@ -1,7 +1,22 @@
 .login-panel {
-    margin-top: 25%;
+    margin-top: 35%;
 }
 
-.error-text {
-    color: #c7254e;
+.border-error {
+    border-color: red;
+}
+
+.border-success {
+    border-color: green;
+}
+
+.non-visible {
+    display: none;
+}
+
+.alert-danger-position {
+    position: absolute;
+    margin-top: 7%;
+    width: 91%;
+    text-align: center;
 }

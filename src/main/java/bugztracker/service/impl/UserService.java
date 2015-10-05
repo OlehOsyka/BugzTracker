@@ -1,11 +1,9 @@
 package bugztracker.service.impl;
 
 
-import bugztracker.bean.LoginBean;
 import bugztracker.entity.User;
 import bugztracker.repository.IUserRepository;
 import bugztracker.service.IUserService;
-import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +19,6 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private IValidator<LoginBean> loginBeanValidator;
 
     @Override
     public User get(long id) {
@@ -51,8 +46,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User find(LoginBean credentials) {
-        loginBeanValidator.validate(credentials);
-        return userRepository.find(credentials.getEmail());
+    public User find(String email) {
+        return userRepository.find(email);
     }
+
 }

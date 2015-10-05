@@ -1,21 +1,22 @@
 $(document).ready(function () {
 
-    $('#sign_in_btn').click(function () {
+    $('#sign_up_btn').click(function () {
         this.blur();
 
         var context_path = $('#context_path').val();
         var email = $('#email').val();
         var password = $('#password').val();
+        var full_name = $('#full_name').val();
 
-        if (validate(email, password)) {
+        if (validate(email, password, full_name)){
             var credentials = {
                 "email": email,
                 "password": password,
-                "remember": $('#rememeber').is(":checked")
+                "fullName": full_name
             };
             $.ajax({
                 type: 'POST',
-                url: context_path + '/login',
+                url: context_path + '/register',
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json"
@@ -26,8 +27,8 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     var error = data.responseJSON;
-                    $('#invalid_login').removeClass('non-visible');
-                    $('#invalid_login').text(error.error);
+                    $('#invalid_signup').removeClass('non-visible');
+                    $('#invalid_signup').text(error.error);
                 }
             });
         }
@@ -36,20 +37,21 @@ $(document).ready(function () {
 
     $('body').keypress(function (eventCode) {
         if (eventCode.keyCode == 13) {
-            $('#sign_in_btn').click();
+            $('#sign_up_btn').click();
         }
     });
 
-    function validate(email, password) {
+    function validate(email, password, fullName) {
         var error = "";
-        error += Validation.validEmail(email);
         error += Validation.validPassword(password);
+        error += Validation.validEmailRegistration(email);
+        error += Validation.validFullNameRegistration(fullName);
         if (error) {
-            $('#invalid_login').removeClass('non-visible');
-            $('#invalid_login').text(error);
+            $('#invalid_signup').removeClass('non-visible');
+            $('#invalid_signup').text(error);
             return false;
         } else {
-            $('#invalid_login').addClass('non-visible');
+            $('#invalid_signup').addClass('non-visible');
             return true;
         }
     }

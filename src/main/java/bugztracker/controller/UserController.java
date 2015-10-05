@@ -5,6 +5,7 @@ import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
 import bugztracker.service.IUserService;
 import bugztracker.util.MD5Encoder;
+import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +29,20 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IValidator<User> userValidator;
+
+    @Autowired
+    private IValidator<LoginBean> loginBeanValidator;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody LoginBean credentials, WebRequest request) {
+    public ResponseEntity login(@RequestBody LoginBean credentials, WebRequest request,
+                                HttpSession session) {
         Map<String, String> response = new HashMap<>();
 
-        User user = userService.find(credentials);
+        loginBeanValidator.validate(credentials);
+
+        User user = userService.find(credentials.getEmail());
 
         if (user == null) {
             response.put("error", "No user found with such login!");
@@ -43,10 +54,12 @@ public class UserController {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
 
-        if(credentials.isRemember()) {
+        if (credentials.isRemember()) {
             if (user != null) {
                 //now + two weeks
                 user.setDateExpired(new Timestamp(System.currentTimeMillis() + 1209600000L));
+                //set session on two weeks
+                session.setMaxInactiveInterval(1209600000);
             }
             userService.update(user);
         }
@@ -56,6 +69,36 @@ public class UserController {
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity register(@RequestBody User newUser, WebRequest request,
+                                   HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+
+        userValidator.validate(newUser);
+
+        User user = userService.find(newUser.getEmail());
+
+        if (user != null) {
+            response.put("error", "Email has already been registered! ");
+        }
+
+        if (!response.isEmpty()) {
+            return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        String passw = newUser.getPassword();
+        newUser.setPassword(MD5Encoder.encrypt(passw).substring(0, 10));
+
+        userService.add(newUser);
+
+        request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+
+        response.put("redirect", "/dashboard");
+
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(WebRequest request, SessionStatus status) {

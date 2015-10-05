@@ -1,6 +1,5 @@
 package bugztracker.service;
 
-import bugztracker.bean.LoginBean;
 import bugztracker.entity.User;
 
 /**
@@ -8,6 +7,5 @@ import bugztracker.entity.User;
  */
 public interface IUserService extends IService<User> {
 
-    User find(LoginBean credentials);
-
+    User find(String email);
 }

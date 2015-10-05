@@ -9,26 +9,24 @@
 
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login" role="alert"></div>
+            <div class="alert alert-danger non-visible alert-danger-position" id="invalid_signup" role="alert"></div>
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please, Sign in or <a href="<c:url value="/signup"/>">Sign up</a></h3>
+                    <h3 class="panel-title">Please, Sign up</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" id="email" type="text" autofocus>
+                                <input class="form-control" placeholder="Full name" id="full_name" type="text" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-mail" id="email" type="text">
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" id="password" type="password">
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="Remember Me" id="remember">Remember Me
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-lg btn-success btn-block" id="sign_in_btn">Sign in
+                            <button type="submit" class="btn btn-lg btn-success btn-block" id="sign_up_btn">Sign up
                             </button>
                         </fieldset>
                     </form>
@@ -39,6 +37,5 @@
 
 </t:template>
 
-<script src="<c:url value="/resources/custom_js/login.js"/>"></script>
+<script src="<c:url value="/resources/custom_js/signup.js"/>"></script>
 <script src="<c:url value="/resources/custom_js/validation.js"/>"></script>
-

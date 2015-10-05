@@ -20,4 +20,9 @@ public class PageController {
         return "dashboard";
     }
 
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String getSignUpPage() {
+        return "signup";
+    }
+
 }
