@@ -5,7 +5,7 @@ function Validation() {
 Validation.validEmail = function (email) {
     var error = "";
     if (!email) {
-        $('#email').addClass('border-error');
+        $('#email').addClass("border-error");
         error += "Email is required! ";
     } else {
         var valid_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
