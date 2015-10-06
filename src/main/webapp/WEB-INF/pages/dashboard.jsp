@@ -15,8 +15,8 @@
                        data-search="true"
                        data-show-refresh="true"
                        data-show-toggle="true"
-                       <%--data-detail-view="true"--%>
-                       <%--data-detail-formatter="detailFormatter"--%>
+                       data-detail-view="true"
+                       data-detail-formatter="detailFormatter"
                        data-id-field="id">
                 </table>
             </div>
