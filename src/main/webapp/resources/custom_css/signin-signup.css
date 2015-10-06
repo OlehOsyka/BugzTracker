@@ -2,21 +2,13 @@
     margin-top: 35%;
 }
 
-.border-error {
-    border-color: red;
-}
-
-.border-success {
-    border-color: green;
-}
-
 .non-visible {
     display: none;
 }
 
 .alert-danger-position {
     position: absolute;
-    margin-top: 7%;
+    margin-top: 8%;
     width: 91%;
     text-align: center;
 }

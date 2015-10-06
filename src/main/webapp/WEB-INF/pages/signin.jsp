@@ -1,7 +1,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link href="<c:url value="/resources/custom_css/login.css"/>" rel="stylesheet"/>
+<link href="<c:url value="/resources/custom_css/signin-signup.css"/>" rel="stylesheet"/>
 
 <t:template>
 
@@ -17,10 +17,12 @@
                 <div class="panel-body">
                     <form role="form">
                         <fieldset>
-                            <div class="form-group">
+                            <div class="form-group" id="form_group_email">
+                                <label class="control-label" for="email">E-mail:</label>
                                 <input class="form-control" placeholder="E-mail" id="email" type="text" autofocus>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="form_group_password">
+                                <label class="control-label" for="password">Password:</label>
                                 <input class="form-control" placeholder="Password" id="password" type="password">
                             </div>
                             <div class="checkbox">
@@ -28,7 +30,7 @@
                                     <input type="checkbox" value="Remember Me" id="remember">Remember Me
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-lg btn-success btn-block" id="sign_in_btn">Sign in
+                            <button type="submit" class="btn btn-lg btn-default btn-block" id="sign_in_btn">Sign in
                             </button>
                         </fieldset>
                     </form>
@@ -39,6 +41,6 @@
 
 </t:template>
 
-<script src="<c:url value="/resources/custom_js/login.js"/>"></script>
+<script src="<c:url value="/resources/custom_js/signin.js"/>"></script>
 <script src="<c:url value="/resources/custom_js/validation.js"/>"></script>
 

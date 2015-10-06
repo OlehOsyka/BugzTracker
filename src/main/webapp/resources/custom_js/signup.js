@@ -4,11 +4,11 @@ $(document).ready(function () {
         this.blur();
 
         var context_path = $('#context_path').val();
-        var email = $('#email').val();
-        var password = $('#password').val();
-        var full_name = $('#full_name').val();
+        var email = $.trim($('#email').val());
+        var password = $.trim($('#password').val());
+        var full_name = $.trim($('#full_name').val());
 
-        if (validate(email, password, full_name)){
+        if (validate(email, password, full_name)) {
             var credentials = {
                 "email": email,
                 "password": password,
@@ -27,8 +27,13 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     var error = data.responseJSON;
-                    $('#invalid_signup').removeClass('non-visible');
-                    $('#invalid_signup').text(error.error);
+                    var errorText = error.error;
+                    if (errorText.indexOf("Email") >= 0) {
+                        $('#form_group_password').removeClass('has-success');
+                        $('#form_group_password').addClass('has-error');
+                    }
+                    $('#invalid_login').removeClass('non-visible');
+                    $('#invalid_login').text(errorText);
                 }
             });
         }
