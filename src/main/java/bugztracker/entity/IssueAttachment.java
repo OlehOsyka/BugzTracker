@@ -15,6 +15,7 @@ public class IssueAttachment {
 
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

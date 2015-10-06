@@ -1,14 +1,13 @@
 package bugztracker.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 /**
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "project")
 public class Project {
 
     private long id;
@@ -18,6 +17,7 @@ public class Project {
 
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

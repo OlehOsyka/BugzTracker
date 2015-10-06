@@ -11,7 +11,7 @@ $(document).ready(function () {
             var credentials = {
                 "email": email,
                 "password": password,
-                "remember": $('#rememeber').is(":checked")
+                "isRemember": $('#remember').is(":checked")
             };
             $.ajax({
                 type: 'POST',
@@ -27,14 +27,14 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    if(errorText.indexOf("No") >= 0) {
+                    if (errorText.indexOf("No") >= 0) {
                         $('#form_group_email').removeClass('has-success');
                         $('#form_group_email').addClass("has-error");
 
                         $('#form_group_password').removeClass('has-success');
                         $('#form_group_password').addClass('has-error');
                     }
-                    if(errorText.indexOf("Incorrect") >= 0) {
+                    if (errorText.indexOf("Incorrect") >= 0) {
                         $('#form_group_password').removeClass('has-success');
                         $('#form_group_password').addClass('has-error');
                     }

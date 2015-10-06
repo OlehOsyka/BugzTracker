@@ -6,6 +6,8 @@ import bugztracker.exception.ValidationException;
 import bugztracker.service.IUserService;
 import bugztracker.util.MD5Encoder;
 import bugztracker.validator.IValidator;
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,14 +59,14 @@ public class UserController {
         if (credentials.isRemember()) {
             if (user != null) {
                 //now + two weeks
-                user.setDateExpired(new Timestamp(System.currentTimeMillis() + 1209600000L));
+                user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
                 //set session on two weeks
-                session.setMaxInactiveInterval(1209600000);
+                session.setMaxInactiveInterval(Weeks.TWO.toStandardSeconds().getSeconds());
             }
             userService.update(user);
         }
-        request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
 
+        request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
         response.put("redirect", "/dashboard");
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -92,8 +94,7 @@ public class UserController {
 
         userService.add(newUser);
 
-        request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
-
+        request.setAttribute("user", newUser, WebRequest.SCOPE_SESSION);
         response.put("redirect", "/dashboard");
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);

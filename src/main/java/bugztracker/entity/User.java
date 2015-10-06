@@ -2,9 +2,7 @@ package bugztracker.entity;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
@@ -12,6 +10,7 @@ import java.sql.Timestamp;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "user")
 public class User {
 
     private long id;
@@ -22,6 +21,7 @@ public class User {
 
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

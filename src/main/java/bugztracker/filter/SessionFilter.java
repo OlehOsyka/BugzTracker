@@ -1,6 +1,8 @@
 package bugztracker.filter;
 
 import bugztracker.entity.User;
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -22,22 +24,22 @@ public class SessionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/logout");
+        RequestDispatcher logoutRequestDispatcher = req.getRequestDispatcher("/logout");
         User user = (User) session.getAttribute("user");
         int sessionTimeout = session.getMaxInactiveInterval();
 
         if (user == null) {
-            requestDispatcher.forward(request, response);
-        } else if (user.getDateExpired() != null && user.getDateExpired().getTime() - System.currentTimeMillis() < sessionTimeout) {
+            logoutRequestDispatcher.forward(request, response);
+        } else if (user.getDateExpired() != null && user.getDateExpired().getTime() - DateTime.now().getMillis() < sessionTimeout) {
             //now + two weeks
-            user.setDateExpired(new Timestamp(System.currentTimeMillis() + 1209600000L));
             //update user
+            user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
             //set session on two weeks
-            session.setMaxInactiveInterval(1209600000);
+            session.setMaxInactiveInterval(Weeks.TWO.toStandardSeconds().getSeconds());
         } else {
             user.setDateExpired(null);
             //update user
-            requestDispatcher.forward(request, response);
+            logoutRequestDispatcher.forward(request, response);
         }
 
         //process request

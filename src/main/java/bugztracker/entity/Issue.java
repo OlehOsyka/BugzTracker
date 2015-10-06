@@ -12,6 +12,7 @@ import java.sql.Date;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "issue")
 public class Issue {
 
     private long id;
@@ -28,6 +29,7 @@ public class Issue {
 
     @Id
     @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -136,6 +138,7 @@ public class Issue {
 
         BLOCKER(1), CRITICAL(2), MAJOR(3), TRIVIAL(4), MINOR(5);
 
+        private final static Priority[] values = values();
         private final int value;
 
         Priority(int v) {
@@ -149,7 +152,7 @@ public class Issue {
 
         @JsonCreator
         public static Priority fromValue(int typeCode) {
-            for (Priority priority : Priority.values()) {
+            for (Priority priority : values) {
                 if (priority.value == typeCode) {
                     return priority;
                 }
@@ -160,8 +163,9 @@ public class Issue {
 
     public enum Status implements IEnum {
 
-       OPENED(1), INPROGRESS(2), RESOLVED(3), CLOSED(4);
+        OPENED(1), INPROGRESS(2), RESOLVED(3), CLOSED(4);
 
+        private final static Status[] values = values();
         private final int value;
 
         Status(int v) {
@@ -175,7 +179,7 @@ public class Issue {
 
         @JsonCreator
         public static Status fromValue(int typeCode) {
-            for (Status status : Status.values()) {
+            for (Status status : values) {
                 if (status.value == typeCode) {
                     return status;
                 }
@@ -188,6 +192,7 @@ public class Issue {
 
         ISSUE(1), BUG(2), IMPROVEMENT(3);
 
+        private final static Category[] values = Category.values();
         private final int value;
 
         Category(int v) {
@@ -201,7 +206,7 @@ public class Issue {
 
         @JsonCreator
         public static Category fromValue(int typeCode) {
-            for (Category category : Category.values()) {
+            for (Category category : values) {
                 if (category.value == typeCode) {
                     return category;
                 }

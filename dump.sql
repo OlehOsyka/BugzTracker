@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `issue`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issue` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `priority` enum('BLOCKER','CRITICAL','MAJOR','TRIVIAL','MINOR') COLLATE utf8_unicode_ci NOT NULL,
@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `issue_attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issue_attachment` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `issue_id` bigint(20) NOT NULL,
   `attachment_path` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -89,7 +89,7 @@ DROP TABLE IF EXISTS `issue_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issue_comment` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id_sender` bigint(20) NOT NULL,
   `comment` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS `participant`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `participant` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `project_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
@@ -147,7 +147,7 @@ DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `description` longtext COLLATE utf8_unicode_ci,
@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
