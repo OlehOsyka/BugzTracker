@@ -1,13 +1,19 @@
 function detailFormatter(index, row) {
     var html = [];
     $.each(row, function (key, value) {
+        if (value == null) {
+            value = "-";
+        }
         html.push('<p><b>' + key.toUpperCase() + ':</b> ' + value + '</p>');
     });
     return html.join('');
 }
 
 function descriptionFormatter(data) {
-    var desc = data.substring(0,25);
+    if (data == null) {
+        return;
+    }
+    var desc = data.substring(0, 25);
     return desc.concat('...');
 }
 
