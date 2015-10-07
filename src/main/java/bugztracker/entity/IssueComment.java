@@ -1,23 +1,22 @@
 package bugztracker.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
-@Table(name = "issue_comment")
 public class IssueComment {
 
     private long id;
     private String comment;
-    private Date date;
+    private Timestamp date;
     private Issue issueByIssueId;
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -36,11 +35,11 @@ public class IssueComment {
     }
 
     @Column(nullable = false)
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

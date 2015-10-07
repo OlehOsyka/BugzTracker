@@ -1,7 +1,8 @@
-package bugztracker.validator;
+package bugztracker.validator.impl;
 
 import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
+import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

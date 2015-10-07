@@ -6,7 +6,6 @@ import javax.persistence.*;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
-@Table(name = "issue_attachment")
 public class IssueAttachment {
 
     private long id;
@@ -15,7 +14,7 @@ public class IssueAttachment {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Y. Vovk on 02.10.15.
@@ -88,6 +89,8 @@ public class UserController {
         if (!response.isEmpty()) {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
+
+        newUser.setId(UUID.randomUUID().getMostSignificantBits());
 
         String passw = newUser.getPassword();
         newUser.setPassword(MD5Encoder.encrypt(passw).substring(0, 10));
