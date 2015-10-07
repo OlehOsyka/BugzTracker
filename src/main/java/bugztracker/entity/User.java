@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     private long id;
     private String fullName;

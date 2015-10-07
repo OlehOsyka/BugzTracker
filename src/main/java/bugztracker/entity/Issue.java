@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -13,7 +14,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "issue")
-public class Issue {
+public class Issue implements Serializable {
 
     private long id;
     private String name;

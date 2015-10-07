@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "project")
-public class Project {
+public class Project implements Serializable {
 
     private long id;
     private String name;

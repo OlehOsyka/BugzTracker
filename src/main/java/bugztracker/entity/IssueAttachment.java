@@ -1,13 +1,14 @@
 package bugztracker.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
 @Table(name = "issue_attachment")
-public class IssueAttachment {
+public class IssueAttachment implements Serializable  {
 
     private long id;
     private String attachmentPath;

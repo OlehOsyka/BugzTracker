@@ -1,6 +1,7 @@
 package bugztracker.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "issue_comment")
-public class IssueComment {
+public class IssueComment implements Serializable {
 
     private long id;
     private String comment;

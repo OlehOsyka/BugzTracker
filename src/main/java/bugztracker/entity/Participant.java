@@ -1,28 +1,19 @@
 package bugztracker.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
 @Table(name = "participant")
-public class Participant {
+public class Participant implements Serializable {
 
-    private long id;
     private User userParticipant;
     private Project project;
 
     @Id
-    @Column(nullable = false)
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public User getUserParticipant() {
@@ -33,6 +24,7 @@ public class Participant {
         this.userParticipant = userParticipant;
     }
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
     public Project getProject() {
@@ -45,30 +37,27 @@ public class Participant {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Participant that = (Participant) o;
 
-        if (id != that.id) return false;
+        if (!userParticipant.equals(that.userParticipant)) return false;
+        return project.equals(that.project);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        int result = userParticipant.hashCode();
+        result = 31 * result + project.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
         return "Participant{" +
-                "id=" + id +
-                ", userParticiant=" + userParticipant +
+                "userParticipant=" + userParticipant +
                 ", project=" + project +
                 '}';
     }
