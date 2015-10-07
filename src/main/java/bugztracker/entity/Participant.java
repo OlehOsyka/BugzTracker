@@ -6,6 +6,7 @@ import javax.persistence.*;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "participant")
 public class Participant {
 
     private long id;
@@ -14,7 +15,6 @@ public class Participant {
 
     @Id
     @Column(nullable = false)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

@@ -1,8 +1,21 @@
+function detailFormatter(index, row) {
+    var html = [];
+    $.each(row, function (key, value) {
+        html.push('<p><b>' + key.toUpperCase() + ':</b> ' + value + '</p>');
+    });
+    return html.join('');
+}
+
+function descriptionFormatter(data) {
+    var desc = data.substring(0,25);
+    return desc.concat('...');
+}
+
 $(document).ready(function () {
 
     $('#table').bootstrapTable({
         url: '/projects',
-        columns: [ {
+        columns: [{
             field: 'id',
             title: 'ID',
             align: 'center',
@@ -29,9 +42,10 @@ $(document).ready(function () {
             field: 'description',
             title: 'Description',
             align: 'center',
-            valign: 'middle'
+            valign: 'middle',
+            formatter: descriptionFormatter
             //sortable: true,
-           // editable: true
+            // editable: true
         }, {
             field: 'date',
             title: 'Date of creation',
@@ -40,13 +54,5 @@ $(document).ready(function () {
             //sortable: true
         }]
     });
-
-    function detailFormatter(index, row) {
-        var html = [];
-        $.each(row, function (key, value) {
-            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-        });
-        return html.join('');
-    }
 
 });

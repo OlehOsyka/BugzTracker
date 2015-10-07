@@ -12,6 +12,7 @@ import java.sql.Date;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "issue")
 public class Issue {
 
     private long id;

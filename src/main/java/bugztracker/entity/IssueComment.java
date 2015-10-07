@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  * Created by Y. Vovk on 02.10.15.
  */
 @Entity
+@Table(name = "issue_comment")
 public class IssueComment {
 
     private long id;
@@ -16,7 +17,6 @@ public class IssueComment {
 
     @Id
     @Column(nullable = false)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

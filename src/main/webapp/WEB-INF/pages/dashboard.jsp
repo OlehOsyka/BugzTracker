@@ -25,8 +25,8 @@
 
 </t:template>
 
-<script src="<c:url value="/resources/custom_js/dashboard.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap-table.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap-table-multiple-sort.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap-table-multiple-search.js"/>"></script>
+<script src="<c:url value="/resources/custom_js/dashboard.js"/>"></script>
 
