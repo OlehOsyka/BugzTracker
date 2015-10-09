@@ -5,6 +5,7 @@
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/custom_css/general.css"/>" rel="stylesheet"/>
     <script src="<c:url value="/resources/js/jquery-2.1.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
     <title>Bugz Tracker</title>
 </head>
 <body>
@@ -18,6 +19,5 @@
         </div>
     </div>
 </div>
-<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 </body>
 </html>

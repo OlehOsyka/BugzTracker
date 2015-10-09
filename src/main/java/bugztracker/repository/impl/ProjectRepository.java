@@ -1,9 +1,18 @@
 package bugztracker.repository.impl;
 
+import bugztracker.entity.Participant;
 import bugztracker.entity.Project;
+import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IProjectRepository;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Y. Vovk on 06.10.15.
@@ -11,7 +20,33 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProjectRepository extends AbstractRepository<Project> implements IProjectRepository {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     public ProjectRepository() {
         super(Project.class);
+    }
+
+    @Override
+    public List<Project> search(String text) {
+        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.or(
+                        Restrictions.ilike("name", text, MatchMode.ANYWHERE),
+                        Restrictions.ilike("description", text, MatchMode.ANYWHERE)
+                )).list();
+    }
+
+    @Override
+    public List<Project> getSortedList(String nameField, String option) {
+        Order order = option.equalsIgnoreCase("asc") ? Order.asc(nameField) : Order.desc(nameField);
+        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Project.class)
+                .addOrder(order).list();
+    }
+
+    //return particpants, not projects
+    @Override
+    public List<Project> getProjectsOfUser(User user) {
+        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Participant.class)
+                .add(Restrictions.eq("userParticipant", user)).list();
     }
 }

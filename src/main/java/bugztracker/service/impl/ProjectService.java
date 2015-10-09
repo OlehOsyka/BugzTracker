@@ -1,6 +1,7 @@
 package bugztracker.service.impl;
 
 import bugztracker.entity.Project;
+import bugztracker.entity.User;
 import bugztracker.repository.IProjectRepository;
 import bugztracker.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,20 @@ public class ProjectService implements IProjectService {
     @Override
     public void update(Project entity) {
         projectRepository.update(entity);
+    }
+
+    @Override
+    public List<Project> search(String text) {
+        return projectRepository.search(text);
+    }
+
+    @Override
+    public List<Project> getSortedList(String nameField, String option) {
+        return projectRepository.getSortedList(nameField, option);
+    }
+
+    @Override
+    public List<Project> getProjectsOfUser(User user) {
+        return projectRepository.getProjectsOfUser(user);
     }
 }

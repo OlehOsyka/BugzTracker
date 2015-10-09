@@ -11,29 +11,29 @@ function detailFormatter(index, row) {
 
 function descriptionFormatter(data) {
     if (data == null) {
-        return;
+        return "-";
     }
-    var desc = data.substring(0, 25);
+    var desc = data.substring(0, 15);
     return desc.concat('...');
 }
 
 $(document).ready(function () {
 
     $('#table').bootstrapTable({
-        url: '/projects',
+        url: '/projects?name=',
         columns: [{
             field: 'id',
             title: 'ID',
             align: 'center',
-            valign: 'middle'
-            //sortable: true
+            valign: 'middle',
+            sortable: true
         }, {
             field: 'name',
             title: 'Name',
             align: 'center',
-            valign: 'middle'
-            //sortable: true,
-            //editable: {
+            valign: 'middle',
+            sortable: true,
+            editable: true
             //    type: 'text',
             //    title: 'Item Price',
             //    validate: function (value) {
@@ -49,16 +49,35 @@ $(document).ready(function () {
             title: 'Description',
             align: 'center',
             valign: 'middle',
-            formatter: descriptionFormatter
-            //sortable: true,
-            // editable: true
+            formatter: descriptionFormatter,
+            sortable: true,
+            editable: true
         }, {
             field: 'date',
             title: 'Date of creation',
             align: 'center',
-            valign: 'middle'
-            //sortable: true
+            valign: 'middle',
+            sortable: true
         }]
+    }).on('search.bs.table', function (e, text) {
+        $.ajax({
+            url: '/projects?search='+text
+            //headers: {
+            //    "Accept": "application/json",
+            //    "Content-Type": "application/json"
+            //}
+        });
+    }).on('click-row.bs.table', function (e, row, $element) {
+
+    }).on('sort.bs.table', function (e, name, order) {
+        $.ajax({
+            url: '/projects?name='+name+'&order='+order,
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
     });
 
 });
+
