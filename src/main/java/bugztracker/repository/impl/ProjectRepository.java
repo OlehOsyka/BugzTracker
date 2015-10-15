@@ -1,6 +1,5 @@
 package bugztracker.repository.impl;
 
-import bugztracker.entity.Participant;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
@@ -39,14 +38,15 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     @Override
     public List<Project> getSortedList(String nameField, String option) {
         Order order = option.equalsIgnoreCase("asc") ? Order.asc(nameField) : Order.desc(nameField);
-        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Project.class)
+        return (List<Project>) sessionFactory.getCurrentSession()
+                .createCriteria(Project.class)
                 .addOrder(order).list();
     }
 
-    //return particpants, not projects
     @Override
     public List<Project> getProjectsOfUser(User user) {
-        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Participant.class)
-                .add(Restrictions.eq("userParticipant", user)).list();
+        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Project.class)
+                .createAlias("participants", "parts")
+                .add(Restrictions.eq("parts.id", user.getId())).list();
     }
 }

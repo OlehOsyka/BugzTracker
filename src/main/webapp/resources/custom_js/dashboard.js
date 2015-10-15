@@ -1,7 +1,7 @@
 function format(d) {
     return 'Project name: ' + d.name + '<br>' +
         'Details: ' + d.description + '<br>' +
-        'Date:' + d.date;
+        'Date: ' + d.date;
 }
 
 $(document).ready(function () {
@@ -10,7 +10,7 @@ $(document).ready(function () {
         ajax: {
             contentType: "application/json",
             dataType: 'json',
-            url: "/projects?order=asc&name=",
+            url: "/projects?my=true",
             type: "get",
             dataSrc: ''
         },
@@ -36,11 +36,11 @@ $(document).ready(function () {
                 title: "Description",
                 data: "description",
                 render: function descriptionFormatter(data) {
-                    if (data.length < 15) {
-                        return data;
-                    }
                     if (data == null) {
                         return "-";
+                    }
+                    if (data.length < 15) {
+                        return data;
                     }
                     var desc = data.substring(0, 15);
                     return desc.concat('...');
@@ -52,7 +52,15 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 400
+        scrollY: 370
+    });
+
+    $('#btn-my-proj').click(function () {
+        dt.ajax.url('/projects?my=true').load();
+    });
+
+    $('#btn-proj').click(function () {
+        dt.ajax.url('/projects?my=false').load();
     });
 
     // Array to track the ids of the details displayed rows
@@ -87,67 +95,6 @@ $(document).ready(function () {
             $('#' + id + ' td.details-control').trigger('click');
         });
     });
-
-
-    //$('#table').bootstrapTable({
-    //    url: '/projects?name=',
-    //    columns: [{
-    //        field: 'id',
-    //        title: 'ID',
-    //        align: 'center',
-    //        valign: 'middle',
-    //        sortable: true
-    //    }, {
-    //        field: 'name',
-    //        title: 'Name',
-    //        align: 'center',
-    //        valign: 'middle',
-    //        sortable: true,
-    //        editable: true
-    //        //    type: 'text',
-    //        //    title: 'Item Price',
-    //        //    validate: function (value) {
-    //        //        value = $.trim(value);
-    //        //        if (!value) {
-    //        //            return 'Name is required';
-    //        //        }
-    //        //        return '';
-    //        //    }
-    //        //}
-    //    }, {
-    //        field: 'description',
-    //        title: 'Description',
-    //        align: 'center',
-    //        valign: 'middle',
-    //        formatter: descriptionFormatter,
-    //        sortable: true,
-    //        editable: true
-    //    }, {
-    //        field: 'date',
-    //        title: 'Date of creation',
-    //        align: 'center',
-    //        valign: 'middle',
-    //        sortable: true
-    //    }]
-    //}).on('search.bs.table', function (e, text) {
-    //    $.ajax({
-    //        url: '/projects?search='+text
-    //        //headers: {
-    //        //    "Accept": "application/json",
-    //        //    "Content-Type": "application/json"
-    //        //}
-    //    });
-    //}).on('click-row.bs.table', function (e, row, $element) {
-    //
-    //}).on('sort.bs.table', function (e, name, order) {
-    //    $.ajax({
-    //        url: '/projects?name='+name+'&order='+order,
-    //        headers: {
-    //            "Accept": "application/json",
-    //            "Content-Type": "application/json"
-    //        }
-    //    });
-    //});
 
 });
 

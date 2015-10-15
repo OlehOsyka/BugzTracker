@@ -1,14 +1,16 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Y. Vovk on 02.10.15.
@@ -22,6 +24,7 @@ public class User implements Serializable {
     private String password;
     private String email;
     private Timestamp dateExpired;
+    private Set<Project> projects = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -72,6 +75,16 @@ public class User implements Serializable {
 
     public void setDateExpired(Timestamp dateExpired) {
         this.dateExpired = dateExpired;
+    }
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     @Override

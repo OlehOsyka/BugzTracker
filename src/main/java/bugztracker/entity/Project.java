@@ -1,11 +1,14 @@
 package bugztracker.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Y. Vovk on 02.10.15.
@@ -18,6 +21,7 @@ public class Project implements Serializable {
     private String name;
     private Date date;
     private String description;
+    private Set<User> participants = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -54,6 +58,20 @@ public class Project implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "participant", joinColumns = {
+            @JoinColumn(name = "project_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "user_id",
+                    nullable = false)})
+    public Set<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<User> participants) {
+        this.participants = participants;
     }
 
     @Override

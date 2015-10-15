@@ -1,12 +1,13 @@
 .table-panel {
     margin-top: 10%;
-    height: 65%;
 }
 
 td.details-control {
-    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    background: url('../images/plus.png') no-repeat center center;
+    background-size: contain;
     cursor: pointer;
 }
 tr.details td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+    background: url('../images/minus.png') no-repeat center center;
+    background-size: contain;
 }

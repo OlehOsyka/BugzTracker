@@ -24,15 +24,15 @@ public class ProjectController {
     private IProjectService projectService;
 
     @ResponseBody
-    @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"order","name"})
-    public List<Project> getProjects(@RequestParam String order, @RequestParam String name, WebRequest request) {
+    @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"my"})
+    public List<Project> getProjects(@RequestParam boolean my, WebRequest request) {
         User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
-        //List<Project>  projects = projectService.getProjectsOfUser(user);
-        if(name.isEmpty()) {
-            return projectService.getSortedList("name", order);
+        if(!my) {
+            return projectService.getAll();
         }
-        return projectService.getSortedList(name, order);
+        return projectService.getProjectsOfUser(user);
     }
+
 
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"search"})
