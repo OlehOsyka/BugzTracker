@@ -22,6 +22,7 @@ public class Project implements Serializable {
     private Date date;
     private String description;
     private Set<User> participants = new HashSet<>(0);
+    private Set<Issue> issues = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -61,7 +62,7 @@ public class Project implements Serializable {
     }
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "participant", joinColumns = {
             @JoinColumn(name = "project_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id",
@@ -73,6 +74,17 @@ public class Project implements Serializable {
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "project")
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -118,6 +118,11 @@ $(document).ready(function () {
         }
     });
 
+    $('#example').find('tbody').on('dblclick', 'tr', function () {
+        checkedId = $(this).closest('tr').context.children[1].innerText;
+
+    });
+
     $('#btn-save').click(function () {
         var name = $.trim($('#name').val());
         var desc = $.trim($('#desc').val());
@@ -149,8 +154,6 @@ $(document).ready(function () {
 
     $('#btn-add').click(function () {
         $('#modalEdit').modal('show');
-        $('#desc').val('');
-        $('#name').val('');
     });
 
     $('#modalEdit').on('show.bs.modal', function (event) {
@@ -165,12 +168,13 @@ $(document).ready(function () {
 
     });
 
-    // On each draw, loop over the `detailRows` array and show any child rows
+// On each draw, loop over the `detailRows` array and show any child rows
     dt.on('draw', function () {
         $.each(detailRows, function (i, id) {
             $('#' + id + ' td.details-control').trigger('click');
         });
     });
 
-});
+})
+;
 

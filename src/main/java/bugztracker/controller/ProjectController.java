@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Y. Vovk on 06.10.15.
  */
 @Controller
+@SessionAttributes("user")
 public class ProjectController {
 
     @Autowired
@@ -23,12 +26,13 @@ public class ProjectController {
 
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"my"})
-    public List<Project> getProjects(@RequestParam boolean my, WebRequest request) {
+    public List<Project> getAll(@RequestParam boolean my, WebRequest request) {
         User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
         if(!my) {
             return projectService.getAll();
         }
-        return projectService.getProjectsOfUser(user);
+        List<Project> proks = projectService.getProjectsOfUser(user);
+        return proks;
     }
 
     @ResponseBody
@@ -44,6 +48,18 @@ public class ProjectController {
         Project proj = projectService.get(project.getId());
         proj.setDescription(project.getDescription());
         proj.setName(project.getName());
+
         projectService.update(proj);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    public void add(@RequestBody Project project) {
+        project.setId(UUID.randomUUID().getMostSignificantBits());
+        project.setDate(new Date(System.currentTimeMillis()));
+
+        projectService.add(project);
+    }
+
 }

@@ -14,10 +14,13 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
+
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" id="btn-my-proj">My projects</button>
-                    <button type="button" class="btn btn-default" id="btn-proj">All projects</button>
+                    <button type="button" class="btn btn-default" id="btn-add">Add</button>
+                    <button type="button" class="btn btn-default show-none" id="btn-edit">Edit</button>
+                    <button type="button" class="btn btn-default show-none" id="btn-delete">Delete</button>
                 </div>
+
                 <table id="example" class="display" cellspacing="0" width="100%"></table>
             </div>
         </div>
@@ -30,5 +33,5 @@
 <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap-editable.js"/>"></script>
-<script src="<c:url value="/resources/custom_js/projects.js"/>"></script>
+<script src="<c:url value="/resources/custom_js/project.js"/>"></script>
 

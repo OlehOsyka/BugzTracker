@@ -25,6 +25,8 @@ public class User implements Serializable {
     private String email;
     private Timestamp dateExpired;
     private Set<Project> projects = new HashSet<>(0);
+    private Set<Issue> issuesAss = new HashSet<>(0);
+    private Set<Issue> issuesCr = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -78,13 +80,33 @@ public class User implements Serializable {
     }
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
+    @ManyToMany(mappedBy = "participants")
     public Set<Project> getProjects() {
         return projects;
     }
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "assignee")
+    public Set<Issue> getIssuesAss() {
+        return issuesAss;
+    }
+
+    public void setIssuesAss(Set<Issue> issuesAss) {
+        this.issuesAss = issuesAss;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userCreator")
+    public Set<Issue> getIssuesCr() {
+        return issuesCr;
+    }
+
+    public void setIssuesCr(Set<Issue> issuesCr) {
+        this.issuesCr = issuesCr;
     }
 
     @Override

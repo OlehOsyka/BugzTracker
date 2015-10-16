@@ -2,6 +2,7 @@ package bugztracker.entity;
 
 import bugztracker.entity.constant.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.persistence.*;
@@ -105,7 +106,8 @@ public class Issue implements Serializable {
         this.version = version;
     }
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id_cr", referencedColumnName = "id", nullable = false)
     public User getUserCreator() {
         return userCreator;
@@ -115,7 +117,8 @@ public class Issue implements Serializable {
         this.userCreator = userCreator;
     }
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id_as", referencedColumnName = "id", nullable = false)
     public User getAssignee() {
         return assignee;
@@ -125,7 +128,8 @@ public class Issue implements Serializable {
         this.assignee = assignee;
     }
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
     public Project getProject() {
         return project;
