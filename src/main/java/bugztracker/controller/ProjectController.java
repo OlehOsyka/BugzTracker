@@ -4,11 +4,9 @@ import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
@@ -33,11 +31,18 @@ public class ProjectController {
         return projectService.getProjectsOfUser(user);
     }
 
-
     @ResponseBody
-    @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"search"})
-    public List<Project> search(@RequestParam String search) {
-        return projectService.search(search);
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
+    public Project get(@PathVariable long id) {
+       return  projectService.get(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/project/update", method = RequestMethod.POST)
+    public void update(@RequestBody Project project) {
+        Project proj = projectService.get(project.getId());
+        project.setDate(proj.getDate());
+        projectService.update(project);
+    }
 }

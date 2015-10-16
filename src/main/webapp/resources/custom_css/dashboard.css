@@ -7,7 +7,16 @@ td.details-control {
     background-size: contain;
     cursor: pointer;
 }
+
 tr.details td.details-control {
     background: url('../images/minus.png') no-repeat center center;
     background-size: contain;
+}
+
+.show-none {
+    display: none;
+}
+
+.btn-distance {
+    margin-right: 17%;
 }

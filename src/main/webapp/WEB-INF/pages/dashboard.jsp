@@ -14,11 +14,44 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
-                <div class="btn-group" role="group">
+                <div class="btn-group btn-distance" role="group">
                     <button type="button" class="btn btn-default" id="btn-my-proj">My projects</button>
                     <button type="button" class="btn btn-default" id="btn-proj">All projects</button>
                 </div>
+
+                <button type="button" class="btn btn-default btn-distance" id="btn-add">Add</button>
+
+                <button type="button" class="btn btn-default show-none" id="btn-edit">Edit</button>
+
                 <table id="example" class="display" cellspacing="0" width="100%"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title></title>">Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="control-label" for="name">Name:</label>
+                            <input class="form-control" placeholder="Name" id="name" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="desc">Description:</label>
+                            <textarea class="form-control" placeholder="Description" rows="4" id="desc"></textarea>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="btn-save">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

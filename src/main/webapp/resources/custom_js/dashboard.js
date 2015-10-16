@@ -1,7 +1,18 @@
 function format(d) {
-    return 'Project name: ' + d.name + '<br>' +
-        'Details: ' + d.description + '<br>' +
-        'Date: ' + d.date;
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr>' +
+        '<td>Project name:</td>' +
+        '<td>' + d.name + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Date:</td>' +
+        '<td>' + d.date + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Description:</td>' +
+        '<td>' + d.description + '</td>' +
+        '</tr>' +
+        '</table>';
 }
 
 $(document).ready(function () {
@@ -27,10 +38,10 @@ $(document).ready(function () {
             },
             {
                 title: "Name",
-                data: "name",
-                render: function edit(data) {
-                    return '<a class data-type="text" data-pk="1" data-name="name" data-original-title="Enter project name">' + data + '</a>';
-                }
+                data: "name"
+                //render: function edit(data) {
+                //    return '<a class data-type="text" data-pk="1" data-name="name" data-original-title="Enter project name">' + data + '</a>';
+                //}
             },
             {
                 title: "Description",
@@ -87,6 +98,62 @@ $(document).ready(function () {
                 detailRows.push(tr.attr('id'));
             }
         }
+    });
+
+    var checkedId;
+
+    $('#example').find('tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('#btn-edit').addClass('show-none');
+        }
+        else {
+            dt.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            checkedId = $(this).closest('tr').context.children[1].innerText;
+            $('#btn-edit').removeClass('show-none');
+        }
+    });
+
+    $('#btn-save').click(function () {
+        var name = $.trim($('#name').val());
+        var desc = $.trim($('#desc').val());
+        var project = {
+            "id": checkedId,
+            "name": name,
+            "description": desc
+        };
+        $.ajax({
+            type: "POST",
+            url: 'project/update',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(project),
+            success: function () {
+                $('#desc').val('');
+                $('#name').val('');
+                $('#modalEdit').modal('hide');
+                dt.ajax.url('/projects?my=true').load();
+            }
+        });
+    });
+
+    $('#btn-edit').click(function () {
+        $('#modalEdit').modal('show');
+    });
+
+    $('#modalEdit').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        $.ajax({
+            url: "project/" + checkedId,
+            success: function (data) {
+                modal.find('#name').val(data.name);
+                modal.find('#desc').val(data.description);
+            }
+        });
+
     });
 
     // On each draw, loop over the `detailRows` array and show any child rows

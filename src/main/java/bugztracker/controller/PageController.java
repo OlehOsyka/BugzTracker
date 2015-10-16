@@ -25,4 +25,9 @@ public class PageController {
         return "signup";
     }
 
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
+    public String getProjectPage() {
+        return "project";
+    }
+
 }
