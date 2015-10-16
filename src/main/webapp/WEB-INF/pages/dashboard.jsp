@@ -19,9 +19,10 @@
                     <button type="button" class="btn btn-default" id="btn-proj">All projects</button>
                 </div>
 
-                <button type="button" class="btn btn-default btn-distance" id="btn-add">Add</button>
-
-                <button type="button" class="btn btn-default show-none" id="btn-edit">Edit</button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" id="btn-add">Add</button>
+                    <button type="button" class="btn btn-default show-none" id="btn-edit">Edit</button>
+                </div>
 
                 <table id="example" class="display" cellspacing="0" width="100%"></table>
             </div>

@@ -42,7 +42,8 @@ public class ProjectController {
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
     public void update(@RequestBody Project project) {
         Project proj = projectService.get(project.getId());
-        project.setDate(proj.getDate());
-        projectService.update(project);
+        proj.setDescription(project.getDescription());
+        proj.setName(project.getName());
+        projectService.update(proj);
     }
 }

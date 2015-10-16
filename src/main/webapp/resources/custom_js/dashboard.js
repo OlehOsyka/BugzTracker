@@ -39,9 +39,6 @@ $(document).ready(function () {
             {
                 title: "Name",
                 data: "name"
-                //render: function edit(data) {
-                //    return '<a class data-type="text" data-pk="1" data-name="name" data-original-title="Enter project name">' + data + '</a>';
-                //}
             },
             {
                 title: "Description",
@@ -66,12 +63,17 @@ $(document).ready(function () {
         scrollY: 370
     });
 
+    //what btn was pushed last
+    var lastBtn = "btn-my-proj";
+
     $('#btn-my-proj').click(function () {
         dt.ajax.url('/projects?my=true').load();
+        lastBtn = $(this).attr('id');
     });
 
     $('#btn-proj').click(function () {
         dt.ajax.url('/projects?my=false').load();
+        lastBtn = $(this).attr('id');
     });
 
     // Array to track the ids of the details displayed rows
@@ -100,6 +102,7 @@ $(document).ready(function () {
         }
     });
 
+    //id of checked tr
     var checkedId;
 
     $('#example').find('tbody').on('click', 'tr', function () {
@@ -135,13 +138,19 @@ $(document).ready(function () {
                 $('#desc').val('');
                 $('#name').val('');
                 $('#modalEdit').modal('hide');
-                dt.ajax.url('/projects?my=true').load();
+                $('#' + lastBtn).click();
             }
         });
     });
 
     $('#btn-edit').click(function () {
         $('#modalEdit').modal('show');
+    });
+
+    $('#btn-add').click(function () {
+        $('#modalEdit').modal('show');
+        $('#desc').val('');
+        $('#name').val('');
     });
 
     $('#modalEdit').on('show.bs.modal', function (event) {
