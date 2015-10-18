@@ -59,6 +59,7 @@
 
 </t:template>
 
+<script src="<c:url value="/resources/js/js.cookie.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.foundation.min.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.jqueryui.min.js"/>"></script>
 <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>

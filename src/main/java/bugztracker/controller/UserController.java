@@ -1,6 +1,7 @@
 package bugztracker.controller;
 
 import bugztracker.bean.LoginBean;
+import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
 import bugztracker.service.IUserService;
@@ -18,9 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Y. Vovk on 02.10.15.
@@ -67,7 +66,13 @@ public class UserController {
             userService.update(user);
         }
 
+        List<Long> projectIds = new ArrayList<>();
+        for (Project pr : user.getProjects()) {
+            projectIds.add(pr.getId());
+        }
+
         request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+        request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
         response.put("redirect", "/dashboard");
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);

@@ -1,9 +1,8 @@
 package bugztracker.entity;
 
 import bugztracker.entity.constant.IEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -139,6 +138,7 @@ public class Issue implements Serializable {
         this.project = project;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public enum Priority implements IEnum {
 
         BLOCKER(1), CRITICAL(2), MAJOR(3), TRIVIAL(4), MINOR(5);
@@ -150,12 +150,10 @@ public class Issue implements Serializable {
             value = v;
         }
 
-        @JsonValue
         public int value() {
             return value;
         }
 
-        @JsonCreator
         public static Priority fromValue(int typeCode) {
             for (Priority priority : values) {
                 if (priority.value == typeCode) {
@@ -166,6 +164,7 @@ public class Issue implements Serializable {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public enum Status implements IEnum {
 
         OPENED(1), INPROGRESS(2), RESOLVED(3), CLOSED(4);
@@ -177,12 +176,10 @@ public class Issue implements Serializable {
             value = v;
         }
 
-        @JsonValue
         public int value() {
             return value;
         }
 
-        @JsonCreator
         public static Status fromValue(int typeCode) {
             for (Status status : values) {
                 if (status.value == typeCode) {
@@ -193,6 +190,7 @@ public class Issue implements Serializable {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     public enum Category implements IEnum {
 
         ISSUE(1), BUG(2), IMPROVEMENT(3);
@@ -204,12 +202,10 @@ public class Issue implements Serializable {
             value = v;
         }
 
-        @JsonValue
         public int value() {
             return value;
         }
 
-        @JsonCreator
         public static Category fromValue(int typeCode) {
             for (Category category : values) {
                 if (category.value == typeCode) {

@@ -5,6 +5,7 @@ import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IIssueRepository;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,22 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
     @Override
     public List<Issue> getByProject(Project project) {
         return (List<Issue>) sessionFactory.getCurrentSession().createCriteria(Issue.class)
-                .createAlias("project", "pr").add(Restrictions.eq("pr.id", project.getId())).list();
+                .setFetchMode("assignee", FetchMode.JOIN)
+                .setFetchMode("userCreator", FetchMode.JOIN)
+                .setFetchMode("project", FetchMode.JOIN)
+                .createAlias("project", "pr")
+                .add(Restrictions.eq("pr.id", project.getId()))
+                .list();
     }
 
     @Override
     public List<Issue> getByProjectAndUser(Project project, User user) {
-        return null;
+        return (List<Issue>) sessionFactory.getCurrentSession().createCriteria(Issue.class)
+                .setFetchMode("assignee", FetchMode.JOIN)
+                .setFetchMode("userCreator", FetchMode.JOIN)
+                .setFetchMode("project", FetchMode.JOIN)
+                .createAlias("project", "pr")
+                .add(Restrictions.eq("pr.id", project.getId()))
+                .list();
     }
 }

@@ -27,11 +27,14 @@ public class IssueController {
     private IProjectService projectService;
 
     @ResponseBody
-    @RequestMapping(value = "/issues/{id}", method = RequestMethod.GET)
-    public List<Issue> getAll(@PathVariable long id, WebRequest request) {
-        User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
+    @RequestMapping(value = "/project/{id}/issues", method = RequestMethod.GET, params = {"my"})
+    public List<Issue> getAll(@PathVariable long id, @RequestParam boolean my, WebRequest request) {
         Project proj = projectService.get(id);
-        return issueService.getByProject(proj);
+        if (!my) {
+            return issueService.getByProject(proj);
+        }
+        User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
+        return issueService.getByProjectAndUser(proj, user);
     }
 
 }

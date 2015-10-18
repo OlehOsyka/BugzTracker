@@ -60,7 +60,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 370
+        scrollY: 360
     });
 
     //what btn was pushed last
@@ -102,6 +102,20 @@ $(document).ready(function () {
         }
     });
 
+    document.oncontextmenu = function () {
+        return false;
+    };
+
+    $(document).mousedown(function (e) {
+        if (e.button == 2) {
+            checkedId = e.target.parentElement.cells[1].innerText;
+            Cookies.set('checkedId', checkedId);
+            window.location.href = '/project';
+            return false;
+        }
+        return true;
+    });
+
     //id of checked tr
     var checkedId;
 
@@ -118,11 +132,6 @@ $(document).ready(function () {
         }
     });
 
-    $('#example').find('tbody').on('dblclick', 'tr', function () {
-        checkedId = $(this).closest('tr').context.children[1].innerText;
-
-    });
-
     $('#btn-save').click(function () {
         var name = $.trim($('#name').val());
         var desc = $.trim($('#desc').val());
@@ -133,7 +142,7 @@ $(document).ready(function () {
         };
         $.ajax({
             type: "POST",
-            url: 'project/update',
+            url: '/project/update',
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -159,7 +168,7 @@ $(document).ready(function () {
     $('#modalEdit').on('show.bs.modal', function (event) {
         var modal = $(this);
         $.ajax({
-            url: "project/" + checkedId,
+            url: "/project/" + checkedId,
             success: function (data) {
                 modal.find('#name').val(data.name);
                 modal.find('#desc').val(data.description);

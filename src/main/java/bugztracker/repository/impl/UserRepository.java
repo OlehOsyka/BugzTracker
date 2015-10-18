@@ -3,6 +3,7 @@ package bugztracker.repository.impl;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IUserRepository;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     @Override
     public User find(String email) {
         return (User) sessionFactory.getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("email", email)).uniqueResult();
+                .add(Restrictions.eq("email", email))
+                .setFetchMode("projects", FetchMode.JOIN)
+                .uniqueResult();
     }
 }

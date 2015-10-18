@@ -31,8 +31,7 @@ public class ProjectController {
         if(!my) {
             return projectService.getAll();
         }
-        List<Project> proks = projectService.getProjectsOfUser(user);
-        return proks;
+        return projectService.getProjectsOfUser(user);
     }
 
     @ResponseBody
@@ -60,6 +59,14 @@ public class ProjectController {
         project.setDate(new Date(System.currentTimeMillis()));
 
         projectService.add(project);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
+    public Boolean isMyProject(@PathVariable long id, WebRequest request) {
+        List<Long> projectIds = (List<Long>) request.getAttribute("userProjectIds", RequestAttributes.SCOPE_SESSION);
+        return projectIds.contains(id);
     }
 
 }

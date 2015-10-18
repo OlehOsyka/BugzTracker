@@ -14,6 +14,10 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
+                <div class="btn-group btn-distance" role="group">
+                    <button type="button" class="btn btn-default" id="btn-issues">All issues</button>
+                    <button type="button" class="btn btn-default" id="btn-my-issues">My issues</button>
+                </div>
 
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-default" id="btn-add">Add</button>
@@ -21,13 +25,14 @@
                     <button type="button" class="btn btn-default show-none" id="btn-delete">Delete</button>
                 </div>
 
-                <table id="example" class="display" cellspacing="0" width="100%"></table>
+                <table id="issuesTable" class="display" cellspacing="0" width="100%"></table>
             </div>
         </div>
     </div>
 
 </t:template>
 
+<script src="<c:url value="/resources/js/js.cookie.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.foundation.min.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.jqueryui.min.js"/>"></script>
 <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
