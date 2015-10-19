@@ -11,6 +11,8 @@ public interface IUserRepository extends IRepository<User> {
 
     User find(String email);
 
+    List<User> findById(List<Integer> ids);
+
     List<User> findAll(String query);
 }
 

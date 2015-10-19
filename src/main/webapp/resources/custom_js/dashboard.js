@@ -214,8 +214,15 @@ $(document).ready(function () {
 
                     tempUserTypeaheadList = result;
 
+                    var existingUsers = [];
+                    $('#users-list').children('span').each(function () {
+                        existingUsers.push($(this).text());
+                    });
+
                     var resultList = result.map(function (item) {
-                        return item.fullName;
+                        if (existingUsers.indexOf(item.fullName) == -1) {
+                            return item.fullName;
+                        }
                     });
 
                     return process(resultList);

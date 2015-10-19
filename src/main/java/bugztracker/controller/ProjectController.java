@@ -3,6 +3,7 @@ package bugztracker.controller;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.service.IProjectService;
+import bugztracker.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +26,8 @@ public class ProjectController {
 
     @Autowired
     private IProjectService projectService;
+    @Autowired
+    private IUserService userService;
 
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"my"})
@@ -46,9 +51,14 @@ public class ProjectController {
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
     public void update(@RequestBody Project project) {
         Project proj = projectService.get(project.getId());
+        List<Integer> ids = new ArrayList<>();
+        for (User current:project.getParticipants()){
+            ids.add(current.getId());
+        }
+
         proj.setDescription(project.getDescription());
         proj.setName(project.getName());
-        proj.setParticipants(project.getParticipants());
+        proj.setParticipants(new HashSet<User>(userService.findByIds(ids)));
 
         projectService.update(proj);
     }

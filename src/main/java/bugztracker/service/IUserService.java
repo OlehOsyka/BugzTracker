@@ -12,4 +12,6 @@ public interface IUserService extends IService<User> {
     User find(String email);
 
     List<User> findAll(String query);
+
+    List<User> findByIds(List<Integer> ids);
 }

@@ -55,4 +55,9 @@ public class UserService implements IUserService {
         return userRepository.findAll(query);
     }
 
+    @Override
+    public List<User> findByIds(List<Integer> ids){
+        return userRepository.findById(ids);
+    }
+
 }

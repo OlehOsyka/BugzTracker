@@ -34,6 +34,14 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     }
 
     @Override
+    public List<User> findById(List<Integer> ids){
+        return sessionFactory.getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.in("id",ids))
+                .setFetchMode("projects", FetchMode.JOIN)
+                .list();
+    }
+
+    @Override
     public List<User> findAll(String query) {
         return sessionFactory.getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.ilike("fullName", query, MatchMode.START))
