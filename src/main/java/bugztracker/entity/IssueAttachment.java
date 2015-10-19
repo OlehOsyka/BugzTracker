@@ -1,5 +1,9 @@
 package bugztracker.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,17 +14,17 @@ import java.io.Serializable;
 @Table(name = "issue_attachment")
 public class IssueAttachment implements Serializable  {
 
-    private long id;
+    private int id;
     private String attachmentPath;
     private Issue issueByIssueId;
 
     @Id
     @Column(nullable = false)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -46,31 +50,29 @@ public class IssueAttachment implements Serializable  {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
 
         IssueAttachment that = (IssueAttachment) o;
 
-        return id == that.id;
-
+        return new EqualsBuilder()
+                .append(id, that.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "IssueAttachment{" +
-                "id=" + id +
-                ", attachmentPath='" + attachmentPath + '\'' +
-                ", issueByIssueId=" + issueByIssueId +
-                '}';
+        return new ToStringBuilder(this)
+                .append("attachmentPath", attachmentPath)
+                .append("id", id)
+                .toString();
     }
-
 }

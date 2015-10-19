@@ -22,7 +22,7 @@ public class IssueService implements IIssueService {
     private IIssueRepository issueRepository;
 
     @Override
-    public Issue get(long id) {
+    public Issue get(int id) {
         return issueRepository.get(id);
     }
 

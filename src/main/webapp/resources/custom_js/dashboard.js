@@ -113,6 +113,10 @@ $(document).ready(function () {
             window.location.href = '/project';
             return false;
         }
+        if (e.button == 2 && $(e.target).is('span')) {
+            $(e.target).remove();
+            return false;
+        }
         return true;
     });
 
@@ -135,10 +139,15 @@ $(document).ready(function () {
     $('#btn-save').click(function () {
         var name = $.trim($('#name').val());
         var desc = $.trim($('#desc').val());
+        var users = [];
+        $('#users-list').children('span').each(function () {
+            users.push({id: $(this).data('id')});
+        });
         var project = {
             "id": checkedId,
             "name": name,
-            "description": desc
+            "description": desc,
+            "participants": users
         };
         $.ajax({
             type: "POST",
@@ -151,6 +160,8 @@ $(document).ready(function () {
             success: function () {
                 $('#desc').val('');
                 $('#name').val('');
+                $('#user').val('');
+                $('#users-list').empty();
                 $('#modalEdit').modal('hide');
                 $('#' + lastBtn).click();
             }
@@ -175,7 +186,7 @@ $(document).ready(function () {
                 modal.find('#users-list').empty();
                 $.each(data.participants, function (i, item) {
                     modal.find('#users-list').append(
-                        '<span class="label label-info" data-id="' + item.id + '">' + item.fullName + '</span>'
+                        '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
                     );
                 });
             }
@@ -190,6 +201,7 @@ $(document).ready(function () {
         });
     });
 
+    var tempUserTypeaheadList;
 
     $('#user').typeahead({
         source: function (query, process) {
@@ -200,6 +212,8 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (result) {
 
+                    tempUserTypeaheadList = result;
+
                     var resultList = result.map(function (item) {
                         return item.fullName;
                     });
@@ -208,7 +222,7 @@ $(document).ready(function () {
 
                 }
             });
-        }
+        },
         //},
         //
         //matcher: function (obj) {
@@ -238,11 +252,19 @@ $(document).ready(function () {
         //    })
         //},
 
-        //updater: function (obj) {
-        //    var item = JSON.parse(obj);
-        //    $('#IdControl').attr('value', item.id);
-        //    return item.name;
-        //}
+        updater: function (name) {
+            var item = $.grep(tempUserTypeaheadList, function (e) {
+                return e.fullName == name;
+            });
+            if (item.length == 0) {
+                return name;
+            } else {
+                $('#users-list').append(
+                    '<span class="label label-info margin" data-id="' + item[0].id + '">' + item[0].fullName + '</span>'
+                );
+                return name;
+            }
+        }
     });
 
 });

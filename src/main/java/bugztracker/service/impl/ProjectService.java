@@ -21,12 +21,12 @@ public class ProjectService implements IProjectService {
     private IProjectRepository projectRepository;
 
     @Override
-    public Project get(long id) {
+    public Project get(int id) {
         return projectRepository.get(id);
     }
 
     @Override
-    public Project getWithUsers(long id) {
+    public Project getWithUsers(int id) {
         return projectRepository.getProjectWithUsers(id);
     }
 

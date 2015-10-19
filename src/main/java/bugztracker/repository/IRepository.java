@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface IRepository<T> {
 
-    T get(long id);
+    T get(int id);
 
     List<T> getAll();
 

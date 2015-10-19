@@ -1,8 +1,9 @@
 package bugztracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements Serializable {
 
-    private long id;
+    private int id;
     private String fullName;
     private String password;
     private String email;
@@ -30,11 +31,11 @@ public class User implements Serializable {
 
     @Id
     @Column(nullable = false)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -111,34 +112,32 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        return id == user.id;
-
+        return new EqualsBuilder()
+                .append(id, user.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", dateExpired=" + dateExpired +
-                '}';
+        return new ToStringBuilder(this)
+                .append("dateExpired", dateExpired)
+                .append("id", id)
+                .append("fullName", fullName)
+                .append("password", password)
+                .append("email", email)
+                .toString();
     }
-
-
 }

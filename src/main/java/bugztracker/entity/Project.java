@@ -1,6 +1,9 @@
 package bugztracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +19,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Project implements Serializable {
 
-    private long id;
+    private int id;
     private String name;
     private Date date;
     private String description;
@@ -25,11 +28,11 @@ public class Project implements Serializable {
 
     @Id
     @Column(nullable = false)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -82,32 +85,33 @@ public class Project implements Serializable {
         this.issues = issues;
     }
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
         Project project = (Project) o;
-        return id == project.id;
+
+        return new EqualsBuilder()
+                .append(id, project.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", description='" + description + '\'' +
-                '}';
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("date", date)
+                .append("description", description)
+                .toString();
     }
-
 }

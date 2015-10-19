@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface IService<T> {
 
-    T get(long id);
+    T get(int id);
 
     List<T> getAll();
 

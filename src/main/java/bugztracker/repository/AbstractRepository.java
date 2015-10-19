@@ -22,7 +22,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public T get(long id) {
+    public T get(int id) {
         return (T) sessionFactory.getCurrentSession().get(type, id);
     }
 

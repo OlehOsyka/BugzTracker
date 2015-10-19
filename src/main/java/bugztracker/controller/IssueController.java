@@ -28,8 +28,7 @@ public class IssueController {
 
     @ResponseBody
     @RequestMapping(value = "/project/{id}/issues", method = RequestMethod.GET, params = {"my"})
-    public List<Issue> getAll(@PathVariable long id, @RequestParam boolean my, WebRequest request) {
-       //
+    public List<Issue> getAll(@PathVariable int id, @RequestParam boolean my, WebRequest request) {
         Project proj = projectService.get(id);
         if (!my) {
             return issueService.getByProject(proj);

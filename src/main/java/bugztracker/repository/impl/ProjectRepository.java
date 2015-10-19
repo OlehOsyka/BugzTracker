@@ -45,7 +45,7 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     }
 
     @Override
-    public Project getProjectWithUsers(long id) {
+    public Project getProjectWithUsers(int id) {
         return (Project) sessionFactory.getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("id", id))
                 .setFetchMode("participants", FetchMode.JOIN)

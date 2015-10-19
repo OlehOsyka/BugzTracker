@@ -66,9 +66,11 @@ public class UserController {
             userService.update(user);
         }
 
-        List<Long> projectIds = new ArrayList<>();
-        for (Project pr : user.getProjects()) {
-            projectIds.add(pr.getId());
+        List<Integer> projectIds = new ArrayList<>();
+        if (user != null) {
+            for (Project pr : user.getProjects()) {
+                projectIds.add(pr.getId());
+            }
         }
 
         request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
@@ -95,7 +97,7 @@ public class UserController {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
 
-        newUser.setId(UUID.randomUUID().getMostSignificantBits());
+        newUser.setId(UUID.randomUUID().clockSequence());
 
         String passw = newUser.getPassword();
         newUser.setPassword(MD5Encoder.encrypt(passw).substring(0, 10));

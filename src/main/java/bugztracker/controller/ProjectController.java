@@ -36,7 +36,7 @@ public class ProjectController {
 
     @ResponseBody
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
-    public Project get(@PathVariable long id) {
+    public Project get(@PathVariable int id) {
         Project project = projectService.getWithUsers(id);
         return project;
     }
@@ -48,6 +48,7 @@ public class ProjectController {
         Project proj = projectService.get(project.getId());
         proj.setDescription(project.getDescription());
         proj.setName(project.getName());
+        proj.setParticipants(project.getParticipants());
 
         projectService.update(proj);
     }
@@ -56,7 +57,7 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     public void add(@RequestBody Project project) {
-        project.setId(UUID.randomUUID().getMostSignificantBits());
+        project.setId(UUID.randomUUID().clockSequence());
         project.setDate(new Date(System.currentTimeMillis()));
 
         projectService.add(project);
@@ -65,7 +66,7 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
-    public Boolean isMyProject(@PathVariable long id, WebRequest request) {
+    public Boolean isMyProject(@PathVariable int id, WebRequest request) {
         List<Long> projectIds = (List<Long>) request.getAttribute("userProjectIds", RequestAttributes.SCOPE_SESSION);
         return projectIds.contains(id);
     }
