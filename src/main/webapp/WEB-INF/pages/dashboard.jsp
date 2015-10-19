@@ -19,10 +19,7 @@
                     <button type="button" class="btn btn-default" id="btn-proj">All projects</button>
                 </div>
 
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" id="btn-add">Add</button>
-                    <button type="button" class="btn btn-default show-none" id="btn-edit">Edit</button>
-                </div>
+                <button type="button" class="btn btn-default" id="btn-edit">Edit</button>
 
                 <table id="example" class="display" cellspacing="0" width="100%"></table>
             </div>
@@ -33,9 +30,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close" data-dismiss="modal" id="btn-close" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title></title>">Edit</h4>
+                    <h4 class="modal-title></title>" id="modal-name"></h4>
                 </div>
                 <div class="modal-body">
                     <fieldset>
@@ -49,6 +46,7 @@
                                    placeholder="Name"
                                    id="user"
                                    type="text">
+
                             <div id="users-list" class="padding-top"></div>
                         </div>
                         <div class="form-group">
@@ -60,7 +58,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" id="btn-save">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="btn-cancel" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

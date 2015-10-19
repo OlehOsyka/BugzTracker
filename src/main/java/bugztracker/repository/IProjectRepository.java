@@ -12,8 +12,7 @@ public interface IProjectRepository extends IRepository<Project> {
 
     List<Project> search(String text);
     List<Project> getSortedList(String nameField, String option);
-
+    List<Project> getAllWithParticipants();
     Project getProjectWithUsers(int id);
-
     List<Project> getProjectsOfUser(User user);
 }

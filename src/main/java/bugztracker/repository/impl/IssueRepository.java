@@ -44,7 +44,9 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
                 .setFetchMode("userCreator", FetchMode.JOIN)
                 .setFetchMode("project", FetchMode.JOIN)
                 .createAlias("project", "pr")
+                .createAlias("assignee", "as")
                 .add(Restrictions.eq("pr.id", project.getId()))
+                .add(Restrictions.eq("as.id", user.getId()))
                 .list();
     }
 }

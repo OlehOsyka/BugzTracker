@@ -3,12 +3,17 @@ package bugztracker.service.impl;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.IProjectRepository;
+import bugztracker.repository.IUserRepository;
 import bugztracker.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Y. Vovk on 06.10.15.
@@ -19,6 +24,9 @@ public class ProjectService implements IProjectService {
 
     @Autowired
     private IProjectRepository projectRepository;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public Project get(int id) {
@@ -63,5 +71,34 @@ public class ProjectService implements IProjectService {
     @Override
     public List<Project> getProjectsOfUser(User user) {
         return projectRepository.getProjectsOfUser(user);
+    }
+
+    @Override
+    public List<Project> getAllWithParticipants() {
+        return projectRepository.getAllWithParticipants();
+    }
+
+    @Override
+    public void updateProject(Project project) {
+        Project proj = get(project.getId());
+
+        List<Integer> ids = new ArrayList<>();
+        for (User current : project.getParticipants()) {
+            ids.add(current.getId());
+        }
+
+        proj.setDescription(project.getDescription());
+        proj.setName(project.getName());
+        proj.setParticipants(new HashSet<>(userRepository.findById(ids)));
+
+        update(proj);
+    }
+
+    @Override
+    public void addProject(Project project) {
+        project.setId(UUID.randomUUID().clockSequence());
+        project.setDate(new Date(System.currentTimeMillis()));
+
+        add(project);
     }
 }

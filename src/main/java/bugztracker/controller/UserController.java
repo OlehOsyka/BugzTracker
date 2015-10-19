@@ -1,13 +1,10 @@
 package bugztracker.controller;
 
 import bugztracker.bean.LoginBean;
-import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
 import bugztracker.service.IUserService;
-import bugztracker.util.MD5Encoder;
 import bugztracker.validator.IValidator;
-import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +15,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Y. Vovk on 02.10.15.
@@ -40,72 +38,40 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody LoginBean credentials, WebRequest request,
                                 HttpSession session) {
-        Map<String, String> response = new HashMap<>();
-
         loginBeanValidator.validate(credentials);
 
         User user = userService.find(credentials.getEmail());
 
-        if (user == null) {
-            response.put("error", "No user found with such login!");
-        } else if (!MD5Encoder.encrypt(credentials.getPassword()).startsWith(user.getPassword())) {
-            response.put("error", "Incorrect password! Please, check and try again!");
-        }
+        Map<String, String> response = userService.login(user, credentials);
 
-        if (!response.isEmpty()) {
+        if (response.containsKey("error")) {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
 
         if (credentials.isRemember()) {
-            if (user != null) {
-                //now + two weeks
-                user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
-                //set session on two weeks
-                session.setMaxInactiveInterval(Weeks.TWO.toStandardSeconds().getSeconds());
-            }
-            userService.update(user);
+            //set session on two weeks
+            session.setMaxInactiveInterval(Weeks.TWO.toStandardSeconds().getSeconds());
         }
 
-        List<Integer> projectIds = new ArrayList<>();
-        if (user != null) {
-            for (Project pr : user.getProjects()) {
-                projectIds.add(pr.getId());
-            }
-        }
+        List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
 
         request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
         request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
-        response.put("redirect", "/dashboard");
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody User newUser, WebRequest request,
-                                   HttpSession session) {
-        Map<String, String> response = new HashMap<>();
-
+    public ResponseEntity register(@RequestBody User newUser, WebRequest request) {
         userValidator.validate(newUser);
 
-        User user = userService.find(newUser.getEmail());
-
-        if (user != null) {
-            response.put("error", "Email has already been registered! ");
-        }
+        Map<String, String> response = userService.register(newUser);
 
         if (!response.isEmpty()) {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
 
-        newUser.setId(UUID.randomUUID().clockSequence());
-
-        String passw = newUser.getPassword();
-        newUser.setPassword(MD5Encoder.encrypt(passw).substring(0, 10));
-
-        userService.add(newUser);
-
         request.setAttribute("user", newUser, WebRequest.SCOPE_SESSION);
-        response.put("redirect", "/dashboard");
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
@@ -124,7 +90,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     @ResponseBody
     public List<User> getUsers(@RequestParam String query) {
         return userService.findAll(query);

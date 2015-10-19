@@ -5,14 +5,36 @@ function format(d) {
         '<td>' + d.name + '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td>Date:</td>' +
+        '<td>Participants:</td>' +
+        '<td>' + participantsFormatter(d.participants) + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>Date of creation:</td>' +
         '<td>' + d.date + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>Description:</td>' +
-        '<td>' + d.description + '</td>' +
+        '<td>' + dataFormatter(d.description) + '</td>' +
         '</tr>' +
         '</table>';
+}
+
+function participantsFormatter(data) {
+    if (data == null || jQuery.isEmptyObject(data)) {
+        return "-";
+    }
+    var participantsStr = "";
+    $.each(data, function (i, item) {
+        participantsStr += item.fullName + " | ";
+    });
+    return participantsStr;
+}
+
+function dataFormatter(data) {
+    if (data == null || jQuery.isEmptyObject(data)) {
+        return "-";
+    }
+    return data;
 }
 
 $(document).ready(function () {
@@ -41,6 +63,24 @@ $(document).ready(function () {
                 data: "name"
             },
             {
+                title: "Participants",
+                data: "participants",
+                render: function participantsFormatter(data) {
+                    if (data == null || jQuery.isEmptyObject(data)) {
+                        return "-";
+                    }
+                    var participantsStr = "";
+                    $.each(data, function (i, item) {
+                        participantsStr += item.fullName + " ";
+                    });
+                    if (participantsStr.length < 15) {
+                        return participantsStr;
+                    }
+                    var desc = participantsStr.substring(0, 15);
+                    return desc.concat('...');
+                }
+            },
+            {
                 title: "Description",
                 data: "description",
                 render: function descriptionFormatter(data) {
@@ -62,6 +102,17 @@ $(document).ready(function () {
         paging: false,
         scrollY: 360
     });
+
+    $('#btn-cancel, #btn-close').click(function () {
+        cleanModal();
+    });
+
+    function cleanModal() {
+        $('#desc').val('');
+        $('#name').val('');
+        $('#user').val('');
+        $('#users-list').empty();
+    }
 
     //what btn was pushed last
     var lastBtn = "btn-my-proj";
@@ -122,17 +173,18 @@ $(document).ready(function () {
 
     //id of checked tr
     var checkedId;
+    var isChecked;
 
     $('#example').find('tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            $('#btn-edit').addClass('show-none');
+            isChecked = false;
         }
         else {
             dt.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            isChecked = true;
             checkedId = $(this).closest('tr').context.children[1].innerText;
-            $('#btn-edit').removeClass('show-none');
         }
     });
 
@@ -158,10 +210,7 @@ $(document).ready(function () {
             },
             data: JSON.stringify(project),
             success: function () {
-                $('#desc').val('');
-                $('#name').val('');
-                $('#user').val('');
-                $('#users-list').empty();
+                cleanModal();
                 $('#modalEdit').modal('hide');
                 $('#' + lastBtn).click();
             }
@@ -172,26 +221,26 @@ $(document).ready(function () {
         $('#modalEdit').modal('show');
     });
 
-    $('#btn-add').click(function () {
-        $('#modalEdit').modal('show');
-    });
-
     $('#modalEdit').on('show.bs.modal', function (event) {
         var modal = $(this);
-        $.ajax({
-            url: "/project/" + checkedId,
-            success: function (data) {
-                modal.find('#name').val(data.name);
-                modal.find('#desc').val(data.description);
-                modal.find('#users-list').empty();
-                $.each(data.participants, function (i, item) {
-                    modal.find('#users-list').append(
-                        '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
-                    );
-                });
-            }
-        });
-
+        if (isChecked) {
+            modal.find('#modal-name').text("Edit");
+            $.ajax({
+                url: "/project/" + checkedId,
+                success: function (data) {
+                    modal.find('#name').val(data.name);
+                    modal.find('#desc').val(data.description);
+                    modal.find('#users-list').empty();
+                    $.each(data.participants, function (i, item) {
+                        modal.find('#users-list').append(
+                            '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
+                        );
+                    });
+                }
+            });
+        } else {
+            modal.find('#modal-name').text("Add");
+        }
     });
 
 // On each draw, loop over the `detailRows` array and show any child rows
@@ -207,7 +256,6 @@ $(document).ready(function () {
         source: function (query, process) {
             return $.ajax({
                 url: "/users/",
-                type: 'post',
                 data: {query: query},
                 dataType: 'json',
                 success: function (result) {

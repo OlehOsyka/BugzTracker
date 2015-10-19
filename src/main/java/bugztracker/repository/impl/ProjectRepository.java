@@ -4,6 +4,7 @@ import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IProjectRepository;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -45,6 +46,15 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     }
 
     @Override
+    public List<Project> getAllWithParticipants() {
+        return (List<Project>) sessionFactory.getCurrentSession()
+                .createCriteria(Project.class)
+                .setFetchMode("participants", FetchMode.JOIN)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
+
+    @Override
     public Project getProjectWithUsers(int id) {
         return (Project) sessionFactory.getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("id", id))
@@ -54,8 +64,12 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
 
     @Override
     public List<Project> getProjectsOfUser(User user) {
-        return (List<Project>) sessionFactory.getCurrentSession().createCriteria(Project.class)
+        return (List<Project>) sessionFactory.getCurrentSession()
+                .createCriteria(Project.class)
                 .createAlias("participants", "parts")
-                .add(Restrictions.eq("parts.id", user.getId())).list();
+                .setFetchMode("parts", FetchMode.JOIN)
+                .add(Restrictions.eq("parts.id", user.getId()))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 }

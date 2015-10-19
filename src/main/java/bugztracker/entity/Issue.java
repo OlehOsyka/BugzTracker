@@ -2,6 +2,7 @@ package bugztracker.entity;
 
 import bugztracker.entity.constant.IEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,6 +17,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "issue")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Issue implements Serializable {
 
     private int id;

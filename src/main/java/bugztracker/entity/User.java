@@ -1,6 +1,6 @@
 package bugztracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,6 +18,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
 
     private int id;
@@ -80,7 +81,6 @@ public class User implements Serializable {
         this.dateExpired = dateExpired;
     }
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "participants")
     public Set<Project> getProjects() {
         return projects;
@@ -90,7 +90,6 @@ public class User implements Serializable {
         this.projects = projects;
     }
 
-    @JsonIgnore
     @OneToMany(mappedBy = "assignee")
     public Set<Issue> getIssuesAss() {
         return issuesAss;
@@ -100,7 +99,6 @@ public class User implements Serializable {
         this.issuesAss = issuesAss;
     }
 
-    @JsonIgnore
     @OneToMany(mappedBy = "userCreator")
     public Set<Issue> getIssuesCr() {
         return issuesCr;
