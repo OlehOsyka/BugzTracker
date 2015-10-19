@@ -11,7 +11,7 @@
 
     <t:header/>
 
-    <div class="row">
+    <div class="row white-back">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
                 <div class="btn-group btn-distance" role="group">
@@ -44,9 +44,18 @@
                             <input class="form-control" placeholder="Name" id="name" type="text">
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="user">Users:</label>
+                            <input class="form-control"
+                                   placeholder="Name"
+                                   id="user"
+                                   type="text">
+                            <div id="users-list" class="padding-top"></div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="desc">Description:</label>
                             <textarea class="form-control" placeholder="Description" rows="4" id="desc"></textarea>
                         </div>
+
                     </fieldset>
                 </div>
                 <div class="modal-footer">
@@ -65,5 +74,6 @@
 <script src="<c:url value="/resources/js/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap-editable.js"/>"></script>
+<script src="<c:url value="/resources/js/bootstrap3-typeahead.min.js"/>"></script>
 <script src="<c:url value="/resources/custom_js/dashboard.js"/>"></script>
 

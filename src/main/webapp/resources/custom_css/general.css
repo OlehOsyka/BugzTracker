@@ -7,3 +7,44 @@
 .footer .footer-text {
     text-align: center;
 }
+
+.brand-title{
+    font-family: Quicksand;
+    font-size: 30px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.padding-top{
+    padding-top: 10px;
+}
+
+/*.background{*/
+    /*background: #5ae6d9;*/
+    /*background-image: url("../images/ZenBG-1.png"), url("../images/ZenBG-2.png");*/
+    /*background-repeat: repeat-x, repeat;*/
+    /*filter: alpha(opacity=40);*/
+    /*/!* IE *!/*/
+    /*-moz-opacity: 0.4;*/
+    /*/!* Mozilla *!/*/
+    /*opacity: 0.4;*/
+    /*/!* CSS3 *!/*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+/*}*/
+
+/*.white-back{*/
+    /*z-index: 10;*/
+    /*background-color: whitesmoke;*/
+    /*filter: alpha(opacity=100);*/
+    /*/!* IE *!/*/
+    /*-moz-opacity: 1;*/
+    /*/!* Mozilla *!/*/
+    /*opacity: 1;*/
+    /*/!* CSS3 *!/*/
+/*}*/

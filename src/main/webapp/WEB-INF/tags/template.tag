@@ -3,6 +3,7 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
     <link href="<c:url value="/resources/custom_css/general.css"/>" rel="stylesheet"/>
     <script src="<c:url value="/resources/js/jquery-2.1.4.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
@@ -10,6 +11,7 @@
 </head>
 <body>
 <div class="container">
+    <div class="background"></div>
     <jsp:doBody/>
 </div>
 <div class="footer">

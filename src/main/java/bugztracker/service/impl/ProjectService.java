@@ -26,6 +26,11 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
+    public Project getWithUsers(long id) {
+        return projectRepository.getProjectWithUsers(id);
+    }
+
+    @Override
     public List<Project> getAll() {
         return projectRepository.getAll();
     }

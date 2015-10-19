@@ -1,8 +1,6 @@
 package bugztracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,14 +13,15 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "project")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Project implements Serializable {
 
     private long id;
     private String name;
     private Date date;
     private String description;
-    private Set<User> participants = new HashSet<>(0);
-    private Set<Issue> issues = new HashSet<>(0);
+    private Set<User> participants = new HashSet<>();
+    private Set<Issue> issues = new HashSet<>();
 
     @Id
     @Column(nullable = false)
@@ -61,12 +60,11 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "participant", joinColumns = {
-            @JoinColumn(name = "project_id", nullable = false)},
+    @JoinTable(name = "participant",
+            joinColumns = {@JoinColumn(name = "project_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id",
-                    nullable = false)})
+            nullable = false)})
     public Set<User> getParticipants() {
         return participants;
     }
@@ -75,7 +73,6 @@ public class Project implements Serializable {
         this.participants = participants;
     }
 
-    @JsonIgnore
     @OneToMany(mappedBy = "project")
     public Set<Issue> getIssues() {
         return issues;

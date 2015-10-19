@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface IProjectService extends IService<Project> {
 
+    Project getWithUsers(long id);
+
     List<Project> search(String text);
     List<Project> getSortedList(String nameField, String option);
     List<Project> getProjectsOfUser(User user);

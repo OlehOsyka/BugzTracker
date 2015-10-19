@@ -11,7 +11,7 @@
 
     <t:header/>
 
-    <div class="row">
+    <div class="row white-back">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
                 <div class="btn-group btn-distance" role="group">

@@ -122,6 +122,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @ResponseBody
+    public List<User> getUsers(@RequestParam String query) {
+        return userService.findAll(query);
+    }
+
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody

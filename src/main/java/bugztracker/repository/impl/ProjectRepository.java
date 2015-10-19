@@ -4,6 +4,7 @@ import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IProjectRepository;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -41,6 +42,14 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
                 .addOrder(order).list();
+    }
+
+    @Override
+    public Project getProjectWithUsers(long id) {
+        return (Project) sessionFactory.getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("id", id))
+                .setFetchMode("participants", FetchMode.JOIN)
+                .uniqueResult();
     }
 
     @Override

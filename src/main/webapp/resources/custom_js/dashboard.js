@@ -107,7 +107,7 @@ $(document).ready(function () {
     };
 
     $(document).mousedown(function (e) {
-        if (e.button == 2) {
+        if (e.button == 2 && $(e.target).is('td')) {
             checkedId = e.target.parentElement.cells[1].innerText;
             Cookies.set('checkedId', checkedId);
             window.location.href = '/project';
@@ -172,6 +172,12 @@ $(document).ready(function () {
             success: function (data) {
                 modal.find('#name').val(data.name);
                 modal.find('#desc').val(data.description);
+                modal.find('#users-list').empty();
+                $.each(data.participants, function (i, item) {
+                    modal.find('#users-list').append(
+                        '<span class="label label-info" data-id="' + item.id + '">' + item.fullName + '</span>'
+                    );
+                });
             }
         });
 
@@ -184,6 +190,60 @@ $(document).ready(function () {
         });
     });
 
-})
-;
+
+    $('#user').typeahead({
+        source: function (query, process) {
+            return $.ajax({
+                url: "/users/",
+                type: 'post',
+                data: {query: query},
+                dataType: 'json',
+                success: function (result) {
+
+                    var resultList = result.map(function (item) {
+                        return item.fullName;
+                    });
+
+                    return process(resultList);
+
+                }
+            });
+        }
+        //},
+        //
+        //matcher: function (obj) {
+        //    var item = JSON.parse(obj);
+        //    return ~item.name.toLowerCase().indexOf(this.query.toLowerCase())
+        //},
+        //
+        //sorter: function (items) {
+        //    var beginswith = [], caseSensitive = [], caseInsensitive = [], item;
+        //    while (aItem = items.shift()) {
+        //        var item = JSON.parse(aItem);
+        //        if (!item.name.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(JSON.stringify(item));
+        //        else if (~item.name.indexOf(this.query)) caseSensitive.push(JSON.stringify(item));
+        //        else caseInsensitive.push(JSON.stringify(item));
+        //    }
+        //
+        //    return beginswith.concat(caseSensitive, caseInsensitive)
+        //
+        //},
+
+        //
+        //highlighter: function (obj) {
+        //    var item = JSON.parse(obj);
+        //    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+        //    return item.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+        //        return '<strong>' + match + '</strong>'
+        //    })
+        //},
+
+        //updater: function (obj) {
+        //    var item = JSON.parse(obj);
+        //    $('#IdControl').attr('value', item.id);
+        //    return item.name;
+        //}
+    });
+
+});
 

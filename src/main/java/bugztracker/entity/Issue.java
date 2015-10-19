@@ -2,7 +2,9 @@ package bugztracker.entity;
 
 import bugztracker.entity.constant.IEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import java.sql.Date;
 @Table(name = "issue")
 public class Issue implements Serializable {
 
-    private long id;
+    private int id;
     private String name;
     private Date date;
     private Priority priority;
@@ -30,12 +32,11 @@ public class Issue implements Serializable {
 
     @Id
     @Column(nullable = false)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -105,9 +106,10 @@ public class Issue implements Serializable {
         this.version = version;
     }
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id_cr", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id_cr",
+            referencedColumnName = "id",
+            nullable = false)
     public User getUserCreator() {
         return userCreator;
     }
@@ -116,9 +118,10 @@ public class Issue implements Serializable {
         this.userCreator = userCreator;
     }
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id_as", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id_as",
+            referencedColumnName = "id",
+            nullable = false)
     public User getAssignee() {
         return assignee;
     }
@@ -127,9 +130,10 @@ public class Issue implements Serializable {
         this.assignee = assignee;
     }
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "project_id",
+            referencedColumnName = "id",
+            nullable = false)
     public Project getProject() {
         return project;
     }
@@ -218,39 +222,35 @@ public class Issue implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
 
         Issue issue = (Issue) o;
 
-        return id == issue.id;
-
+        return new EqualsBuilder()
+                .append(id, issue.id)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "Issue{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", priority=" + priority +
-                ", status=" + status +
-                ", description='" + description + '\'' +
-                ", category=" + category +
-                ", version=" + version +
-                ", userCreator=" + userCreator +
-                ", assignee=" + assignee +
-                ", project=" + project +
-                '}';
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("date", date)
+                .append("priority", priority)
+                .append("status", status)
+                .append("description", description)
+                .append("category", category)
+                .append("version", version)
+                .toString();
     }
-
 }

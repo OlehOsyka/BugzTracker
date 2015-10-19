@@ -50,4 +50,9 @@ public class UserService implements IUserService {
         return userRepository.find(email);
     }
 
+    @Override
+    public List<User> findAll(String query) {
+        return userRepository.findAll(query);
+    }
+
 }

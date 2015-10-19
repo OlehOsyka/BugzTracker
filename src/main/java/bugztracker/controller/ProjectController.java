@@ -37,7 +37,8 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public Project get(@PathVariable long id) {
-       return  projectService.get(id);
+        Project project = projectService.getWithUsers(id);
+        return project;
     }
 
     @ResponseStatus(HttpStatus.OK)
