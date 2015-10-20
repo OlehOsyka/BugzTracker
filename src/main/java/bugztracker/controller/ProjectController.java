@@ -74,7 +74,6 @@ public class ProjectController {
     }
 
     @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity handleException(ValidationException exc) {
         Map<String, String> errors = new HashMap<>();

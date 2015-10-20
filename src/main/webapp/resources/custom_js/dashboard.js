@@ -170,7 +170,7 @@ $(document).ready(function () {
             window.location.href = '/project';
             return false;
         }
-        if (e.button == 2 && $(e.target).is('span')) {
+        if (e.button == 2 && $(e.target).is('span') && $('.label-info').size() > 1) {
             $(e.target).remove();
             return false;
         }
@@ -323,34 +323,6 @@ $('#user').typeahead({
             }
         });
     },
-    //},
-    //
-    //matcher: function (obj) {
-    //    var item = JSON.parse(obj);
-    //    return ~item.name.toLowerCase().indexOf(this.query.toLowerCase())
-    //},
-    //
-    //sorter: function (items) {
-    //    var beginswith = [], caseSensitive = [], caseInsensitive = [], item;
-    //    while (aItem = items.shift()) {
-    //        var item = JSON.parse(aItem);
-    //        if (!item.name.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(JSON.stringify(item));
-    //        else if (~item.name.indexOf(this.query)) caseSensitive.push(JSON.stringify(item));
-    //        else caseInsensitive.push(JSON.stringify(item));
-    //    }
-    //
-    //    return beginswith.concat(caseSensitive, caseInsensitive)
-    //
-    //},
-
-    //
-    //highlighter: function (obj) {
-    //    var item = JSON.parse(obj);
-    //    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-    //    return item.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-    //        return '<strong>' + match + '</strong>'
-    //    })
-    //},
 
     updater: function (name) {
         var item = $.grep(tempUserTypeaheadList, function (e) {

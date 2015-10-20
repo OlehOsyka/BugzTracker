@@ -3,6 +3,7 @@ package bugztracker.filter;
 import bugztracker.entity.User;
 import bugztracker.service.IUserService;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,7 +24,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-       return true;
+        return true;
     }
 
     @Override
@@ -36,9 +37,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         int sessionTimeout = session.getMaxInactiveInterval();
-        long time = (int) (user.getDateExpired().getTime() - DateTime.now().getMillis());
 
-        if (user.getDateExpired() != null && time < sessionTimeout) {
+        Timestamp expirationDate = user.getDateExpired();
+        // not logged in
+        if (expirationDate == null) {
+            response.sendRedirect("/");
+            return;
+        }
+
+        long time = new Interval(DateTime.now().getMillis(), expirationDate.getTime()).toDurationMillis();
+        if (time < sessionTimeout) {
             //update user
             user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
             userService.update(user);

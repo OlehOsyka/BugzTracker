@@ -63,16 +63,15 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
 
     @Override
     public List<Project> getProjectsOfUser(User user) {
-        DetachedCriteria subCriteria = DetachedCriteria
-                .forClass(Project.class);
+        DetachedCriteria subCriteria = DetachedCriteria.forClass(Project.class);
         subCriteria.createAlias("participants", "parts", JoinType.LEFT_OUTER_JOIN)
-                .add(Restrictions.eq("parts.id", user.getId()));
-        subCriteria.setProjection(Projections.property("id"));
+                .add(Restrictions.eq("parts.id", user.getId()))
+                .setProjection(Projections.property("id"));
 
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
                 .setFetchMode("participants", FetchMode.JOIN)
-                .add(Subqueries.propertyIn("id", subCriteria ))
+                .add(Subqueries.propertyIn("id", subCriteria))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }

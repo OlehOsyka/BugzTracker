@@ -5,6 +5,7 @@ import bugztracker.entity.User;
 import bugztracker.repository.IProjectRepository;
 import bugztracker.repository.IUserRepository;
 import bugztracker.service.IProjectService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,7 @@ public class ProjectService implements IProjectService {
     @Override
     public void addProject(Project project) {
         project.setId((int) UUID.randomUUID().getMostSignificantBits());
-        project.setDate(new Date(System.currentTimeMillis()));
+        project.setDate(new Date(DateTime.now().getMillis()));
 
         List<Integer> ids = extractUserIds(project.getParticipants());
         project.setParticipants(new HashSet<>(userRepository.findById(ids)));
