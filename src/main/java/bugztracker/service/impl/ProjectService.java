@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Y. Vovk on 06.10.15.
@@ -80,25 +77,33 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void updateProject(Project project) {
-        Project proj = get(project.getId());
+        Project fullDataProject = get(project.getId());
 
-        List<Integer> ids = new ArrayList<>();
-        for (User current : project.getParticipants()) {
-            ids.add(current.getId());
-        }
+        List<Integer> ids = extractUserIds(project.getParticipants());
 
-        proj.setDescription(project.getDescription());
-        proj.setName(project.getName());
-        proj.setParticipants(new HashSet<>(userRepository.findById(ids)));
+        fullDataProject.setDescription(project.getDescription());
+        fullDataProject.setName(project.getName());
+        fullDataProject.setParticipants(new HashSet<>(userRepository.findById(ids)));
 
-        update(proj);
+        update(fullDataProject);
     }
 
     @Override
     public void addProject(Project project) {
-        project.setId(UUID.randomUUID().clockSequence());
+        project.setId((int) UUID.randomUUID().getMostSignificantBits());
         project.setDate(new Date(System.currentTimeMillis()));
 
+        List<Integer> ids = extractUserIds(project.getParticipants());
+        project.setParticipants(new HashSet<>(userRepository.findById(ids)));
+
         add(project);
+    }
+
+    private List<Integer> extractUserIds(Set<User> users) {
+        List<Integer> ids = new ArrayList<>();
+        for (User current : users) {
+            ids.add(current.getId());
+        }
+        return ids;
     }
 }

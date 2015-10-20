@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
+
+import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
 /**
  * Created by Y. Vovk on 06.10.15.
@@ -29,12 +30,11 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"my"})
     public List<Project> getAll(@RequestParam boolean my, WebRequest request) {
-        User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
+        User user = (User) request.getAttribute("user", SCOPE_SESSION);
         if (!my) {
             return projectService.getAllWithParticipants();
         }
-        List<Project> prs = projectService.getProjectsOfUser(user);
-        return prs;
+        return projectService.getProjectsOfUser(user);
     }
 
     @ResponseBody
@@ -47,7 +47,7 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
     public void update(@RequestBody Project project) {
-       projectService.updateProject(project);
+        projectService.updateProject(project);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -61,8 +61,7 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping(value = "/check/{id}", method = RequestMethod.GET)
     public Boolean isMyProject(@PathVariable int id, WebRequest request) {
-        List<Long> projectIds = (List<Long>)
-                request.getAttribute("userProjectIds", RequestAttributes.SCOPE_SESSION);
+        List<Long> projectIds = (List<Long>) request.getAttribute("userProjectIds", SCOPE_SESSION);
         return projectIds.contains(id);
     }
 

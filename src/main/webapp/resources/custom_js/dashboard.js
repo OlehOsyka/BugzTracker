@@ -201,9 +201,16 @@ $(document).ready(function () {
             "description": desc,
             "participants": users
         };
+        var url;
+        if ($('#modalEdit').find('#modal-name').text() == 'Add') {
+            url = '/project';
+        }
+        else {
+            url = '/project/update';
+        }
         $.ajax({
             type: "POST",
-            url: '/project/update',
+            url: url,
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -312,12 +319,14 @@ $(document).ready(function () {
                 return e.fullName == name;
             });
             if (item.length == 0) {
-                return name;
+                // return empty string to clear input
+                return '';
             } else {
                 $('#users-list').append(
                     '<span class="label label-info margin" data-id="' + item[0].id + '">' + item[0].fullName + '</span>'
                 );
-                return name;
+                // return empty string to clear input
+                return '';
             }
         }
     });

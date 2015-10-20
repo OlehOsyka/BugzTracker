@@ -93,7 +93,7 @@ public class UserService implements IUserService {
         if (user != null) {
             response.put("error", "Email has already been registered! ");
         } else {
-            newUser.setId(UUID.randomUUID().clockSequence());
+            newUser.setId((int) UUID.randomUUID().getMostSignificantBits());
 
             newUser.setPassword(MD5Encoder.encrypt(newUser.getPassword()).substring(0, 10));
 

@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -66,8 +67,8 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     public List<Project> getProjectsOfUser(User user) {
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
-                .createAlias("participants", "parts")
-                .setFetchMode("parts", FetchMode.JOIN)
+                .createAlias("participants", "parts", JoinType.LEFT_OUTER_JOIN)
+                .setFetchMode("participants", FetchMode.JOIN)
                 .add(Restrictions.eq("parts.id", user.getId()))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
