@@ -228,16 +228,16 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    if (errorText.indexOf("Name") >= 0 || errorText.indexOf("Not more") >= 0) {
-                        $('#form-group-name').removeClass('has-success');
-                        $('#form-group-name').addClass("has-error");
-                    }
-                    if (errorText.indexOf("At least") >= 0) {
-                        $('#form-group-users').removeClass('has-success');
-                        $('#form-group-users').addClass('has-error');
-                    }
-                    $('#form-group-desc').removeClass('has-error');
-                    $('#form-group-desc').addClass('has-success');
+                    //if (errorText.indexOf("Name") >= 0 || errorText.indexOf("Not more") >= 0) {
+                    //    $('#form-group-name').removeClass('has-success');
+                    //    $('#form-group-name').addClass("has-error");
+                    //}
+                    //if (errorText.indexOf("At least") >= 0) {
+                    //    $('#form-group-users').removeClass('has-success');
+                    //    $('#form-group-users').addClass('has-error');
+                    //}
+                    //$('#form-group-desc').removeClass('has-error');
+                    //$('#form-group-desc').addClass('has-success');
 
                     $('#invalid-project-edit').removeClass('non-visible');
                     $('#invalid-project-edit').text(errorText);
