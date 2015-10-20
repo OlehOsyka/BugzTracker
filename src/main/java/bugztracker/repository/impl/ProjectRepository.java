@@ -7,9 +7,7 @@ import bugztracker.repository.IProjectRepository;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -65,11 +63,16 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
 
     @Override
     public List<Project> getProjectsOfUser(User user) {
+        DetachedCriteria subCriteria = DetachedCriteria
+                .forClass(Project.class);
+        subCriteria.createAlias("participants", "parts", JoinType.LEFT_OUTER_JOIN)
+                .add(Restrictions.eq("parts.id", user.getId()));
+        subCriteria.setProjection(Projections.property("id"));
+
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
-                .createAlias("participants", "parts", JoinType.LEFT_OUTER_JOIN)
                 .setFetchMode("participants", FetchMode.JOIN)
-                .add(Restrictions.eq("parts.id", user.getId()))
+                .add(Subqueries.propertyIn("id", subCriteria ))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }

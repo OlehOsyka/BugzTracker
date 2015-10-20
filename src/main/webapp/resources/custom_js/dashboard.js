@@ -71,7 +71,7 @@ $(document).ready(function () {
                     }
                     var participantsStr = "";
                     $.each(data, function (i, item) {
-                        participantsStr += item.fullName + " ";
+                        participantsStr += item.fullName + " | ";
                     });
                     if (participantsStr.length < 15) {
                         return participantsStr;
@@ -100,7 +100,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 360
+        scrollY: 365
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -116,6 +116,12 @@ $(document).ready(function () {
 
     //what btn was pushed last
     var lastBtn = "btn-my-proj";
+    //id of checked tr
+    var checkedId;
+    var isChecked;
+    // Array to track the ids of the details displayed rows
+    var detailRows = [];
+    var tempUserTypeaheadList;
 
     $('#btn-my-proj').click(function () {
         dt.ajax.url('/projects?my=true').load();
@@ -126,9 +132,6 @@ $(document).ready(function () {
         dt.ajax.url('/projects?my=false').load();
         lastBtn = $(this).attr('id');
     });
-
-    // Array to track the ids of the details displayed rows
-    var detailRows = [];
 
     $('#example').find('tbody').on('click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
@@ -171,9 +174,6 @@ $(document).ready(function () {
         return true;
     });
 
-    //id of checked tr
-    var checkedId;
-    var isChecked;
 
     $('#example').find('tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
@@ -257,8 +257,6 @@ $(document).ready(function () {
         });
     });
 
-    var tempUserTypeaheadList;
-
     $('#user').typeahead({
         source: function (query, process) {
             return $.ajax({
@@ -274,9 +272,11 @@ $(document).ready(function () {
                         existingUsers.push($(this).text());
                     });
 
-                    var resultList = result.map(function (item) {
-                        if (existingUsers.indexOf(item.fullName) == -1) {
-                            return item.fullName;
+                    var resultList = [];
+
+                    jQuery.each( result, function( i, val ) {
+                        if ($.inArray(val.fullName, existingUsers) < 0) {
+                            resultList.push(val.fullName);
                         }
                     });
 

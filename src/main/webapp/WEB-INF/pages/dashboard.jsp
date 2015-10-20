@@ -15,8 +15,8 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">
                 <div class="btn-group btn-distance" role="group">
-                    <button type="button" class="btn btn-default" id="btn-my-proj">My projects</button>
                     <button type="button" class="btn btn-default" id="btn-proj">All projects</button>
+                    <button type="button" class="btn btn-default" id="btn-my-proj">My projects</button>
                 </div>
 
                 <button type="button" class="btn btn-default" id="btn-edit">Edit</button>

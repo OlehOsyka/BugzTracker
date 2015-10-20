@@ -3,6 +3,7 @@ package bugztracker.repository.impl;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IUserRepository;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -46,6 +47,7 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
         return sessionFactory.getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.ilike("fullName", query, MatchMode.START))
                 .setFetchMode("projects", FetchMode.JOIN)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }
 }

@@ -14,90 +14,93 @@
 //        '</tr>' +
 //        '</table>';
 //}
+var dt;
+var projectId;
+var isMyProject;
+var checkedId;
+var isChecked;
+// Array to track the ids of the details displayed rows
+var detailRows = [];
+
+preLoad();
+
+function preLoad() {
+    projectId = Cookies.get('checkedId');
+    Cookies.remove('checkedId');
+    $.ajax({
+        type: "GET",
+        url: "/check/" + projectId,
+        success: function (data) {
+            isMyProject = data;
+            if (!isMyProject) {
+                $('#btn-my-issues').addClass('show-none');
+            }
+            dt = $('#issuesTable').DataTable({
+                ajax: {
+                    contentType: "application/json",
+                    dataType: 'json',
+                    url: "/project/" + projectId + "/issues?my=" + isMyProject,
+                    type: "get",
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
+                    {
+                        title: "ID",
+                        data: "id"
+                    },
+                    {
+                        title: "Name",
+                        data: "name"
+                    },
+                    {
+                        title: "Category",
+                        data: "category"
+                    },
+                    {
+                        title: "Priority",
+                        data: "priority"
+                    },
+                    {
+                        title: "Creator",
+                        data: "userCreator.fullName"
+                    },
+                    {
+                        title: "Status",
+                        data: "status"
+                    },
+                    {
+                        title: "Description",
+                        data: "description",
+                        render: function descriptionFormatter(data) {
+                            if (data == null) {
+                                return "-";
+                            }
+                            if (data.length < 15) {
+                                return data;
+                            }
+                            var desc = data.substring(0, 15);
+                            return desc.concat('...');
+                        }
+                    },
+                    {
+                        title: "Date of creation",
+                        data: "date"
+                    }
+                ],
+                paging: false,
+                scrollY: 360
+            });
+        }
+    });
+}
 
 $(document).ready(function () {
-
-    var projectId;
-    var isMyProject;
-    var dt;
-
-    preLoad();
-
-    function preLoad() {
-        projectId = Cookies.get('checkedId');
-        Cookies.remove('checkedId');
-        $.ajax({
-            type: "GET",
-            url: "/check/" + projectId,
-            success: function (data) {
-                isMyProject = data;
-                if (!isMyProject) {
-                    $('#btn-my-issues').addClass('show-none');
-                }
-                dt = $('#issuesTable').DataTable({
-                    ajax: {
-                        contentType: "application/json",
-                        dataType: 'json',
-                        url: "/project/" + projectId + "/issues?my=" + isMyProject,
-                        type: "get",
-                        dataSrc: ''
-                    },
-                    columns: [
-                        {
-                            "class": "details-control",
-                            "orderable": false,
-                            "data": null,
-                            "defaultContent": ""
-                        },
-                        {
-                            title: "ID",
-                            data: "id"
-                        },
-                        {
-                            title: "Name",
-                            data: "name"
-                        },
-                        {
-                            title: "Category",
-                            data: "category"
-                        },
-                        {
-                            title: "Priority",
-                            data: "priority"
-                        },
-                        {
-                            title: "Creator",
-                            data: "userCreator.fullName"
-                        },
-                        {
-                            title: "Status",
-                            data: "status"
-                        },
-                        {
-                            title: "Description",
-                            data: "description",
-                            render: function descriptionFormatter(data) {
-                                if (data == null) {
-                                    return "-";
-                                }
-                                if (data.length < 15) {
-                                    return data;
-                                }
-                                var desc = data.substring(0, 15);
-                                return desc.concat('...');
-                            }
-                        },
-                        {
-                            title: "Date of creation",
-                            data: "date"
-                        }
-                    ],
-                    paging: false,
-                    scrollY: 360
-                });
-            }
-        });
-    }
 
     $('#btn-my-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=true").load();
@@ -106,9 +109,6 @@ $(document).ready(function () {
     $('#btn-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=false").load();
     });
-
-    // Array to track the ids of the details displayed rows
-    var detailRows = [];
 
     $('#issuesTable').find('tbody').on('click', 'tr td.details-control', function () {
         var tr = $(this).closest('tr');
@@ -140,20 +140,17 @@ $(document).ready(function () {
         });
     });
 
-    //id of checked tr
-    var checkedId;
-
     $('#issuesTable').find('tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            $('#btn-edit').addClass('show-none');
             $('#btn-delete').addClass('show-none');
+            isChecked = false;
         }
         else {
             dt.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             checkedId = $(this).closest('tr').context.children[1].innerText;
-            $('#btn-edit').removeClass('show-none');
+            isChecked = true;
             $('#btn-delete').removeClass('show-none');
         }
     });
