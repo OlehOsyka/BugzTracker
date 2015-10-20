@@ -20,3 +20,12 @@ tr.details td.details-control {
 .btn-distance {
     margin-right: 52%;
 }
+
+.non-visible {
+    display: none;
+}
+
+.alert-danger-position {
+    text-align: center;
+    width: 95%;
+}

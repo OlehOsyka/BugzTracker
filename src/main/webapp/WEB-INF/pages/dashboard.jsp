@@ -3,6 +3,7 @@
 
 <t:template>
     <link href="<c:url value="/resources/custom_css/dashboard.css"/>" rel="stylesheet"/>
+    <link href="<c:url value="/resources/custom_css/general.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/bootstrap-editable.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/dataTables.foundation.min.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/dataTables.bootstrap.min.css"/>" rel="stylesheet"/>
@@ -35,21 +36,18 @@
                     <h4 class="modal-title></title>" id="modal-name"></h4>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-danger non-visible alert-danger-position" id="invalid-project-edit" role="alert"></div>
                     <fieldset>
-                        <div class="form-group">
+                        <div class="form-group" id="form-group-name">
                             <label class="control-label" for="name">Name:</label>
                             <input class="form-control" placeholder="Name" id="name" type="text">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="form-group-users">
                             <label class="control-label" for="user">Users:</label>
-                            <input class="form-control"
-                                   placeholder="Name"
-                                   id="user"
-                                   type="text">
-
+                            <input class="form-control" placeholder="Name" id="user" type="text">
                             <div id="users-list" class="padding-top"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="form-group-desc">
                             <label class="control-label" for="desc">Description:</label>
                             <textarea class="form-control" placeholder="Description" rows="4" id="desc"></textarea>
                         </div>
@@ -74,4 +72,6 @@
 <script src="<c:url value="/resources/js/bootstrap-editable.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap3-typeahead.min.js"/>"></script>
 <script src="<c:url value="/resources/custom_js/dashboard.js"/>"></script>
+<script src="<c:url value="/resources/custom_js/validation.js"/>"></script>
+
 

@@ -100,7 +100,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 365
+        scrollY: 370
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -112,6 +112,9 @@ $(document).ready(function () {
         $('#name').val('');
         $('#user').val('');
         $('#users-list').empty();
+        $('#invalid-project-edit').addClass('non-visible');
+        $('#invalid-project-edit').empty();
+        $('#form-group-name, #form-group-desc, #form-group-users').removeClass('has-error has-success');
     }
 
     //what btn was pushed last
@@ -195,141 +198,177 @@ $(document).ready(function () {
         $('#users-list').children('span').each(function () {
             users.push({id: $(this).data('id')});
         });
-        var project = {
-            "id": checkedId,
-            "name": name,
-            "description": desc,
-            "participants": users
-        };
-        var url;
-        if ($('#modalEdit').find('#modal-name').text() == 'Add') {
-            url = '/project';
-        }
-        else {
-            url = '/project/update';
-        }
-        $.ajax({
-            type: "POST",
-            url: url,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(project),
-            success: function () {
-                cleanModal();
-                $('#modalEdit').modal('hide');
-                $('#' + lastBtn).click();
+        if (validate(name)) {
+            var project = {
+                "id": checkedId,
+                "name": name,
+                "description": desc,
+                "participants": users
+            };
+            var url;
+            if ($('#modalEdit').find('#modal-name').text() == 'Add') {
+                url = '/project';
             }
-        });
-    });
-
-    $('#btn-edit').click(function () {
-        $('#modalEdit').modal('show');
-    });
-
-    $('#modalEdit').on('show.bs.modal', function (event) {
-        var modal = $(this);
-        if (isChecked) {
-            modal.find('#modal-name').text("Edit");
+            else {
+                url = '/project/update';
+            }
             $.ajax({
-                url: "/project/" + checkedId,
-                success: function (data) {
-                    modal.find('#name').val(data.name);
-                    modal.find('#desc').val(data.description);
-                    modal.find('#users-list').empty();
-                    $.each(data.participants, function (i, item) {
-                        modal.find('#users-list').append(
-                            '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
-                        );
-                    });
+                type: "POST",
+                url: url,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify(project),
+                success: function () {
+                    cleanModal();
+                    $('#modalEdit').modal('hide');
+                    $('#' + lastBtn).click();
+                },
+                error: function (data) {
+                    var error = data.responseJSON;
+                    var errorText = error.error;
+                    if (errorText.indexOf("Name") >= 0 || errorText.indexOf("Not more") >= 0) {
+                        $('#form-group-name').removeClass('has-success');
+                        $('#form-group-name').addClass("has-error");
+                    }
+                    if (errorText.indexOf("At least") >= 0) {
+                        $('#form-group-users').removeClass('has-success');
+                        $('#form-group-users').addClass('has-error');
+                    }
+                    $('#form-group-desc').removeClass('has-error');
+                    $('#form-group-desc').addClass('has-success');
+
+                    $('#invalid-project-edit').removeClass('non-visible');
+                    $('#invalid-project-edit').text(errorText);
                 }
             });
-        } else {
-            modal.find('#modal-name').text("Add");
         }
-    });
+});
+
+function validate(name) {
+    var error = "";
+    error += Validation.validProjectName(name);
+    error += Validation.validParticipants();
+    error += Validation.validDescription();
+    if (error) {
+        $('#invalid-project-edit').removeClass('non-visible');
+        $('#invalid-project-edit').text(error);
+        return false;
+    } else {
+        $('#invalid-project-edit').addClass('non-visible');
+        return true;
+    }
+}
+
+
+$('#btn-edit').click(function () {
+    $('#modalEdit').modal('show');
+});
+
+$('#modalEdit').on('show.bs.modal', function (event) {
+    var modal = $(this);
+    if (isChecked) {
+        modal.find('#modal-name').text("Edit");
+        $.ajax({
+            url: "/project/" + checkedId,
+            success: function (data) {
+                modal.find('#name').val(data.name);
+                modal.find('#desc').val(data.description);
+                modal.find('#users-list').empty();
+                $.each(data.participants, function (i, item) {
+                    modal.find('#users-list').append(
+                        '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
+                    );
+                });
+            }
+        });
+    } else {
+        modal.find('#modal-name').text("Add");
+    }
+});
 
 // On each draw, loop over the `detailRows` array and show any child rows
-    dt.on('draw', function () {
-        $.each(detailRows, function (i, id) {
-            $('#' + id + ' td.details-control').trigger('click');
-        });
+dt.on('draw', function () {
+    $.each(detailRows, function (i, id) {
+        $('#' + id + ' td.details-control').trigger('click');
     });
-
-    $('#user').typeahead({
-        source: function (query, process) {
-            return $.ajax({
-                url: "/users/",
-                data: {query: query},
-                dataType: 'json',
-                success: function (result) {
-
-                    tempUserTypeaheadList = result;
-
-                    var existingUsers = [];
-                    $('#users-list').children('span').each(function () {
-                        existingUsers.push($(this).text());
-                    });
-
-                    var resultList = [];
-
-                    jQuery.each( result, function( i, val ) {
-                        if ($.inArray(val.fullName, existingUsers) < 0) {
-                            resultList.push(val.fullName);
-                        }
-                    });
-
-                    return process(resultList);
-
-                }
-            });
-        },
-        //},
-        //
-        //matcher: function (obj) {
-        //    var item = JSON.parse(obj);
-        //    return ~item.name.toLowerCase().indexOf(this.query.toLowerCase())
-        //},
-        //
-        //sorter: function (items) {
-        //    var beginswith = [], caseSensitive = [], caseInsensitive = [], item;
-        //    while (aItem = items.shift()) {
-        //        var item = JSON.parse(aItem);
-        //        if (!item.name.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(JSON.stringify(item));
-        //        else if (~item.name.indexOf(this.query)) caseSensitive.push(JSON.stringify(item));
-        //        else caseInsensitive.push(JSON.stringify(item));
-        //    }
-        //
-        //    return beginswith.concat(caseSensitive, caseInsensitive)
-        //
-        //},
-
-        //
-        //highlighter: function (obj) {
-        //    var item = JSON.parse(obj);
-        //    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-        //    return item.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-        //        return '<strong>' + match + '</strong>'
-        //    })
-        //},
-
-        updater: function (name) {
-            var item = $.grep(tempUserTypeaheadList, function (e) {
-                return e.fullName == name;
-            });
-            if (item.length == 0) {
-                // return empty string to clear input
-                return '';
-            } else {
-                $('#users-list').append(
-                    '<span class="label label-info margin" data-id="' + item[0].id + '">' + item[0].fullName + '</span>'
-                );
-                // return empty string to clear input
-                return '';
-            }
-        }
-    });
-
 });
+
+$('#user').typeahead({
+    source: function (query, process) {
+        return $.ajax({
+            url: "/users/",
+            data: {query: query},
+            dataType: 'json',
+            success: function (result) {
+
+                tempUserTypeaheadList = result;
+
+                var existingUsers = [];
+                $('#users-list').children('span').each(function () {
+                    existingUsers.push($(this).text());
+                });
+
+                var resultList = [];
+
+                jQuery.each(result, function (i, val) {
+                    if ($.inArray(val.fullName, existingUsers) < 0) {
+                        resultList.push(val.fullName);
+                    }
+                });
+
+                return process(resultList);
+
+            }
+        });
+    },
+    //},
+    //
+    //matcher: function (obj) {
+    //    var item = JSON.parse(obj);
+    //    return ~item.name.toLowerCase().indexOf(this.query.toLowerCase())
+    //},
+    //
+    //sorter: function (items) {
+    //    var beginswith = [], caseSensitive = [], caseInsensitive = [], item;
+    //    while (aItem = items.shift()) {
+    //        var item = JSON.parse(aItem);
+    //        if (!item.name.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(JSON.stringify(item));
+    //        else if (~item.name.indexOf(this.query)) caseSensitive.push(JSON.stringify(item));
+    //        else caseInsensitive.push(JSON.stringify(item));
+    //    }
+    //
+    //    return beginswith.concat(caseSensitive, caseInsensitive)
+    //
+    //},
+
+    //
+    //highlighter: function (obj) {
+    //    var item = JSON.parse(obj);
+    //    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+    //    return item.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+    //        return '<strong>' + match + '</strong>'
+    //    })
+    //},
+
+    updater: function (name) {
+        var item = $.grep(tempUserTypeaheadList, function (e) {
+            return e.fullName == name;
+        });
+        if (item.length == 0) {
+            // return empty string to clear input
+            return '';
+        } else {
+            $('#users-list').append(
+                '<span class="label label-info margin" data-id="' + item[0].id + '">' + item[0].fullName + '</span>'
+            );
+            // return empty string to clear input
+            return '';
+        }
+    }
+});
+
+})
+;
 

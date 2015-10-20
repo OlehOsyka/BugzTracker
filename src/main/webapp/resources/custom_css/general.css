@@ -8,8 +8,8 @@
     text-align: center;
 }
 
-.brand-title{
-    font-family: Quicksand;
+.brand-title {
+    font-family: Quicksand, sans-serif;
     font-size: 30px;
     font-style: normal;
     font-variant: normal;
@@ -20,7 +20,12 @@
 .padding-top{
     padding-top: 10px;
 }
-.margin{
+
+/*.padding-modal {*/
+    /*margin-top: 10%;*/
+/*}*/
+
+.margin {
     margin: 5px;
 }
 

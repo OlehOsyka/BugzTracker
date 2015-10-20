@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
@@ -37,6 +39,8 @@ public class Project implements Serializable {
     }
 
     @Column(nullable = false)
+    @NotBlank(message = "Name is required! ")
+    @Size(max = 300, message = "Please, shorten the name of project. Not more than 300 symbols is possible! ")
     public String getName() {
         return name;
     }
@@ -68,6 +72,7 @@ public class Project implements Serializable {
             joinColumns = {@JoinColumn(name = "project_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id",
             nullable = false)})
+    @Size(min = 1, message = "At least one participant is required! ")
     public Set<User> getParticipants() {
         return participants;
     }

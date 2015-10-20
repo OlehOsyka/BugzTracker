@@ -71,5 +71,45 @@ Validation.validPassword = function (password) {
     return error;
 };
 
+Validation.validProjectName = function (name) {
+    var error = "";
+    if (!name) {
+        $('#form-group-name').removeClass('has-success');
+        $('#form-group-name').addClass('has-error');
+        error += "Name is required! ";
+    } else {
+        if(name > 300) {
+            $('#form-group-name').removeClass('has-success');
+            $('#form-group-name').addClass('has-error');
+            error += "Please, shorten the name of project. Not more than 300 symbols is possible! ";
+        }
+        $('#form-group-name').removeClass('has-error');
+        $('#form-group-name').addClass('has-success');
+    }
+    return error;
+};
+
+Validation.validParticipants = function () {
+    var error = "";
+    if (!$('#users-list').text()) {
+        $('#form-group-users').removeClass('has-success');
+        $('#form-group-users').addClass('has-error');
+        error += "At least one participant is required! ";
+    } else {
+        $('#form-group-users').removeClass('has-error');
+        $('#form-group-users').addClass('has-success');
+    }
+    return error;
+};
+
+Validation.validDescription = function () {
+    $('#form-group-desc').removeClass('has-error');
+    $('#form-group-desc').addClass('has-success');
+    return "";
+};
+
+
+
+
 
 
