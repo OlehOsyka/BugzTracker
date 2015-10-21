@@ -122,7 +122,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 370
+        scrollY: 380
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -150,11 +150,15 @@ $(document).ready(function () {
 
     $('#btn-my-proj').click(function () {
         dt.ajax.url('/projects?my=true').load();
+        $('#btn-my-proj').addClass('active');
+        $('#btn-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
     $('#btn-proj').click(function () {
         dt.ajax.url('/projects?my=false').load();
+        $('#btn-proj').addClass('active');
+        $('#btn-my-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
