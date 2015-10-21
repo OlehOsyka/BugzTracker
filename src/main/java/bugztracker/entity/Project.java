@@ -23,6 +23,7 @@ public class Project implements Serializable {
     private String name;
     private Date date;
     private String description;
+    private User userOwner;
     private Set<User> participants = new HashSet<>();
     private Set<Issue> issues = new HashSet<>();
 
@@ -86,6 +87,18 @@ public class Project implements Serializable {
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_owner_id",
+            referencedColumnName = "id",
+            nullable = false)
+    public User getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(User userOwner) {
+        this.userOwner = userOwner;
     }
 
     @Override

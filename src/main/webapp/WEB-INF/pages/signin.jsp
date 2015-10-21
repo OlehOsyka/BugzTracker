@@ -5,8 +5,6 @@
 
 <t:template>
 
-    <input type="hidden" value="${pageContext.request.contextPath}" id="context_path">
-
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login" role="alert"></div>

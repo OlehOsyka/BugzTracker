@@ -46,7 +46,6 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     public List<User> findAll(String query) {
         return sessionFactory.getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.ilike("fullName", query, MatchMode.START))
-                .setFetchMode("projects", FetchMode.JOIN)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }

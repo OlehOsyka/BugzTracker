@@ -12,6 +12,8 @@
 
     <t:header/>
 
+    <input type="hidden" value="${user.fullName}" id="current-user">
+
     <div class="row white-back">
         <div class="col-md-10 col-md-offset-1">
             <div class="table-panel">

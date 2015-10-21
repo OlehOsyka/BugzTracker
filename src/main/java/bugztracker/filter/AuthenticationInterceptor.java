@@ -38,10 +38,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         User user = (User) session.getAttribute("user");
         int sessionTimeout = session.getMaxInactiveInterval();
 
-        Timestamp expirationDate = user.getDateExpired();
         // not logged in
+        if (user == null) {
+            return;
+        }
+
+        Timestamp expirationDate = user.getDateExpired();
+
         if (expirationDate == null) {
-            response.sendRedirect("/");
             return;
         }
 

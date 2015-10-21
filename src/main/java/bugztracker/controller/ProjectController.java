@@ -59,10 +59,11 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @RequestMapping(value = "/project", method = RequestMethod.POST)
-    public void add(@RequestBody Project project) {
+    public void add(@RequestBody Project project, WebRequest request) {
         projectValidator.validate(project);
+        User user = (User) request.getAttribute("user", SCOPE_SESSION);
 
-        projectService.addProject(project);
+        projectService.addProject(project, user);
     }
 
     @ResponseStatus(HttpStatus.OK)

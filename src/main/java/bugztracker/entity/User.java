@@ -29,6 +29,7 @@ public class User implements Serializable {
     private Set<Project> projects = new HashSet<>(0);
     private Set<Issue> issuesAss = new HashSet<>(0);
     private Set<Issue> issuesCr = new HashSet<>(0);
+    private Set<Project> ownedProjects = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -106,6 +107,15 @@ public class User implements Serializable {
 
     public void setIssuesCr(Set<Issue> issuesCr) {
         this.issuesCr = issuesCr;
+    }
+
+    @OneToMany(mappedBy = "userOwner")
+    public Set<Project> getOwnedProjects() {
+        return ownedProjects;
+    }
+
+    public void setOwnedProjects(Set<Project> ownedProjects) {
+        this.ownedProjects = ownedProjects;
     }
 
     @Override

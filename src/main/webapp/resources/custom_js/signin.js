@@ -3,7 +3,6 @@ $(document).ready(function () {
     $('#sign_in_btn').click(function () {
         this.blur();
 
-        var context_path = $('#context_path').val();
         var email = $.trim($('#email').val());
         var password = $.trim($('#password').val());
 
@@ -15,7 +14,7 @@ $(document).ready(function () {
             };
             $.ajax({
                 type: 'POST',
-                url: context_path + '/login',
+                url: '/login',
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json"

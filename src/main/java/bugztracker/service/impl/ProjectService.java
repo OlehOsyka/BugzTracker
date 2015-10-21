@@ -90,12 +90,14 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void addProject(Project project) {
+    public void addProject(Project project, User user) {
         project.setId((int) UUID.randomUUID().getMostSignificantBits());
         project.setDate(new Date(DateTime.now().getMillis()));
 
         List<Integer> ids = extractUserIds(project.getParticipants());
+
         project.setParticipants(new HashSet<>(userRepository.findById(ids)));
+        project.setUserOwner(userRepository.get(user.getId()));
 
         add(project);
     }

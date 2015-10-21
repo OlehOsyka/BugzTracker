@@ -25,10 +25,18 @@
     /*margin-top: 10%;*/
 /*}*/
 
-.margin {
-    margin: 5px;
+.display-user-label {
+    margin-right: 2%;
+    display: inline-block;
 }
 
+.margin-close-btn {
+    margin-left: 3px;
+}
+
+.label {
+    line-height: 2;
+}
 /*.background{*/
     /*background: #5ae6d9;*/
     /*background-image: url("../images/ZenBG-1.png"), url("../images/ZenBG-2.png");*/

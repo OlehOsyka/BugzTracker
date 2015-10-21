@@ -22,5 +22,5 @@ public interface IProjectService extends IService<Project> {
 
     void updateProject(Project project);
 
-    void addProject(Project project);
+    void addProject(Project project, User user);
 }

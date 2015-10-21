@@ -1,8 +1,18 @@
 function format(d) {
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
+        '<td>Project ID:</td>' +
+        '<td>' + d.id + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<tr>' +
         '<td>Project name:</td>' +
         '<td>' + d.name + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<tr>' +
+        '<td>Project owner:</td>' +
+        '<td>' + d.userOwner.fullName + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>Participants:</td>' +
@@ -25,7 +35,11 @@ function participantsFormatter(data) {
     }
     var participantsStr = "";
     $.each(data, function (i, item) {
-        participantsStr += item.fullName + " | ";
+        if (data.length - 1 == i) {
+            participantsStr += item.fullName;
+        } else {
+            participantsStr += item.fullName + " | ";
+        }
     });
     return participantsStr;
 }
@@ -63,6 +77,10 @@ $(document).ready(function () {
                 data: "name"
             },
             {
+                title: "Owner",
+                data: "userOwner.fullName"
+            },
+            {
                 title: "Participants",
                 data: "participants",
                 render: function participantsFormatter(data) {
@@ -71,7 +89,11 @@ $(document).ready(function () {
                     }
                     var participantsStr = "";
                     $.each(data, function (i, item) {
-                        participantsStr += item.fullName + " | ";
+                        if (data.length - 1 == i) {
+                            participantsStr += item.fullName;
+                        } else {
+                            participantsStr += item.fullName + " | ";
+                        }
                     });
                     if (participantsStr.length < 15) {
                         return participantsStr;
@@ -84,7 +106,7 @@ $(document).ready(function () {
                 title: "Description",
                 data: "description",
                 render: function descriptionFormatter(data) {
-                    if (data == null) {
+                    if (data == null || jQuery.isEmptyObject(data)) {
                         return "-";
                     }
                     if (data.length < 15) {
@@ -170,10 +192,13 @@ $(document).ready(function () {
             window.location.href = '/project';
             return false;
         }
-        if (e.button == 2 && $(e.target).is('span') && $('.label-info').size() > 1) {
-            $(e.target).remove();
-            return false;
-        }
+        //if (e.button == 2 && $(e.target).is('span')) {
+        //    var userName = $('#current-user').val();
+        //    if (e.target.innerText != userName) {
+        //        $(e.target).remove();
+        //    }
+        //    return false;
+        //}
         return true;
     });
 
@@ -244,103 +269,119 @@ $(document).ready(function () {
                 }
             });
         }
-});
-
-function validate(name) {
-    var error = "";
-    error += Validation.validProjectName(name);
-    error += Validation.validParticipants();
-    error += Validation.validDescription();
-    if (error) {
-        $('#invalid-project-edit').removeClass('non-visible');
-        $('#invalid-project-edit').text(error);
-        return false;
-    } else {
-        $('#invalid-project-edit').addClass('non-visible');
-        return true;
-    }
-}
-
-
-$('#btn-edit').click(function () {
-    $('#modalEdit').modal('show');
-});
-
-$('#modalEdit').on('show.bs.modal', function (event) {
-    var modal = $(this);
-    if (isChecked) {
-        modal.find('#modal-name').text("Edit");
-        $.ajax({
-            url: "/project/" + checkedId,
-            success: function (data) {
-                modal.find('#name').val(data.name);
-                modal.find('#desc').val(data.description);
-                modal.find('#users-list').empty();
-                $.each(data.participants, function (i, item) {
-                    modal.find('#users-list').append(
-                        '<span class="label label-info margin" data-id="' + item.id + '">' + item.fullName + '</span>'
-                    );
-                });
-            }
-        });
-    } else {
-        modal.find('#modal-name').text("Add");
-    }
-});
-
-// On each draw, loop over the `detailRows` array and show any child rows
-dt.on('draw', function () {
-    $.each(detailRows, function (i, id) {
-        $('#' + id + ' td.details-control').trigger('click');
     });
-});
 
-$('#user').typeahead({
-    source: function (query, process) {
-        return $.ajax({
-            url: "/users/",
-            data: {query: query},
-            dataType: 'json',
-            success: function (result) {
-
-                tempUserTypeaheadList = result;
-
-                var existingUsers = [];
-                $('#users-list').children('span').each(function () {
-                    existingUsers.push($(this).text());
-                });
-
-                var resultList = [];
-
-                jQuery.each(result, function (i, val) {
-                    if ($.inArray(val.fullName, existingUsers) < 0) {
-                        resultList.push(val.fullName);
-                    }
-                });
-
-                return process(resultList);
-
-            }
-        });
-    },
-
-    updater: function (name) {
-        var item = $.grep(tempUserTypeaheadList, function (e) {
-            return e.fullName == name;
-        });
-        if (item.length == 0) {
-            // return empty string to clear input
-            return '';
+    function validate(name) {
+        var error = "";
+        error += Validation.validProjectName(name);
+        error += Validation.validParticipants();
+        error += Validation.validDescription();
+        if (error) {
+            $('#invalid-project-edit').removeClass('non-visible');
+            $('#invalid-project-edit').text(error);
+            return false;
         } else {
-            $('#users-list').append(
-                '<span class="label label-info margin" data-id="' + item[0].id + '">' + item[0].fullName + '</span>'
-            );
-            // return empty string to clear input
-            return '';
+            $('#invalid-project-edit').addClass('non-visible');
+            return true;
         }
     }
-});
 
-})
-;
+    $("#users-list").on('click', 'button.close', function (e) {
+        if ($('#modalEdit').find('#modal-name').text() == 'Add') {
+            $(e.currentTarget.parentElement).remove();
+        } else {
+            var userName = $('#current-user').val();
+            var text = e.currentTarget.parentElement.innerText;
+            if (text.substring(0, text.length - 1) != userName) {
+                $(e.currentTarget.parentElement).remove();
+            }
+        }
+    });
+
+
+    $('#btn-edit').click(function () {
+        $('#modalEdit').modal('show');
+    });
+
+    $('#modalEdit').on('show.bs.modal', function (event) {
+        var modal = $(this);
+        if (isChecked) {
+            modal.find('#modal-name').text("Edit");
+            $.ajax({
+                url: "/project/" + checkedId,
+                success: function (data) {
+                    modal.find('#name').val(data.name);
+                    modal.find('#desc').val(data.description);
+                    modal.find('#users-list').empty();
+                    $.each(data.participants, function (i, item) {
+                        modal.find('#users-list').append(
+                            '<span class="label label-info display-user-label" data-id="' + item.id + '">' + item.fullName +
+                            '<button type="button" class="close margin-close-btn">' +
+                            '<span aria-hidden="true">&times;</span></button></span>'
+                        );
+                    });
+                }
+            });
+        } else {
+            modal.find('#modal-name').text("Add");
+        }
+    });
+
+// On each draw, loop over the `detailRows` array and show any child rows
+    dt.on('draw', function () {
+        $.each(detailRows, function (i, id) {
+            $('#' + id + ' td.details-control').trigger('click');
+        });
+    });
+
+    $('#user').typeahead({
+        source: function (query, process) {
+            return $.ajax({
+                url: "/users/",
+                data: {query: query},
+                dataType: 'json',
+                success: function (result) {
+
+                    tempUserTypeaheadList = result;
+
+                    var existingUsers = [];
+                    $('#users-list').children('span').each(function () {
+                        var name = $(this).text();
+                        existingUsers.push(name.substring(0, name.length - 1));
+                    });
+
+                    var resultList = [];
+
+                    jQuery.each(result, function (i, val) {
+                        if ($.inArray(val.fullName, existingUsers) < 0) {
+                            resultList.push(val.fullName);
+                        }
+                    });
+
+                    return process(resultList);
+
+                }
+            });
+        },
+
+        updater: function (name) {
+            var item = $.grep(tempUserTypeaheadList, function (e) {
+                return e.fullName == name;
+            });
+            if (item.length == 0) {
+                // return empty string to clear input
+                return '';
+            } else {
+                $('#users-list').append(
+                    '<span class="label label-info display-user-label" data-id="' + item[0].id + '">' + item[0].fullName +
+                    '<button type="button" class="close margin-close-btn">' +
+                    '<span aria-hidden="true">&times;</span></button></span>'
+                );
+                // return empty string to clear input
+                return '';
+            }
+        }
+    });
+
+});
 
