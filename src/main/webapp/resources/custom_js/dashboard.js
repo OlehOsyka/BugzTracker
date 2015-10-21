@@ -291,15 +291,15 @@ $(document).ready(function () {
     }
 
     $("#users-list").on('click', 'button.close', function (e) {
-        if ($('#modalEdit').find('#modal-name').text() == 'Add') {
-            $(e.currentTarget.parentElement).remove();
-        } else {
-            var userName = $('#current-user').val();
-            var text = e.currentTarget.parentElement.innerText;
-            if (text.substring(0, text.length - 1) != userName) {
+        //if ($('#modalEdit').find('#modal-name').text() == 'Add') {
+        //    $(e.currentTarget.parentElement).remove();
+        //} else {
+        //    var userName = $('#current-user').val();
+        //    var text = e.currentTarget.parentElement.innerText;
+            //if (text.substring(0, text.length - 1) != userName) {
                 $(e.currentTarget.parentElement).remove();
-            }
-        }
+         //   }
+        //}
     });
 
 
