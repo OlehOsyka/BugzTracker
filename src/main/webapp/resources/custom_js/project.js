@@ -1,19 +1,3 @@
-//function format(d) {
-//    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-//        '<tr>' +
-//        '<td>Name:</td>' +
-//        '<td>' + d.name + '</td>' +
-//        '</tr>' +
-//        '<tr>' +
-//        '<td>Date:</td>' +
-//        '<td>' + d.date + '</td>' +
-//        '</tr>' +
-//        '<tr>' +
-//        '<td>Description:</td>' +
-//        '<td>' + d.description + '</td>' +
-//        '</tr>' +
-//        '</table>';
-//}
 var dt;
 var projectId;
 var isMyProject;
@@ -26,81 +10,126 @@ preLoad();
 
 function preLoad() {
     projectId = Cookies.get('checkedId');
-    Cookies.remove('checkedId');
+    //Cookies.remove('checkedId');
     $.ajax({
         type: "GET",
         url: "/check/" + projectId,
         success: function (data) {
-            isMyProject = data;
-            if (!isMyProject) {
-                $('#btn-my-issues').addClass('show-none');
-            }
-            dt = $('#issuesTable').DataTable({
-                ajax: {
-                    contentType: "application/json",
-                    dataType: 'json',
-                    url: "/project/" + projectId + "/issues?my=" + isMyProject,
-                    type: "get",
-                    dataSrc: ''
-                },
-                columns: [
-                    {
-                        "class": "details-control",
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ""
-                    },
-                    {
-                        title: "ID",
-                        data: "id"
-                    },
-                    {
-                        title: "Name",
-                        data: "name"
-                    },
-                    {
-                        title: "Category",
-                        data: "category"
-                    },
-                    {
-                        title: "Priority",
-                        data: "priority"
-                    },
-                    {
-                        title: "Creator",
-                        data: "userCreator.fullName"
-                    },
-                    {
-                        title: "Status",
-                        data: "status"
-                    },
-                    {
-                        title: "Description",
-                        data: "description",
-                        render: function descriptionFormatter(data) {
-                            if (data == null) {
-                                return "-";
-                            }
-                            if (data.length < 15) {
-                                return data;
-                            }
-                            var desc = data.substring(0, 15);
-                            return desc.concat('...');
-                        }
-                    },
-                    {
-                        title: "Date of creation",
-                        data: "date"
-                    }
-                ],
-                paging: false,
-                scrollY: 360
-            });
+            renderTable(data);
+
         }
     });
 }
 
-$(document).ready(function () {
+function renderTable(data) {
+    isMyProject = data;
+    if (!isMyProject) {
+        $('#btn-my-issues').addClass('show-none');
+    }
+    dt = $('#issuesTable').DataTable({
+        ajax: {
+            contentType: "application/json",
+            dataType: 'json',
+            url: "/project/" + projectId + "/issues?my=" + isMyProject,
+            type: "get",
+            dataSrc: ''
+        },
+        columns: [
+            {
+                "class": "details-control",
+                "orderable": false,
+                "data": null,
+                "defaultContent": ""
+            },
+            {
+                title: "ID",
+                data: "id"
+            },
+            {
+                title: "Name",
+                data: "name"
+            },
+            {
+                title: "Category",
+                data: "category"
+            },
+            {
+                title: "Priority",
+                data: "priority"
+            },
+            {
+                title: "Creator",
+                data: "userCreator.fullName"
+            },
+            {
+                title: "Status",
+                data: "status"
+            },
+            {
+                title: "Description",
+                data: "description",
+                render: function descriptionFormatter(data) {
+                    if (data == null) {
+                        return "-";
+                    }
+                    if (data.length < 15) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 15);
+                    return desc.concat('...');
+                }
+            },
+            {
+                title: "Date of creation",
+                data: "date"
+            }
+        ],
+        paging: false,
+        scrollY: 360
+    });
+
+}
+
+function format(issue) {
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr>' +
+        '<td>Name:</td>' +
+        '<td>' + issue.name + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Category:</td>' +
+        '<td>' + issue.category + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Priority:</td>' +
+        '<td>' + issue.priority + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Creator:</td>' +
+        '<td>' + issue.userCreator.fullName + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Status:</td>' +
+        '<td>' + issue.status + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Date:</td>' +
+        '<td>' + issue.date + '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>Description:</td>' +
+        '<td>' + issue.description + '</td>' +
+        '</tr>' +
+        '</table>';
+}
+
+$(document).ajaxStop(function () {
 
     $('#btn-my-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=true").load();
