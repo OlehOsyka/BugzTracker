@@ -113,4 +113,9 @@ public class UserService implements IUserService {
         }
         return projectIds;
     }
+
+    @Override
+    public List<User> getUsersByProjectId(int id, String query) {
+        return userRepository.getUsersByProjectId(id, query);
+    }
 }

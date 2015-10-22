@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -23,6 +25,7 @@ public class Issue implements Serializable {
     private int id;
     private String name;
     private Date date;
+    private Date lastUpdate;
     private Priority priority;
     private Status status;
     private String description;
@@ -43,6 +46,8 @@ public class Issue implements Serializable {
     }
 
     @Column(nullable = false)
+    @NotBlank(message = "Name is required! ")
+    @Size(max = 300, message = "Please, shorten the name of issue. Not more than 300 symbols is possible! ")
     public String getName() {
         return name;
     }
@@ -58,6 +63,15 @@ public class Issue implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Column(name = "date_updated")
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     @Enumerated(EnumType.STRING)

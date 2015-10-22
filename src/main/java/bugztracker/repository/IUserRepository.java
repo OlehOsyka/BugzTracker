@@ -10,9 +10,8 @@ import java.util.List;
 public interface IUserRepository extends IRepository<User> {
 
     User find(String email);
-
     List<User> findById(List<Integer> ids);
-
     List<User> findAll(String query);
+    List<User> getUsersByProjectId(int id, String query);
 }
 

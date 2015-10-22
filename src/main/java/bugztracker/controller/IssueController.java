@@ -6,6 +6,7 @@ import bugztracker.entity.User;
 import bugztracker.service.IIssueService;
 import bugztracker.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
@@ -35,6 +36,36 @@ public class IssueController {
         }
         User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
         return issueService.getByProjectAndUser(proj, user);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/issue", method = RequestMethod.POST)
+    public void add(@RequestBody Issue issue, WebRequest request) {
+        //validator
+        User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
+
+        issueService.addIssue(issue, user);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/issue/update", method = RequestMethod.POST)
+    public void update(@RequestBody Issue issue) {
+        //validator
+
+        issueService.update(issue);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/issue/delete/{id}", method = RequestMethod.POST)
+    public void delete(@PathVariable int id) {
+        Issue issue = issueService.get(id);
+        issueService.delete(issue);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
+    public Issue get(@PathVariable int id) {
+      return issueService.get(id);
     }
 
 }

@@ -17,4 +17,5 @@ public interface IUserService extends IService<User> {
     Map<String, String> login(User user, LoginBean loginBean);
     Map<String, String> register(User user);
     List<Integer> getProjectsIdsOfUser(User user);
+    List<User> getUsersByProjectId(int id, String query);
 }

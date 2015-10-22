@@ -6,8 +6,8 @@ import bugztracker.repository.IUserRepository;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +46,22 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     public List<User> findAll(String query) {
         return sessionFactory.getCurrentSession().createCriteria(User.class)
                 .add(Restrictions.ilike("fullName", query, MatchMode.START))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
+    }
+
+    @Override
+    public List<User> getUsersByProjectId(int id, String query) {
+        DetachedCriteria subCriteria = DetachedCriteria.forClass(User.class);
+        subCriteria.createAlias("projects", "pr", JoinType.LEFT_OUTER_JOIN)
+                .add(Restrictions.eq("pr.id", id))
+                .add(Restrictions.ilike("fullName", query, MatchMode.START))
+                .setProjection(Projections.property("id"));
+
+        return (List<User>) sessionFactory.getCurrentSession()
+                .createCriteria(User.class)
+                .setFetchMode("projects", FetchMode.JOIN)
+                .add(Subqueries.propertyIn("id", subCriteria))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
     }

@@ -103,6 +103,10 @@ $(document).ready(function () {
                 }
             },
             {
+                title: "Date of creation",
+                data: "date"
+            },
+            {
                 title: "Description",
                 data: "description",
                 render: function descriptionFormatter(data) {
@@ -115,14 +119,10 @@ $(document).ready(function () {
                     var desc = data.substring(0, 15);
                     return desc.concat('...');
                 }
-            },
-            {
-                title: "Date of creation",
-                data: "date"
             }
         ],
         paging: false,
-        scrollY: 380
+        scrollY: 383
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -316,7 +316,6 @@ $(document).ready(function () {
                 success: function (data) {
                     modal.find('#name').val(data.name);
                     modal.find('#desc').val(data.description);
-                    modal.find('#users-list').empty();
                     $.each(data.participants, function (i, item) {
                         modal.find('#users-list').append(
                             '<span class="label label-info display-user-label" data-id="' + item.id + '">' + item.fullName +
@@ -341,7 +340,7 @@ $(document).ready(function () {
     $('#user').typeahead({
         source: function (query, process) {
             return $.ajax({
-                url: "/users/",
+                url: "/users",
                 data: {query: query},
                 dataType: 'json',
                 success: function (result) {

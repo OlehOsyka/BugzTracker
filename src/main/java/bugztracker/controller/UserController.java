@@ -96,6 +96,13 @@ public class UserController {
         return userService.findAll(query);
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.GET, params = {"projectId", "query"})
+    @ResponseBody
+    public List<User> getUsersByProjectId(@RequestParam int projectId, @RequestParam String query) {
+        List<User> users = userService.getUsersByProjectId(projectId, query);
+        return users;
+    }
+
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody

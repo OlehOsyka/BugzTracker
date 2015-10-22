@@ -31,6 +31,11 @@
         <mvc:interceptor>
             <mvc:mapping path="/*"/>
             <mvc:exclude-mapping path="/resources/"/>
+            <bean class="bugztracker.filter.ContextPathAddInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <mvc:exclude-mapping path="/resources/"/>
             <bean class="bugztracker.filter.AuthorizationInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
