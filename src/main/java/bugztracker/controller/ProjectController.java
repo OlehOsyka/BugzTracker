@@ -4,6 +4,7 @@ import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
 import bugztracker.service.IProjectService;
+import bugztracker.service.IUserService;
 import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,9 @@ public class ProjectController {
     @Autowired
     private IValidator<Project> projectValidator;
 
+    @Autowired
+    private IUserService userService;
+
     @ResponseBody
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params = {"my"})
     public List<Project> getAll(@RequestParam boolean my, WebRequest request) {
@@ -48,22 +52,42 @@ public class ProjectController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
-    public void update(@RequestBody Project project) {
-        projectValidator.validate(project);
-
-        projectService.updateProject(project);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    @RequestMapping(value = "/project", method = RequestMethod.POST)
-    public void add(@RequestBody Project project, WebRequest request) {
+    public void update(@RequestBody Project project, WebRequest request) {
         projectValidator.validate(project);
         User user = (User) request.getAttribute("user", SCOPE_SESSION);
 
+        projectService.updateProject(project);
+
+        List<Integer> prIds = (List<Integer>) request.getAttribute("userProjectIds", WebRequest.SCOPE_SESSION);
+        //to refactor
+        if ((project.getParticipants().contains(user) && !prIds.contains(project.getId()))
+        || (!project.getParticipants().contains(user) && prIds.contains(project.getId()))) {
+            user = userService.find(user.getEmail());
+            List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
+            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+            request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    public void add(@RequestBody Project project, WebRequest request) {
+        projectValidator.validate(project);
+
+        User user = (User) request.getAttribute("user", SCOPE_SESSION);
+
         projectService.addProject(project, user);
+
+        //to refactor
+        List<Integer> prIds = (List<Integer>) request.getAttribute("userProjectIds", WebRequest.SCOPE_SESSION);
+        if ((project.getParticipants().contains(user) && !prIds.contains(project.getId()))
+                || (!project.getParticipants().contains(user) && prIds.contains(project.getId()))) {
+            user = userService.find(user.getEmail());
+            List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
+            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+            request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)

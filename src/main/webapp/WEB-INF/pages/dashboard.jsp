@@ -15,7 +15,7 @@
     <input type="hidden" value="${user.fullName}" id="current-user">
 
     <div class="row white-back">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="table-panel">
                 <div class="btn-group btn-distance" role="group">
                     <button type="button" class="btn btn-default" id="btn-proj">All projects</button>

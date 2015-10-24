@@ -6,7 +6,7 @@
 <t:template>
 
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6 col-md-offset-3">
             <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login" role="alert"></div>
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">

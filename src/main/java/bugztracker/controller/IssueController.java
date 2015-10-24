@@ -34,6 +34,7 @@ public class IssueController {
         if (!my) {
             return issueService.getByProject(proj);
         }
+
         User user = (User) request.getAttribute("user", RequestAttributes.SCOPE_SESSION);
         return issueService.getByProjectAndUser(proj, user);
     }
@@ -52,7 +53,7 @@ public class IssueController {
     public void update(@RequestBody Issue issue) {
         //validator
 
-        issueService.update(issue);
+        issueService.updateIssue(issue);
     }
 
     @ResponseStatus(HttpStatus.OK)

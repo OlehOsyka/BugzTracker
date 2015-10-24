@@ -7,6 +7,7 @@ import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IIssueRepository;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
                 .setFetchMode("project", FetchMode.JOIN)
                 .createAlias("project", "pr")
                 .add(Restrictions.eq("pr.id", project.getId()))
+                .addOrder(Order.asc("priority"))
                 .list();
     }
 
@@ -47,6 +49,7 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
                 .createAlias("assignee", "as")
                 .add(Restrictions.eq("pr.id", project.getId()))
                 .add(Restrictions.eq("as.id", user.getId()))
+                .addOrder(Order.asc("priority"))
                 .list();
     }
 }

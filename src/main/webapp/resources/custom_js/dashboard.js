@@ -122,7 +122,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 383
+        scrollY: 370
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -151,6 +151,7 @@ $(document).ready(function () {
     $('#btn-my-proj').click(function () {
         dt.ajax.url('/projects?my=true').load();
         $('#btn-my-proj').addClass('active');
+        isChecked = false;
         $('#btn-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
@@ -158,6 +159,7 @@ $(document).ready(function () {
     $('#btn-proj').click(function () {
         dt.ajax.url('/projects?my=false').load();
         $('#btn-proj').addClass('active');
+        isChecked = false;
         $('#btn-my-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
@@ -208,15 +210,17 @@ $(document).ready(function () {
 
 
     $('#example').find('tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            isChecked = false;
-        }
-        else {
-            dt.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            isChecked = true;
-            checkedId = $(this).closest('tr').context.children[1].innerText;
+        if(this.children[0].className != 'dataTables_empty') {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                isChecked = false;
+            }
+            else {
+                dt.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                isChecked = true;
+                checkedId = $(this).closest('tr').context.children[1].innerText;
+            }
         }
     });
 

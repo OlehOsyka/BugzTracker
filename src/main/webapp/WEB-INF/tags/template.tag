@@ -11,7 +11,6 @@
 </head>
 <body>
 <div class="container">
-    <div class="background"></div>
     <jsp:doBody/>
 </div>
 <div class="footer">

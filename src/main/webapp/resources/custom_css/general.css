@@ -37,6 +37,10 @@
 .label {
     line-height: 2;
 }
+
+.color-red {
+    background-color: red;
+}
 /*.background{*/
     /*background: #5ae6d9;*/
     /*background-image: url("../images/ZenBG-1.png"), url("../images/ZenBG-2.png");*/

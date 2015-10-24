@@ -92,6 +92,6 @@ public class IssueService implements IIssueService {
         existedIssue.setDescription(issue.getDescription());
         existedIssue.setVersion(issue.getVersion());
 
-        issueRepository.update(issue);
+        issueRepository.update(existedIssue);
     }
 }

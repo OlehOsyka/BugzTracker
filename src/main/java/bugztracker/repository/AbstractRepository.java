@@ -38,7 +38,9 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
 
     @Override
     public void delete(T entity) {
-        sessionFactory.getCurrentSession().delete(entity);
+        //hack
+        Object newObj = sessionFactory.getCurrentSession().merge(entity);
+        sessionFactory.getCurrentSession().delete(newObj);
     }
 
     @Override

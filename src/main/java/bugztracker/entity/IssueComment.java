@@ -1,5 +1,6 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "issue_comment")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class IssueComment implements Serializable {
 
     private int id;
@@ -49,7 +51,9 @@ public class IssueComment implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "issue_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "issue_id",
+            referencedColumnName = "id",
+            nullable = false)
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }

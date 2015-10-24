@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:template>
+    <link href="<c:url value="/resources/custom_css/general.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/custom_css/dashboard.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/bootstrap-editable.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/dataTables.foundation.min.css"/>" rel="stylesheet"/>
@@ -12,7 +13,7 @@
     <t:header/>
 
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="table-panel">
                 <div class="btn-group btn-distance-pr" role="group">
                     <button type="button" class="btn btn-default" id="btn-issues">All issues</button>

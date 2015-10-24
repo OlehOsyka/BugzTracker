@@ -60,7 +60,6 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
 
         return (List<User>) sessionFactory.getCurrentSession()
                 .createCriteria(User.class)
-                .setFetchMode("projects", FetchMode.JOIN)
                 .add(Subqueries.propertyIn("id", subCriteria))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();

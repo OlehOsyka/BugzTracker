@@ -6,17 +6,14 @@ var isChecked;
 var lastBtn = "btn-my-issues";
 var tempUserTypeaheadList = [];
 
-preLoad();
+var preLoaded = preLoad();
 
 function preLoad() {
     projectId = Cookies.get('checkedId');
     //Cookies.remove('checkedId');
-    $.ajax({
+    return $.ajax({
         type: "GET",
-        url: "/check/" + projectId,
-        success: function (data) {
-            renderTable(data);
-        }
+        url: "/check/" + projectId
     });
 }
 
@@ -51,11 +48,16 @@ function renderTable(data) {
             },
             {
                 title: "Priority",
-                data: "priority"
+                data: "priority",
+                class: "color-red"
             },
             {
                 title: "Creator",
                 data: "userCreator.fullName"
+            },
+            {
+                title: "Assignee",
+                data: "assignee.fullName"
             },
             {
                 title: "Status",
@@ -74,29 +76,17 @@ function renderTable(data) {
                     }
                     return data;
                 }
-            },
-            {
-                title: "Description",
-                data: "description",
-                render: function descriptionFormatter(data) {
-                    if (data == null) {
-                        return "-";
-                    }
-                    if (data.length < 15) {
-                        return data;
-                    }
-                    var desc = data.substring(0, 15);
-                    return desc.concat('...');
-                }
             }
         ],
         paging: false,
-        scrollY: 385
+        scrollY: 355
     });
 
 }
 
-$(document).ajaxStop(function () {
+$.when(preLoaded).done(function (data) {
+
+    renderTable(data);
 
     $('#btn-edit').click(function () {
         $('#modalEdit').modal('show');
@@ -135,7 +125,12 @@ $(document).ajaxStop(function () {
         var status = $('#status').val();
         var priority = $('#priority').val();
         var category = $('#category').val();
-        var assignee = $('#assignee-field').children('span').data('id');
+        var assignee = {
+            id: $('#assignee-field').children('span').data('id')
+        };
+        var project = {
+            id: projectId
+        };
         //if (validate(name)) {
         var issue;
         var url;
@@ -145,8 +140,9 @@ $(document).ajaxStop(function () {
                 "id": checkedId,
                 "name": name,
                 "description": desc,
-                "project": projectId,
                 "priority": priority,
+                "project": project,
+                "version": version,
                 "category": category,
                 "assignee": assignee
             };
@@ -157,8 +153,8 @@ $(document).ajaxStop(function () {
                 "id": checkedId,
                 "name": name,
                 "description": desc,
-                "project": projectId,
                 "priority": priority,
+                "version": version,
                 "category": category,
                 "status": status,
                 "assignee": assignee
@@ -205,7 +201,7 @@ $(document).ajaxStop(function () {
     $('#btn-delete-yes').click(function () {
         $.ajax({
             type: "POST",
-            url: 'issue/delete/'+checkedId,
+            url: 'issue/delete/' + checkedId,
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -248,7 +244,7 @@ $(document).ajaxStop(function () {
         },
 
         updater: function (name) {
-            if (jQuery.isEmptyObject($('#assignee-field'))) {
+            if ($('#assignee-field').text() == "") {
                 var item = $.grep(tempUserTypeaheadList, function (e) {
                     return e.fullName == name;
                 });
@@ -274,9 +270,7 @@ $(document).ajaxStop(function () {
 
     function cleanModal() {
         $('#name').val('');
-        $('#category').val('');
         $('#form-group-status').addClass('show-none');
-        $('#priority').val('');
         $('#version').val('');
         $('#desc').val('');
         $('#assignee').val('');
@@ -290,29 +284,37 @@ $(document).ajaxStop(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=true").load();
         $('#btn-my-issues').addClass('active');
         $('#btn-issues').removeClass('active');
+        isChecked = false;
         lastBtn = $(this).attr('id');
     });
 
     $('#btn-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=false").load();
         $('#btn-issues').addClass('active');
+        isChecked = false;
         $('#btn-my-issues').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
     $('#issuesTable').find('tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('#btn-delete').addClass('show-none');
-            isChecked = false;
+        if (this.children[0].className != 'dataTables_empty') {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                $('#btn-delete').addClass('show-none');
+                isChecked = false;
+            }
+            else {
+                dt.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                checkedId = $(this).closest('tr').context.children[0].innerText;
+                isChecked = true;
+                $('#btn-delete').removeClass('show-none');
+            }
         }
-        else {
-            dt.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            checkedId = $(this).closest('tr').context.children[0].innerText;
-            isChecked = true;
-            $('#btn-delete').removeClass('show-none');
-        }
+
     });
 
+    $("#assignee-field").on('click', 'button.close', function (e) {
+        $(e.currentTarget.parentElement).remove();
+    });
 });

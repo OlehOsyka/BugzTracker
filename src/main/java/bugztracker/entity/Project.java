@@ -1,5 +1,6 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -17,6 +18,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "project")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Project implements Serializable {
 
     private int id;
@@ -69,8 +71,7 @@ public class Project implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "participant",
             joinColumns = {@JoinColumn(name = "project_id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "user_id",
-                    nullable = false)})
+            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)})
     @Size(min = 1, message = "At least one participant is required! ")
     public Set<User> getParticipants() {
         return participants;
