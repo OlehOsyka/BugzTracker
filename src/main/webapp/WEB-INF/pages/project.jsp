@@ -18,6 +18,7 @@
                 <div class="btn-group btn-distance-pr" role="group">
                     <button type="button" class="btn btn-default" id="btn-issues">All issues</button>
                     <button type="button" class="btn btn-default" id="btn-my-issues">My issues</button>
+                    <h5 class="modal-title" id="project-name"></h5>
                 </div>
 
                 <div class="btn-group" role="group">
@@ -25,7 +26,7 @@
                     <button type="button" class="btn btn-default show-none" id="btn-delete">Delete</button>
                 </div>
 
-                <table id="issuesTable" class="display" cellspacing="0" width="100%"></table>
+                <table id="issuesTable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
             </div>
         </div>
     </div>
@@ -39,9 +40,11 @@
                     <h4 class="modal-title></title>" id="modal-name"></h4>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger non-visible alert-danger-position" id="invalid-issue-edit"
-                         role="alert"></div>
                     <fieldset>
+                        <div class="form-group col-md-12">
+                            <div class="alert alert-danger non-visible text-center" id="invalid-issue-edit"
+                                 role="alert"></div>
+                        </div>
                         <div class="form-group col-md-12" id="form-group-name">
                             <label class="control-label" for="name">Name:</label>
                             <input class="form-control" placeholder="Name" id="name" type="text">
@@ -76,11 +79,12 @@
                         <div class="form-group col-md-8" id="form-group-assignee">
                             <label class="control-label" for="assignee">Assignee:</label>
                             <input class="form-control" placeholder="Assignee" type="text" id="assignee">
+
                             <div id="assignee-field" class="padding-top"></div>
                         </div>
                         <div class="form-group col-md-4" id="form-group-version">
                             <label class="control-label" for="version">Version:</label>
-                            <input class="form-control" placeholder="Version" type="text" id="version">
+                            <input class="form-control" placeholder="Version" type="number" id="version">
                         </div>
                         <div class="form-group col-md-12" id="form-group-desc">
                             <label class="control-label" for="desc">Description:</label>
@@ -105,11 +109,12 @@
                     <h4 class="modal-title">Delete</h4>
                 </div>
                 <div class="modal-body">
-                   <p>Are you sure you want to delete selected issue?</p>
+                    <p>Are you sure you want to delete selected issue?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" id="btn-delete-yes">Yes</button>
-                    <button type="button" class="btn btn-default" id="btn-cancel-sel" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" id="btn-cancel-sel" data-dismiss="modal">Cancel
+                    </button>
                 </div>
             </div>
         </div>

@@ -122,7 +122,7 @@ public class Issue implements Serializable {
         this.version = version;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id_cr",
             referencedColumnName = "id",
             nullable = false)
@@ -134,7 +134,7 @@ public class Issue implements Serializable {
         this.userCreator = userCreator;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id_as",
             referencedColumnName = "id",
             nullable = false)
@@ -146,7 +146,7 @@ public class Issue implements Serializable {
         this.assignee = assignee;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "project_id",
             referencedColumnName = "id",
             nullable = false)

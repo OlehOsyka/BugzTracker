@@ -41,6 +41,10 @@
 .color-red {
     background-color: red;
 }
+
+.text-center {
+    text-align: center;
+}
 /*.background{*/
     /*background: #5ae6d9;*/
     /*background-image: url("../images/ZenBG-1.png"), url("../images/ZenBG-2.png");*/

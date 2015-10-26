@@ -68,7 +68,7 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "participant",
             joinColumns = {@JoinColumn(name = "project_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)})
@@ -90,7 +90,7 @@ public class Project implements Serializable {
         this.issues = issues;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_owner_id",
             referencedColumnName = "id",
             nullable = false)

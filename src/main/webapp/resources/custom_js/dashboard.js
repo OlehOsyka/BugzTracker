@@ -64,21 +64,37 @@ $(document).ready(function () {
         columns: [
             {
                 "class": "details-control",
-                "orderable": false,
                 "data": null,
                 "defaultContent": ""
             },
             {
                 title: "ID",
-                data: "id"
+                data: "id",
+                class: 'text-center'
             },
             {
                 title: "Name",
-                data: "name"
+                data: "name",
+                render: function nameFormatter(data) {
+                    if (data.length < 15) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 15);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
             },
             {
                 title: "Owner",
-                data: "userOwner.fullName"
+                data: "userOwner.fullName",
+                render: function ownerFormatter(data) {
+                    if (data.length < 15) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 15);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
             },
             {
                 title: "Participants",
@@ -100,11 +116,13 @@ $(document).ready(function () {
                     }
                     var desc = participantsStr.substring(0, 15);
                     return desc.concat('...');
-                }
+                },
+                class: 'text-center'
             },
             {
                 title: "Date of creation",
-                data: "date"
+                data: "date",
+                class: 'text-center'
             },
             {
                 title: "Description",
@@ -118,7 +136,8 @@ $(document).ready(function () {
                     }
                     var desc = data.substring(0, 15);
                     return desc.concat('...');
-                }
+                },
+                class: 'text-center'
             }
         ],
         paging: false,

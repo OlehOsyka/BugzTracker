@@ -24,7 +24,7 @@
 
                 <button type="button" class="btn btn-default" id="btn-edit">Edit</button>
 
-                <table id="example" class="display" cellspacing="0" width="100%"></table>
+                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
             </div>
         </div>
     </div>

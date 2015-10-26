@@ -36,36 +36,64 @@ function renderTable(data) {
         columns: [
             {
                 title: "ID",
-                data: "id"
+                data: "id",
+                class: 'text-center'
             },
             {
                 title: "Name",
-                data: "name"
+                data: "name",
+                render: function nameFormatter(data) {
+                    if (data.length < 10) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 10);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
             },
             {
                 title: "Category",
-                data: "category"
+                data: "category",
+                class: 'text-center'
             },
             {
                 title: "Priority",
                 data: "priority",
-                class: "color-red"
-            },
-            {
-                title: "Creator",
-                data: "userCreator.fullName"
-            },
-            {
-                title: "Assignee",
-                data: "assignee.fullName"
+                class: 'text-center'
             },
             {
                 title: "Status",
-                data: "status"
+                data: "status",
+                class: 'text-center'
+            },
+            {
+                title: "Creator",
+                data: "userCreator.fullName",
+                render: function creatorFormatter(data) {
+                    if (data.length < 10) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 10);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
+            },
+            {
+                title: "Assignee",
+                data: "assignee.fullName",
+                render: function assigneeFormatter(data) {
+                    if (data.length < 10) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 10);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
             },
             {
                 title: "Date of creation",
-                data: "date"
+                data: "date",
+                class: 'text-center'
             },
             {
                 title: "Last update",
@@ -75,11 +103,12 @@ function renderTable(data) {
                         return "-";
                     }
                     return data;
-                }
+                },
+                class: 'text-center'
             }
         ],
         paging: false,
-        scrollY: 355
+        scrollY: 350
     });
 
 }
@@ -118,6 +147,24 @@ $.when(preLoaded).done(function (data) {
         }
     });
 
+    //to do
+    function validate(name, version, assignee) {
+        var error = "";
+        error += Validation.validProjectName(name);
+        error += Validation.validAssignee(assignee);
+        error += Validation.validVersion(version);
+        error += Validation.validDescription();
+        error += Validation.validStatusPriorityCategory();
+        if (error) {
+            $('#invalid-issue-edit').removeClass('non-visible');
+            $('#invalid-issue-edit').text(error);
+            return false;
+        } else {
+            $('#invalid-issue-edit').addClass('non-visible');
+            return true;
+        }
+    }
+
     $('#btn-save').click(function () {
         var name = $.trim($('#name').val());
         var desc = $.trim($('#desc').val());
@@ -131,67 +178,56 @@ $.when(preLoaded).done(function (data) {
         var project = {
             id: projectId
         };
-        //if (validate(name)) {
-        var issue;
-        var url;
-        if ($('#modalEdit').find('#modal-name').text() == 'Add') {
-            url = '/issue';
-            issue = {
-                "id": checkedId,
-                "name": name,
-                "description": desc,
-                "priority": priority,
-                "project": project,
-                "version": version,
-                "category": category,
-                "assignee": assignee
-            };
-        }
-        else {
-            url = '/issue/update';
-            issue = {
-                "id": checkedId,
-                "name": name,
-                "description": desc,
-                "priority": priority,
-                "version": version,
-                "category": category,
-                "status": status,
-                "assignee": assignee
-            };
-        }
-        $.ajax({
-            type: "POST",
-            url: url,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(issue),
-            success: function () {
-                cleanModal();
-                $('#modalEdit').modal('hide');
-                $('#' + lastBtn).click();
-            },
-            error: function (data) {
-                var error = data.responseJSON;
-                var errorText = error.error;
-                //if (errorText.indexOf("Name") >= 0 || errorText.indexOf("Not more") >= 0) {
-                //    $('#form-group-name').removeClass('has-success');
-                //    $('#form-group-name').addClass("has-error");
-                //}
-                //if (errorText.indexOf("At least") >= 0) {
-                //    $('#form-group-users').removeClass('has-success');
-                //    $('#form-group-users').addClass('has-error');
-                //}
-                //$('#form-group-desc').removeClass('has-error');
-                //$('#form-group-desc').addClass('has-success');
-
-                $('#invalid-issue-edit').removeClass('non-visible');
-                $('#invalid-issue-edit').text(errorText);
+        if (validate(name, version, assignee)) {
+            var issue;
+            var url;
+            if ($('#modalEdit').find('#modal-name').text() == 'Add') {
+                url = '/issue';
+                issue = {
+                    "id": checkedId,
+                    "name": name,
+                    "description": desc,
+                    "priority": priority,
+                    "project": project,
+                    "version": version,
+                    "category": category,
+                    "assignee": assignee
+                };
             }
-        });
-        //}
+            else {
+                url = '/issue/update';
+                issue = {
+                    "id": checkedId,
+                    "name": name,
+                    "description": desc,
+                    "priority": priority,
+                    "version": version,
+                    "category": category,
+                    "status": status,
+                    "assignee": assignee
+                };
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify(issue),
+                success: function () {
+                    cleanModal();
+                    $('#modalEdit').modal('hide');
+                    $('#' + lastBtn).click();
+                },
+                error: function (data) {
+                    var error = data.responseJSON;
+                    var errorText = error.error;
+                    $('#invalid-issue-edit').removeClass('non-visible');
+                    $('#invalid-issue-edit').text(errorText);
+                }
+            });
+        }
     });
 
     $('#btn-delete').click(function () {

@@ -81,7 +81,7 @@ Validation.validProjectName = function (name) {
         if(name > 300) {
             $('#form-group-name').removeClass('has-success');
             $('#form-group-name').addClass('has-error');
-            error += "Please, shorten the name of project. Not more than 300 symbols is possible! ";
+            error += "Please, shorten the name. Not more than 300 symbols is possible! ";
         }
         $('#form-group-name').removeClass('has-error');
         $('#form-group-name').addClass('has-success');
@@ -108,6 +108,40 @@ Validation.validDescription = function () {
     return "";
 };
 
+Validation.validStatusPriorityCategory = function () {
+    $('#form-group-status, #form-group-priority, #form-group-category').removeClass('has-error');
+    $('#form-group-status, #form-group-priority, #form-group-category').addClass('has-success');
+    return "";
+};
+
+Validation.validVersion = function (version) {
+    var error = "";
+    if (!$.isNumeric(version) || parseFloat(version) < 1 || parseFloat(version) > 10) {
+        $('#form-group-version').removeClass('has-success');
+        $('#form-group-version').addClass('has-error');
+        error += "Version must be a float number from 1 to 10! ";
+    } else {
+        //hack
+        var ver = parseFloat(version);
+        $('#version').val(ver.toFixed(1));
+        $('#form-group-version').removeClass('has-error');
+        $('#form-group-version').addClass('has-success');
+    }
+    return error;
+};
+
+Validation.validAssignee = function(assignee) {
+    var error = "";
+    if($('#assignee-field').text() == "") {
+        $('#form-group-assignee').removeClass('has-success');
+        $('#form-group-assignee').addClass('has-error');
+        error += "One assignee must be chosen! ";
+    } else {
+        $('#form-group-assignee').removeClass('has-error');
+        $('#form-group-assignee').addClass('has-success');
+    }
+    return error;
+};
 
 
 
