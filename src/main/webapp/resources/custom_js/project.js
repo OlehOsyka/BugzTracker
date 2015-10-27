@@ -43,10 +43,10 @@ function renderTable(data) {
                 title: "Name",
                 data: "name",
                 render: function nameFormatter(data) {
-                    if (data.length < 10) {
+                    if (data.length < 7) {
                         return data;
                     }
-                    var desc = data.substring(0, 10);
+                    var desc = data.substring(0, 7);
                     return desc.concat('...');
                 },
                 class: 'text-center'
@@ -59,7 +59,20 @@ function renderTable(data) {
             {
                 title: "Priority",
                 data: "priority",
-                class: 'text-center'
+                class: 'text-center',
+                render: function priorityFormatter(data) {
+                    if (data == 'CRITICAL') {
+                        return '<div class="color-red">'+data+'</div>';
+                    } else if(data == 'BLOCKER') {
+                        return '<div class="color-orange">'+data+'</div>';
+                    } else if(data == 'MAJOR') {
+                        return '<div class="color-yellow">'+data+'</div>';
+                    } else if(data == 'TRIVIAL') {
+                        return '<div class="color-cream">'+data+'</div>';
+                    } else {
+                        return '<div class="color-grey">'+data+'</div>';
+                    }
+                }
             },
             {
                 title: "Status",
@@ -88,11 +101,6 @@ function renderTable(data) {
                     var desc = data.substring(0, 10);
                     return desc.concat('...');
                 },
-                class: 'text-center'
-            },
-            {
-                title: "Date of creation",
-                data: "date",
                 class: 'text-center'
             },
             {
