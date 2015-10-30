@@ -25,6 +25,11 @@ tr.details td.details-control {
     margin-right: 47%;
 }
 
+.btn-distance-project {
+    margin-right: 39%;
+    display: inline;
+}
+
 
 .non-visible {
     display: none;

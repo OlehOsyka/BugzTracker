@@ -141,7 +141,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 370
+        scrollY: 375
     });
 
     $('#btn-cancel, #btn-close').click(function () {

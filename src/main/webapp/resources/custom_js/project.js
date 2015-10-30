@@ -116,14 +116,25 @@ function renderTable(data) {
             }
         ],
         paging: false,
-        scrollY: 350
+        scrollY: 375
     });
 
+}
+
+function loadProjectName() {
+    $.ajax({
+        url: "/project/" + projectId,
+        success: function (data) {
+            $('#project-name').text(data.name);
+        }
+    });
 }
 
 $.when(preLoaded).done(function (data) {
 
     renderTable(data);
+
+    loadProjectName();
 
     $('#btn-edit').click(function () {
         $('#modalEdit').modal('show');

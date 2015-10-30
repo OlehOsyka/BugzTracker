@@ -58,6 +58,15 @@
     background-color: #e3e3e3;
 }
 
+.btn-pro {
+    display: inline;
+    margin-right: 1%;
+}
+
+.inline {
+    display: inline;
+}
+
 .text-center {
     text-align: center;
 }

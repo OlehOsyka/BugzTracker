@@ -15,14 +15,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="table-panel">
-                <div class="btn-group btn-distance-pr" role="group">
+                <div class="btn-group btn-pro" role="group">
                     <button type="button" class="btn btn-default" id="btn-issues">All issues</button>
                     <button type="button" class="btn btn-default" id="btn-my-issues">My issues</button>
-                    <h5 class="modal-title" id="project-name"></h5>
                 </div>
-
+                <h4 class="modal-title  btn-distance-project" id="project-name"></h4>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" id="btn-edit">Edit</button>
+                    <button type="button" class="btn btn-default inline" id="btn-edit">Edit</button>
                     <button type="button" class="btn btn-default show-none" id="btn-delete">Delete</button>
                 </div>
 
