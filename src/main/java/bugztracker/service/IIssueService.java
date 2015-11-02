@@ -1,7 +1,6 @@
 package bugztracker.service;
 
 import bugztracker.entity.Issue;
-import bugztracker.entity.IssueAttachment;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 
@@ -18,7 +17,4 @@ public interface IIssueService extends IService<Issue> {
     List<Issue> getByProjectAndUser(Project project, User user);
     void addIssue(Issue issue, User user);
     void updateIssue(Issue issue);
-    List<IssueAttachment> getAttachments(int issueId);
-    IssueAttachment getAttachment(int issueId, String fileName);
-    Issue getFull(int issueId);
 }

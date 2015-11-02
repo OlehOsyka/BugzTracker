@@ -3,7 +3,7 @@ package bugztracker.service.impl;
 import bugztracker.entity.Issue;
 import bugztracker.entity.IssueAttachment;
 import bugztracker.service.IFileService;
-import bugztracker.service.IIssueService;
+import bugztracker.service.IIssueAttachmentService;
 import bugztracker.util.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +33,10 @@ public class FileService implements IFileService {
     @Autowired
     private UriBuilder uriBuilder;
     @Autowired
-    private IIssueService issueService;
+    private IIssueAttachmentService attachmentService;
 
     @Override
     public void save(List<MultipartFile> files, int issueId) {
-        List<IssueAttachment> attachments = new ArrayList<>();
         for (MultipartFile multipart : files) {
             // save
             try {
@@ -50,31 +49,31 @@ public class FileService implements IFileService {
                 }
                 multipart.transferTo(file);
 
+                // update DB
+                Issue issue = new Issue();
+                issue.setId(issueId);
                 IssueAttachment attachment = new IssueAttachment();
                 attachment.setId((int) UUID.randomUUID().getMostSignificantBits());
                 attachment.setAttachmentPath(newName);
+                attachment.setIssueByIssueId(issue);
 
-                attachments.add(attachment);
+                attachmentService.addAttachment(attachment);
             } catch (IOException e) {
                 logger.info(format("Can't save file %s for issue %s!", multipart.getOriginalFilename(), issueId), e);
                 // TODO Should throw?
             }
         }
-        // update DB
-        Issue issue = issueService.getFull(issueId);
-        issue.getAttachments().addAll(attachments);
-        issueService.update(issue);
     }
 
     @Override
     public List<String> listAttachments(int issueId) {
-        return extractNames(issueService.getAttachments(issueId));
+        return extractNames(attachmentService.getAttachments(issueId));
     }
 
     @Override
     public List<File> getAttachments(int issueId) {
         List<File> files = new ArrayList<>();
-        List<String> paths = extractNames(issueService.getAttachments(issueId));
+        List<String> paths = extractNames(attachmentService.getAttachments(issueId));
         for (String path : paths) {
             files.add(new File(path));
         }
@@ -83,7 +82,7 @@ public class FileService implements IFileService {
 
     @Override
     public File get(int issueId, String fileName) {
-        IssueAttachment attachment = issueService.getAttachment(issueId, fileName);
+        IssueAttachment attachment = attachmentService.getAttachment(issueId, fileName);
         return new File(attachment.getAttachmentPath());
     }
 
