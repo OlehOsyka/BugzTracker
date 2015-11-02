@@ -96,4 +96,9 @@ public class IssueService implements IIssueService {
 
         issueRepository.update(existedIssue);
     }
+
+    @Override
+    public Issue getFull(int id) {
+        return issueRepository.getFull(id);
+    }
 }

@@ -1,5 +1,6 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -34,6 +35,7 @@ public class IssueAttachment implements Serializable  {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "issue_id",
             referencedColumnName = "id",
             nullable = false)

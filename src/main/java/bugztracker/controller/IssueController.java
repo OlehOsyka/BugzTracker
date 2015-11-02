@@ -68,9 +68,7 @@ public class IssueController {
     @ResponseBody
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public Issue get(@PathVariable int id) {
-        return issueService.get(id);
+        return issueService.getFull(id);
     }
-
-
 
 }

@@ -60,8 +60,8 @@
                             <label class="control-label" for="desc">Description:</label>
                             <span id="desc"/>
                         </div>
-                        <div class="form-group col-md-3" id="form-group-upload">
-                            <label class="control-label">Attachments:</label>
+                        <div class="form-group col-md-4" id="form-group-upload">
+                            <label class="control-label">New attachments:</label>
                             <div id="fileTable" class="btn-group">
                                 <div id="upload-0" class="input-group">
                                         <span class="btn btn-sm btn-file">
@@ -74,6 +74,10 @@
                             <br/>
                             <button id="addFile" type="button" class="btn btn-sm">Add file</button>
                             <button id="uploadFile" type="button" class="btn btn-sm">Upload</button>
+                        </div>
+                        <div class="form-group col-md-4" id="form-group-uploaded">
+                            <label class="control-label" for="desc">Attached files:</label>
+                            <div id="files" class="btn-group"/>
                         </div>
                     </fieldset>
 

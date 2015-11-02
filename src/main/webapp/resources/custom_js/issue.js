@@ -29,7 +29,9 @@ function renderPage(issue) {
     // if key exists -> show file list
     if (issue.hasOwnProperty('attachments') && !$.isEmptyObject(issue.attachments)) {
         $.each(issue.attachments, function (index, value) {
-            $('div#files').append('<a href="' + value.attachmentPath + '">' + value.attachmentPath + '</a>');
+            var href = (/\/resources\/.+/gi).exec(value.attachmentPath)[0];
+            var name = (/\/files\/\d\/(.+)/gi).exec(value.attachmentPath)[1];
+            $('div#files').append('<a href="' + href + '" target="_blank">' + name + '</a><br/>');
         });
     }
     $('div#comments').text(issue.comments);
@@ -89,7 +91,11 @@ $.when(preLoaded).done(function (data) {
             cache: false,
             contentType: false,
             processData: false,
-            data: formData
+            data: formData,
+            success: function () {
+                // refresh page
+                preLoad();
+            }
         });
     });
 });

@@ -15,4 +15,5 @@ public interface IIssueRepository extends IRepository<Issue> {
 
     List<Issue> getByProject(Project project);
     List<Issue> getByProjectAndUser(Project project, User user);
+    Issue getFull(int id);
 }

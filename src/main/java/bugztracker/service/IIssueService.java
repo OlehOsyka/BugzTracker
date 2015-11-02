@@ -17,4 +17,5 @@ public interface IIssueService extends IService<Issue> {
     List<Issue> getByProjectAndUser(Project project, User user);
     void addIssue(Issue issue, User user);
     void updateIssue(Issue issue);
+    Issue getFull(int id);
 }
