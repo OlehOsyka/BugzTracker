@@ -63,9 +63,10 @@ $(document).ready(function () {
         },
         columns: [
             {
-                "class": "details-control",
-                "data": null,
-                "defaultContent": ""
+                class: "details-control",
+                data: null,
+                defaultContent: "",
+                orderable: false
             },
             {
                 title: "ID",
@@ -127,6 +128,7 @@ $(document).ready(function () {
             {
                 title: "Description",
                 data: "description",
+                orderable: false,
                 render: function descriptionFormatter(data) {
                     if (data == null || jQuery.isEmptyObject(data)) {
                         return "-";
@@ -217,19 +219,12 @@ $(document).ready(function () {
             window.location.href = '/project';
             return false;
         }
-        //if (e.button == 2 && $(e.target).is('span')) {
-        //    var userName = $('#current-user').val();
-        //    if (e.target.innerText != userName) {
-        //        $(e.target).remove();
-        //    }
-        //    return false;
-        //}
         return true;
     });
 
 
     $('#example').find('tbody').on('click', 'tr', function () {
-        if(this.children[0].className != 'dataTables_empty') {
+        if (this.children[0].className != 'dataTables_empty') {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
                 isChecked = false;
@@ -280,17 +275,6 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    //if (errorText.indexOf("Name") >= 0 || errorText.indexOf("Not more") >= 0) {
-                    //    $('#form-group-name').removeClass('has-success');
-                    //    $('#form-group-name').addClass("has-error");
-                    //}
-                    //if (errorText.indexOf("At least") >= 0) {
-                    //    $('#form-group-users').removeClass('has-success');
-                    //    $('#form-group-users').addClass('has-error');
-                    //}
-                    //$('#form-group-desc').removeClass('has-error');
-                    //$('#form-group-desc').addClass('has-success');
-
                     $('#invalid-project-edit').removeClass('non-visible');
                     $('#invalid-project-edit').text(errorText);
                 }
@@ -319,9 +303,9 @@ $(document).ready(function () {
         //} else {
         //    var userName = $('#current-user').val();
         //    var text = e.currentTarget.parentElement.innerText;
-            //if (text.substring(0, text.length - 1) != userName) {
-                $(e.currentTarget.parentElement).remove();
-         //   }
+        //if (text.substring(0, text.length - 1) != userName) {
+        $(e.currentTarget.parentElement).remove();
+        //   }
         //}
     });
 

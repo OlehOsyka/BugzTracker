@@ -30,4 +30,7 @@ public class PageController {
         return "project";
     }
 
+    @RequestMapping(value = "/issue", method = RequestMethod.GET)
+    public String getIssueDetailPage(){return "issue";}
+
 }

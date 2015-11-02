@@ -5,7 +5,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Created by Y. Vovk
+ * Date: 02.10.15
+ * Time: 13:05
  */
 public class LoginBean implements Serializable {
 

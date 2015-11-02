@@ -15,7 +15,9 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.List;
 
 /**
- * Created by Y. Vovk on 16.10.15.
+ * Created by Y. Vovk
+ * Date: 16.10.15
+ * Time: 13:06
  */
 @Controller
 @SessionAttributes("user")
@@ -66,7 +68,9 @@ public class IssueController {
     @ResponseBody
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public Issue get(@PathVariable int id) {
-      return issueService.get(id);
+        return issueService.get(id);
     }
+
+
 
 }

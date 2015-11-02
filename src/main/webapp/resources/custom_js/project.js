@@ -372,4 +372,14 @@ $.when(preLoaded).done(function (data) {
     $("#assignee-field").on('click', 'button.close', function (e) {
         $(e.currentTarget.parentElement).remove();
     });
+
+    $(document).mousedown(function (e) {
+        if (e.button == 2 && $(e.target).is('td')) {
+            checkedId = e.target.parentElement.cells[0].innerText;
+            Cookies.set('checkedId', checkedId);
+            window.location.href = '/issue';
+            return false;
+        }
+        return true;
+    });
 });

@@ -1,6 +1,7 @@
 package bugztracker.repository.impl;
 
 import bugztracker.entity.Issue;
+import bugztracker.entity.IssueAttachment;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
@@ -51,5 +52,31 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
                 .add(Restrictions.eq("as.id", user.getId()))
                 .addOrder(Order.asc("priority"))
                 .list();
+    }
+
+    @Override
+    public List<IssueAttachment> getAttachments(int issueId) {
+        return sessionFactory.getCurrentSession().createCriteria(IssueAttachment.class)
+                .add(Restrictions.eq("issue_id", issueId))
+                .list();
+    }
+
+    @Override
+    public IssueAttachment getAttachment(int issueId, String fileName) {
+        return (IssueAttachment) sessionFactory.getCurrentSession().createCriteria(IssueAttachment.class)
+                .add(Restrictions.eq("issue_id", issueId))
+                .add(Restrictions.eq("attachment_path", fileName))
+                .uniqueResult();
+    }
+
+    @Override
+    public Issue getFull(int issueId) {
+        return (Issue) sessionFactory.getCurrentSession().createCriteria(Issue.class)
+                .setFetchMode("assignee", FetchMode.JOIN)
+                .setFetchMode("userCreator", FetchMode.JOIN)
+                .setFetchMode("project", FetchMode.JOIN)
+                .setFetchMode("attachments", FetchMode.JOIN)
+                .add(Restrictions.eq("id", issueId))
+                .uniqueResult();
     }
 }

@@ -6,9 +6,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Created by Y. Vovk
+ * Date: 02.10.15
+ * Time: 17:47
  */
-public class MD5Encoder {
+public final class MD5Encoder {
+
+    private MD5Encoder() {
+    }
 
     public static String encrypt(String passwordToHash) {
         try {

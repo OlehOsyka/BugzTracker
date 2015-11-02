@@ -1,6 +1,7 @@
 package bugztracker.service.impl;
 
 import bugztracker.entity.Issue;
+import bugztracker.entity.IssueAttachment;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.IIssueRepository;
@@ -17,7 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Y. Vovk on 16.10.15.
+ * Created by Y. Vovk
+ * Date: 16.10.15
+ * Time: 1:10
  */
 @Service
 @Transactional
@@ -93,5 +96,20 @@ public class IssueService implements IIssueService {
         existedIssue.setVersion(issue.getVersion());
 
         issueRepository.update(existedIssue);
+    }
+
+    @Override
+    public List<IssueAttachment> getAttachments(int issueId){
+        return issueRepository.getAttachments(issueId);
+    }
+
+    @Override
+    public IssueAttachment getAttachment(int issueId, String fileName) {
+        return issueRepository.getAttachment(issueId,fileName);
+    }
+
+    @Override
+    public Issue getFull(int issueId) {
+        return issueRepository.getFull(issueId);
     }
 }

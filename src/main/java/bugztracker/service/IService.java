@@ -3,7 +3,9 @@ package bugztracker.service;
 import java.util.List;
 
 /**
- * Created by Y. Vovk on 17.09.15.
+ * Created by Y. Vovk
+ * Date: 17.09.15
+ * Time: 17:41
  */
 public interface IService<T> {
 

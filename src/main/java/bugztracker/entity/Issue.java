@@ -13,9 +13,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Created by Y. Vovk
+ * Date: 02.10.15
+ * Time: 0:01
  */
 @Entity
 @Table(name = "issue")
@@ -34,6 +38,7 @@ public class Issue implements Serializable {
     private User userCreator;
     private User assignee;
     private Project project;
+    private Set<IssueAttachment> attachments = new HashSet<>();
 
     @Id
     @Column(nullable = false)
@@ -156,6 +161,15 @@ public class Issue implements Serializable {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    @OneToMany(mappedBy = "issueByIssueId")
+    public Set<IssueAttachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Set<IssueAttachment> attachments) {
+        this.attachments = attachments;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)

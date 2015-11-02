@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Created by Y. Vovk
+ * Date: 02.10.15
+ * Time: 0:00
  */
 @Entity
 @Table(name = "issue_attachment")
@@ -43,6 +46,7 @@ public class IssueAttachment implements Serializable  {
     }
 
     @Column(name = "attachment_path", nullable = false)
+    @NotBlank(message = "Path is required! ")
     public String getAttachmentPath() {
         return attachmentPath;
     }
