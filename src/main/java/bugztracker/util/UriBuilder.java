@@ -20,6 +20,7 @@ public final class UriBuilder {
 
     @Autowired
     private ServletContext servletContext;
+
     @Value("${repository.path}")
     private String rootPath;
 

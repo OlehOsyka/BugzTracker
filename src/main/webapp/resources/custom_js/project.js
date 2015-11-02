@@ -134,6 +134,10 @@ $.when(preLoaded).done(function (data) {
 
     renderTable(data);
 
+    document.oncontextmenu = function () {
+        return false;
+    };
+
     loadProjectName();
 
     $('#btn-edit').click(function () {
@@ -376,7 +380,7 @@ $.when(preLoaded).done(function (data) {
     $(document).mousedown(function (e) {
         if (e.button == 2 && $(e.target).is('td')) {
             checkedId = e.target.parentElement.cells[0].innerText;
-            Cookies.set('checkedId', checkedId);
+            Cookies.set('checkedIssueId', checkedId);
             window.location.href = '/issue';
             return false;
         }

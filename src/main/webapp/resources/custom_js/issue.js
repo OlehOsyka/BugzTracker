@@ -7,7 +7,7 @@
 var preLoaded = preLoad();
 
 function preLoad() {
-    var issueId = Cookies.get('checkedId');
+    var issueId = Cookies.get('checkedIssueId');
     return $.ajax({
         type: "GET",
         url: "/issue/" + issueId
@@ -30,7 +30,7 @@ function renderPage(issue) {
     if (issue.hasOwnProperty('attachments') && !$.isEmptyObject(issue.attachments)) {
         $.each(issue.attachments, function (index, value) {
             var href = (/\/resources\/.+/gi).exec(value.attachmentPath)[0];
-            var name = (/\/files\/\d\/(.+)/gi).exec(value.attachmentPath)[1];
+            var name = (/\/files\/\d+\/(.+)/gi).exec(value.attachmentPath)[1];
             $('div#files').append('<a href="' + href + '" target="_blank">' + name + '</a><br/>');
         });
     }
@@ -94,7 +94,7 @@ $.when(preLoaded).done(function (data) {
             data: formData,
             success: function () {
                 // refresh page
-                preLoad();
+                preLoaded
             }
         });
     });
