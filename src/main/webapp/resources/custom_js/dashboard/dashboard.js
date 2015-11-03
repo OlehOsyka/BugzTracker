@@ -54,6 +54,7 @@ function dataFormatter(data) {
 $(document).ready(function () {
 
     var dt = $('#example').DataTable({
+        "bInfo" : false,
         ajax: {
             contentType: "application/json",
             dataType: 'json',
@@ -86,6 +87,21 @@ $(document).ready(function () {
                 class: 'text-center'
             },
             {
+                title: "Description",
+                data: "description",
+                render: function descriptionFormatter(data) {
+                    if (data == null || jQuery.isEmptyObject(data)) {
+                        return "-";
+                    }
+                    if (data.length < 15) {
+                        return data;
+                    }
+                    var desc = data.substring(0, 15);
+                    return desc.concat('...');
+                },
+                class: 'text-center'
+            },
+            {
                 title: "Owner",
                 data: "userOwner.fullName",
                 render: function ownerFormatter(data) {
@@ -95,6 +111,11 @@ $(document).ready(function () {
                     var desc = data.substring(0, 15);
                     return desc.concat('...');
                 },
+                class: 'text-center'
+            },
+            {
+                title: "Date of creation",
+                data: "date",
                 class: 'text-center'
             },
             {
@@ -119,31 +140,10 @@ $(document).ready(function () {
                     return desc.concat('...');
                 },
                 class: 'text-center'
-            },
-            {
-                title: "Date of creation",
-                data: "date",
-                class: 'text-center'
-            },
-            {
-                title: "Description",
-                data: "description",
-                orderable: false,
-                render: function descriptionFormatter(data) {
-                    if (data == null || jQuery.isEmptyObject(data)) {
-                        return "-";
-                    }
-                    if (data.length < 15) {
-                        return data;
-                    }
-                    var desc = data.substring(0, 15);
-                    return desc.concat('...');
-                },
-                class: 'text-center'
             }
         ],
         paging: false,
-        scrollY: 375
+        scrollY: 380
     });
 
     $('#btn-cancel, #btn-close').click(function () {
@@ -168,6 +168,7 @@ $(document).ready(function () {
     // Array to track the ids of the details displayed rows
     var detailRows = [];
     var tempUserTypeaheadList;
+    $('#btn-edit').text('Add');
 
     $('#btn-my-proj').click(function () {
         dt.ajax.url('/projects?my=true').load();
@@ -228,11 +229,13 @@ $(document).ready(function () {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
                 isChecked = false;
+                $('#btn-edit').text('Add');
             }
             else {
                 dt.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
                 isChecked = true;
+                $('#btn-edit').text('Edit');
                 checkedId = $(this).closest('tr').context.children[1].innerText;
             }
         }
@@ -392,6 +395,12 @@ $(document).ready(function () {
             }
         }
     });
+
+    // remove all text inside element without deleting child elements
+    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
+    // add placeholder to searchbox
+    $('.dataTables_filter label input').attr('placeholder','Search');
+
 
 });
 

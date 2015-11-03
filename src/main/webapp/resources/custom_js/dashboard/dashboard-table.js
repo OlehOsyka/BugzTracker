@@ -36,6 +36,22 @@ var dt = $('#example').DataTable({
             class: 'text-center'
         },
         {
+            title: "Description",
+            data: "description",
+            orderable: false,
+            render: function descriptionFormatter(data) {
+                if (data == null || jQuery.isEmptyObject(data)) {
+                    return "-";
+                }
+                if (data.length < 15) {
+                    return data;
+                }
+                var desc = data.substring(0, 15);
+                return desc.concat('...');
+            },
+            class: 'text-center'
+        },
+        {
             title: "Owner",
             data: "userOwner.fullName",
             render: function ownerFormatter(data) {
@@ -45,6 +61,11 @@ var dt = $('#example').DataTable({
                 var desc = data.substring(0, 15);
                 return desc.concat('...');
             },
+            class: 'text-center'
+        },
+        {
+            title: "Date of creation",
+            data: "date",
             class: 'text-center'
         },
         {
@@ -66,27 +87,6 @@ var dt = $('#example').DataTable({
                     return participantsStr;
                 }
                 var desc = participantsStr.substring(0, 15);
-                return desc.concat('...');
-            },
-            class: 'text-center'
-        },
-        {
-            title: "Date of creation",
-            data: "date",
-            class: 'text-center'
-        },
-        {
-            title: "Description",
-            data: "description",
-            orderable: false,
-            render: function descriptionFormatter(data) {
-                if (data == null || jQuery.isEmptyObject(data)) {
-                    return "-";
-                }
-                if (data.length < 15) {
-                    return data;
-                }
-                var desc = data.substring(0, 15);
                 return desc.concat('...');
             },
             class: 'text-center'

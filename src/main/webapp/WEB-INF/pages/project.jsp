@@ -30,17 +30,17 @@
             <div class="col-md-12">
                 <div class="table-panel">
                     <div class="btn-group btn-pro" role="group">
-                        <button type="button" class="btn btn-default" id="btn-issues">All issues</button>
-                        <button type="button" class="btn btn-default" id="btn-my-issues">My issues</button>
+                        <button type="button" class="btn btn-primary" id="btn-issues">All issues</button>
+                        <button type="button" class="btn btn-primary" id="btn-my-issues">My issues</button>
                     </div>
                     <h4 class="modal-title  btn-distance-project" id="project-name"></h4>
 
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default inline" id="btn-edit">Edit</button>
-                        <button type="button" class="btn btn-default show-none" id="btn-delete">Delete</button>
+                        <button type="button" class="btn btn-primary inline" id="btn-edit"></button>
+                        <button type="button" class="btn btn-primary show-none" id="btn-delete">Delete</button>
                     </div>
 
-                    <table id="issuesTable" class="table table-striped table-bordered" cellspacing="0"
+                    <table id="issuesTable" class="table table-striped table-bordered" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0"
                            width="100%"></table>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" id="btn-save">Save</button>
+                        <button type="button" class="btn btn-primary" id="btn-save">Save</button>
                         <button type="button" class="btn btn-default" id="btn-cancel" data-dismiss="modal">Cancel
                         </button>
                     </div>
@@ -129,7 +129,7 @@
                         <p>Are you sure you want to delete selected issue?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" id="btn-delete-yes">Yes</button>
+                        <button type="button" class="btn btn-primary" id="btn-delete-yes">Yes</button>
                         <button type="button" class="btn btn-default" id="btn-cancel-sel" data-dismiss="modal">Cancel
                         </button>
                     </div>

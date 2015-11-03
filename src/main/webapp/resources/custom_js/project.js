@@ -26,6 +26,7 @@ function renderTable(data) {
         $('#btn-my-issues').addClass('active');
     }
     dt = $('#issuesTable').DataTable({
+        "bInfo" : false,
         ajax: {
             contentType: "application/json",
             dataType: 'json',
@@ -116,7 +117,7 @@ function renderTable(data) {
             }
         ],
         paging: false,
-        scrollY: 375
+        scrollY: 380
     });
 
 }
@@ -133,6 +134,8 @@ function loadProjectName() {
 $.when(preLoaded).done(function (data) {
 
     renderTable(data);
+
+    $('#btn-edit').text('Add');
 
     document.oncontextmenu = function () {
         return false;
@@ -360,6 +363,7 @@ $.when(preLoaded).done(function (data) {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
                 $('#btn-delete').addClass('show-none');
+                $('#btn-edit').text('Add');
                 isChecked = false;
             }
             else {
@@ -367,6 +371,7 @@ $.when(preLoaded).done(function (data) {
                 $(this).addClass('selected');
                 checkedId = $(this).closest('tr').context.children[0].innerText;
                 isChecked = true;
+                $('#btn-edit').text('Edit');
                 $('#btn-delete').removeClass('show-none');
             }
         }
@@ -386,5 +391,10 @@ $.when(preLoaded).done(function (data) {
         }
         return true;
     });
+
+    // remove all text inside element without deleting child elements
+    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
+    // add placeholder to searchbox
+    $('.dataTables_filter label input').attr('placeholder','Search');
 
 });

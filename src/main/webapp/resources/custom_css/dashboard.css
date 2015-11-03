@@ -13,6 +13,16 @@ tr.details td.details-control {
     background-size: contain;
 }
 
+.table {
+    background-color: green;
+    color: white;
+}
+
+tr td {
+    background-color: #7aba7b;
+    color: white;
+}
+
 .show-none {
     display: none;
 }
@@ -39,3 +49,8 @@ tr.details td.details-control {
     text-align: center;
     width: 95%;
 }
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: 0 !important;
+}
+
