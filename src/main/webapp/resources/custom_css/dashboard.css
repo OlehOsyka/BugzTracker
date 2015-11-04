@@ -18,9 +18,13 @@ tr.details td.details-control {
     color: white;
 }
 
-tr td {
-    background-color: #7aba7b;
+table.dataTable tbody tr {
+    background-color: #7aba7b !important;
     color: white;
+}
+
+table.dataTable tbody tr.selected{
+    background-color: green !important;
 }
 
 .show-none {
