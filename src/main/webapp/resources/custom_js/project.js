@@ -117,7 +117,7 @@ function renderTable(data) {
             }
         ],
         paging: false,
-        scrollY: 380
+        scrollY: 385
     });
 
 }
@@ -128,6 +128,7 @@ function loadProjectName() {
         success: function (data) {
             $('#dropdown-issues').removeClass('non-visible');
             $('#dropdown-projects').addClass('non-visible');
+            $('#list-issues').addClass('non-visible');
             $('#project-name').html(data.name+'<span class="caret"></span>');
         }
     });

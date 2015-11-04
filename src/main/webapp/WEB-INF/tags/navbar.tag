@@ -1,6 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@attribute name="projects" fragment="true" %>
-<%@attribute name="issues" fragment="true" %>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -15,6 +13,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <li class="non-visible" id="list-issues"><a href="<c:url value="/project"/>">Issues</a></li>
                 <li class="dropdown" id="dropdown-projects">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Projects<span class="caret"></span></a>

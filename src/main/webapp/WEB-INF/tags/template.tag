@@ -17,7 +17,7 @@
     <title>Bugz Tracker</title>
 </head>
 <body>
-<div class="container">
+<div class="container margin-top">
     <jsp:doBody/>
 </div>
 <div class="footer">

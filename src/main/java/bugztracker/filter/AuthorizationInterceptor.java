@@ -16,14 +16,15 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
         boolean isLoggedIn = user != null;
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/login")) {
+        String requestURI = request.getRequestURI();
+        if (requestURI.equals("/") || requestURI.equals("/login") || requestURI.equals("/signup")) {
             if (isLoggedIn) {
                 response.sendRedirect("/dashboard");
                 return false;
             }
         } else {
             if (!isLoggedIn) {
-                response.sendRedirect("/");
+                response.sendRedirect(requestURI);
                 return false;
             }
         }

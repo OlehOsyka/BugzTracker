@@ -40,7 +40,7 @@ public class Issue implements Serializable {
     private User assignee;
     private Project project;
     private Set<IssueAttachment> attachments = new HashSet<>();
-//    private Set<IssueComment> comments = new HashSet<>();
+    private Set<IssueComment> comments = new HashSet<>();
 
     @Id
     @Column(nullable = false)
@@ -175,15 +175,15 @@ public class Issue implements Serializable {
         this.attachments = attachments;
     }
 
-//    @OneToMany(mappedBy = "issueByIssueId")
-//    @JsonManagedReference
-//    public Set<IssueComment> getComments() {
-//        return comments;
-//    }
+    @OneToMany(mappedBy = "issueByIssueId")
+    @JsonManagedReference
+    public Set<IssueComment> getComments() {
+        return comments;
+    }
 
-//    public void setComments(Set<IssueComment> comments) {
-//        this.comments = comments;
-//    }
+    public void setComments(Set<IssueComment> comments) {
+        this.comments = comments;
+    }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public enum Priority implements IEnum {

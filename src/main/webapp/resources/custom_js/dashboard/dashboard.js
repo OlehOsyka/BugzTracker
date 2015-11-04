@@ -54,6 +54,7 @@ function dataFormatter(data) {
 $(document).ready(function () {
 
     $('#dropdown-projects').removeClass('non-visible');
+    $('#list-issues').addClass('non-visible');
 
     var dt = $('#example').DataTable({
         "bInfo" : false,
@@ -145,7 +146,7 @@ $(document).ready(function () {
             }
         ],
         paging: false,
-        scrollY: 380
+        scrollY: 385
     });
 
     $('#btn-cancel, #btn-close').click(function () {

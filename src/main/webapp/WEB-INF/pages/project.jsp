@@ -24,8 +24,7 @@
     </jsp:attribute>
 
     <jsp:body>
-        <t:navbar>
-        </t:navbar>
+        <t:navbar/>
 
         <div class="row">
             <div class="col-md-12">

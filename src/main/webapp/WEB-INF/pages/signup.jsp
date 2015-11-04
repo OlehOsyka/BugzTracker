@@ -14,7 +14,7 @@
 
     <jsp:body>
         <div class="row">
-            <div class="col-md-6 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="alert alert-danger non-visible alert-danger-position" id="invalid_signup"
                      role="alert"></div>
                 <div class="login-panel panel panel-default">
@@ -37,7 +37,7 @@
                                     <label class="control-label" for="password">Password:</label>
                                     <input class="form-control" placeholder="Password" id="password" type="password">
                                 </div>
-                                <button type="submit" class="btn btn-lg btn-default btn-block" id="sign_up_btn">Sign up
+                                <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign_up_btn">Sign up
                                 </button>
                             </fieldset>
                         </form>

@@ -59,6 +59,10 @@ $.when(preLoaded).done(function (data) {
     // For creating new upload buttons
     var uploadCounter = 0;
 
+    $('#dropdown-issues').addClass('non-visible');
+    $('#dropdown-projects').addClass('non-visible');
+    $('#list-issues').removeClass('non-visible');
+
     renderPage(data);
 
     initUploadEvents();

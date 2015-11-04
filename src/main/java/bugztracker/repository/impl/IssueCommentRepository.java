@@ -28,6 +28,8 @@ public class IssueCommentRepository extends AbstractRepository<IssueComment> imp
     @Override
     public List<IssueComment> getCommentsOfIssue(Issue issue) {
         return (List<IssueComment>) sessionFactory.getCurrentSession().createCriteria(IssueComment.class)
-                .add(Restrictions.eq("issue_id", issue.getId())).addOrder(Order.asc("date"));
+                .add(Restrictions.eq("issue_id", issue.getId()))
+                .addOrder(Order.asc("date"))
+                .list();
     }
 }

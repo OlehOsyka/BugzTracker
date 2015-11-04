@@ -94,11 +94,11 @@
 }
 
 .color-cream {
-    background-color: #f7e1b5;
+    background-color: #1d9ce5;
 }
 
 .color-grey {
-    background-color: #e3e3e3;
+    background-color: bisque;
 }
 
 .btn-pro {
@@ -123,6 +123,14 @@
 
 .panel-title{
     color: white;
+}
+
+.non-visible {
+    display: none !important;
+}
+
+.margin-top{
+    margin-top: 5%;
 }
 /*.background{*/
     /*background: #5ae6d9;*/
