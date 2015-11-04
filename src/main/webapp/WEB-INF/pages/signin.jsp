@@ -18,7 +18,7 @@
                 <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login" role="alert"></div>
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Please, Sign in or <a href="<c:url value="/signup"/>">Sign up</a></h3>
+                        <h3 class="panel-title">Please, Sign in or <a href="<c:url value="/signup"/>"><cite>Sign up</cite></a></h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">

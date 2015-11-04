@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -29,7 +28,7 @@ public class FileUploadController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/save/{issueId}", method = POST)
     public void save(@RequestParam(value = "files[]") List<MultipartFile> files,
-                     @PathVariable int issueId, HttpServletRequest request) {
+                     @PathVariable int issueId) {
 
         fileService.save(files, issueId);
     }

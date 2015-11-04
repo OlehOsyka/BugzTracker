@@ -1,5 +1,6 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -22,6 +23,7 @@ public class IssueComment implements Serializable {
     private Timestamp date;
     private Issue issueByIssueId;
     private User sender;
+    private Timestamp updateDate;
 
     @Id
     @Column(nullable = false)
@@ -52,9 +54,9 @@ public class IssueComment implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "issue_id",
-            referencedColumnName = "id",
-            nullable = false)
+            referencedColumnName = "id")
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }
@@ -73,6 +75,15 @@ public class IssueComment implements Serializable {
 
     public void setSender(User sender) {
         this.sender = sender;
+    }
+
+    @Column(name = "update_date")
+    public Timestamp getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Timestamp updateDate) {
+        this.updateDate = updateDate;
     }
 
     @Override

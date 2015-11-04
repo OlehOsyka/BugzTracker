@@ -37,8 +37,7 @@ public class IssueAttachment implements Serializable  {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "issue_id",
-            referencedColumnName = "id",
-            nullable = false)
+            referencedColumnName = "id")
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }

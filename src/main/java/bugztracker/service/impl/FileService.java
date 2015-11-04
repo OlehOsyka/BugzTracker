@@ -32,6 +32,7 @@ public class FileService implements IFileService {
 
     @Autowired
     private UriBuilder uriBuilder;
+
     @Autowired
     private IIssueAttachmentService attachmentService;
 

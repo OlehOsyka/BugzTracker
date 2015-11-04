@@ -165,7 +165,7 @@ public class Issue implements Serializable {
         this.project = project;
     }
 
-    @OneToMany(mappedBy = "issueByIssueId")
+    @OneToMany(mappedBy = "issueByIssueId", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<IssueAttachment> getAttachments() {
         return attachments;
@@ -175,7 +175,7 @@ public class Issue implements Serializable {
         this.attachments = attachments;
     }
 
-    @OneToMany(mappedBy = "issueByIssueId")
+    @OneToMany(mappedBy = "issueByIssueId",  cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<IssueComment> getComments() {
         return comments;

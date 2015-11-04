@@ -58,6 +58,7 @@ public class IssueRepository extends AbstractRepository<Issue> implements IIssue
     public Issue getFull(int id) {
         return (Issue) sessionFactory.getCurrentSession().createCriteria(Issue.class)
                 .setFetchMode("attachments", JOIN)
+                .setFetchMode("comments", JOIN)
                 .setFetchMode("assignee", JOIN)
                 .setFetchMode("userCreator", JOIN)
                 .setFetchMode("project", JOIN)
