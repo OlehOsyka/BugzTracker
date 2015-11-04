@@ -4,10 +4,10 @@
  * Time: 15:56
  */
 
+var issueId = Cookies.get('checkedIssueId');
 var preLoaded = preLoad();
 
 function preLoad() {
-    var issueId = Cookies.get('checkedIssueId');
     return $.ajax({
         type: "GET",
         url: "/issue/" + issueId
@@ -80,7 +80,6 @@ $.when(preLoaded).done(function (data) {
 
     // Get all files and upload using AJAX
     $('#uploadFile').on('click', function () {
-        var issueId = Cookies.get('checkedId');
         var formData = new FormData();
         $('input[type=file]').each(function (i, file) {
             formData.append('files[]', file.files[0]);

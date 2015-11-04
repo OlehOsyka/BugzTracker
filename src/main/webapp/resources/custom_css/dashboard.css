@@ -32,7 +32,7 @@ table.dataTable tbody tr.selected{
 }
 
 .btn-distance {
-    margin-right: 52%;
+    margin-right: 54%;
 }
 
 .btn-distance-pr {
@@ -44,14 +44,12 @@ table.dataTable tbody tr.selected{
     display: inline;
 }
 
-
 .non-visible {
-    display: none;
+    display: none !important;
 }
 
 .alert-danger-position {
     text-align: center;
-    width: 95%;
 }
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {

@@ -53,6 +53,8 @@ function dataFormatter(data) {
 
 $(document).ready(function () {
 
+    $('#dropdown-projects').removeClass('non-visible');
+
     var dt = $('#example').DataTable({
         "bInfo" : false,
         ajax: {
@@ -160,6 +162,16 @@ $(document).ready(function () {
         $('#form-group-name, #form-group-desc, #form-group-users').removeClass('has-error has-success');
     }
 
+    // remove all text inside element without deleting child elements
+    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
+    // add placeholder to searchbox
+    $('.dataTables_filter label input').attr('placeholder','Search');
+
+    //$('<div class="btn-group" role="group">' +
+    //    '<button type="button" class="btn btn-primary" id="btn-proj">All projects</button>' +
+    //    '<button type="button" class="btn btn-primary active" id="btn-my-proj">My projects</button>' +
+    $('<button type="button" class="btn btn-primary" id="btn-edit">Add</button>').appendTo('div.dataTables_filter');
+
     //what btn was pushed last
     var lastBtn = "btn-my-proj";
     //id of checked tr
@@ -168,21 +180,22 @@ $(document).ready(function () {
     // Array to track the ids of the details displayed rows
     var detailRows = [];
     var tempUserTypeaheadList;
-    $('#btn-edit').text('Add');
 
-    $('#btn-my-proj').click(function () {
+    $('#btn-my-proj, #btn-dashboard').click(function () {
         dt.ajax.url('/projects?my=true').load();
-        $('#btn-my-proj').addClass('active');
+        $('#dropdown-issues').addClass('non-visible');
+        //$('#btn-my-proj').addClass('active');
         isChecked = false;
-        $('#btn-proj').removeClass('active');
+        //$('#btn-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
     $('#btn-proj').click(function () {
         dt.ajax.url('/projects?my=false').load();
-        $('#btn-proj').addClass('active');
+        $('#dropdown-issues').addClass('non-visible');
+        //$('#btn-proj').addClass('active');
         isChecked = false;
-        $('#btn-my-proj').removeClass('active');
+        //$('#btn-my-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
@@ -395,12 +408,6 @@ $(document).ready(function () {
             }
         }
     });
-
-    // remove all text inside element without deleting child elements
-    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
-    // add placeholder to searchbox
-    $('.dataTables_filter label input').attr('placeholder','Search');
-
 
 });
 

@@ -20,7 +20,7 @@
 
         <!-- setting maximum upload size -->
         <property name="maxUploadSize" value="100000000" />
-
+        <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
     <mvc:annotation-driven>

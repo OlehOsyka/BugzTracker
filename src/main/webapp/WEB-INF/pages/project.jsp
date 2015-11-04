@@ -24,23 +24,20 @@
     </jsp:attribute>
 
     <jsp:body>
-        <t:navbar/>
+        <t:navbar>
+        </t:navbar>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="table-panel">
-                    <div class="btn-group btn-pro" role="group">
-                        <button type="button" class="btn btn-primary" id="btn-issues">All issues</button>
-                        <button type="button" class="btn btn-primary" id="btn-my-issues">My issues</button>
-                    </div>
-                    <h4 class="modal-title  btn-distance-project" id="project-name"></h4>
+                        <%--<div class="btn-group btn-pro" role="group">--%>
+                        <%--<button type="button" class="btn btn-primary" id="btn-issues">All issues</button>--%>
+                        <%--<button type="button" class="btn btn-primary" id="btn-my-issues">My issues</button>--%>
+                        <%--</div>--%>
+                        <%--<h4 class="modal-title  btn-distance-project" id="project-name"></h4>--%>
 
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary inline" id="btn-edit"></button>
-                        <button type="button" class="btn btn-primary show-none" id="btn-delete">Delete</button>
-                    </div>
-
-                    <table id="issuesTable" class="table table-striped table-bordered" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0"
+                    <table id="issuesTable" class="table table-striped table-bordered"
+                           data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0"
                            width="100%"></table>
                 </div>
             </div>

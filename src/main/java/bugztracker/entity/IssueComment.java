@@ -21,6 +21,7 @@ public class IssueComment implements Serializable {
     private String comment;
     private Timestamp date;
     private Issue issueByIssueId;
+    private User sender;
 
     @Id
     @Column(nullable = false)
@@ -60,6 +61,18 @@ public class IssueComment implements Serializable {
 
     public void setIssueByIssueId(Issue issueByIssueId) {
         this.issueByIssueId = issueByIssueId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id_sender",
+            referencedColumnName = "id",
+            nullable = false)
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     @Override

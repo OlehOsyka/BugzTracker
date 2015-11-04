@@ -30,6 +30,7 @@ public class User implements Serializable {
     private Set<Issue> issuesAss = new HashSet<>(0);
     private Set<Issue> issuesCr = new HashSet<>(0);
     private Set<Project> ownedProjects = new HashSet<>(0);
+    private Set<IssueComment> issueComments = new HashSet<>(0);
 
     @Id
     @Column(nullable = false)
@@ -116,6 +117,15 @@ public class User implements Serializable {
 
     public void setOwnedProjects(Set<Project> ownedProjects) {
         this.ownedProjects = ownedProjects;
+    }
+
+    @OneToMany(mappedBy = "sender")
+    public Set<IssueComment> getIssueComments() {
+        return issueComments;
+    }
+
+    public void setIssueComments(Set<IssueComment> issueComments) {
+        this.issueComments = issueComments;
     }
 
     @Override

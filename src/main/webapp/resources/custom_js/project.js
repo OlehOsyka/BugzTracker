@@ -126,7 +126,9 @@ function loadProjectName() {
     $.ajax({
         url: "/project/" + projectId,
         success: function (data) {
-            $('#project-name').text(data.name);
+            $('#dropdown-issues').removeClass('non-visible');
+            $('#dropdown-projects').addClass('non-visible');
+            $('#project-name').html(data.name+'<span class="caret"></span>');
         }
     });
 }
@@ -135,7 +137,15 @@ $.when(preLoaded).done(function (data) {
 
     renderTable(data);
 
-    $('#btn-edit').text('Add');
+    // remove all text inside element without deleting child elements
+    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
+    // add placeholder to searchbox
+    $('.dataTables_filter label input').attr('placeholder','Search');
+
+    $('<div class="btn-group" role="group">'+
+        '<button type="button" class="btn btn-primary inline" id="btn-edit">Add</button>'+
+        '<button type="button" class="btn btn-primary show-none" id="btn-delete">Delete</button>'+
+        '</div>').appendTo('div.dataTables_filter');
 
     document.oncontextmenu = function () {
         return false;
@@ -344,17 +354,17 @@ $.when(preLoaded).done(function (data) {
 
     $('#btn-my-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=true").load();
-        $('#btn-my-issues').addClass('active');
-        $('#btn-issues').removeClass('active');
+        //$('#btn-my-issues').addClass('active');
+        //$('#btn-issues').removeClass('active');
         isChecked = false;
         lastBtn = $(this).attr('id');
     });
 
     $('#btn-issues').click(function () {
         dt.ajax.url("/project/" + projectId + "/issues?my=false").load();
-        $('#btn-issues').addClass('active');
+        //$('#btn-issues').addClass('active');
         isChecked = false;
-        $('#btn-my-issues').removeClass('active');
+        //$('#btn-my-issues').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
@@ -391,10 +401,5 @@ $.when(preLoaded).done(function (data) {
         }
         return true;
     });
-
-    // remove all text inside element without deleting child elements
-    $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
-    // add placeholder to searchbox
-    $('.dataTables_filter label input').attr('placeholder','Search');
 
 });
