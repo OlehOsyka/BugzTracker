@@ -53,7 +53,7 @@
                 <prop key="hibernate.hikari.dataSource.password">${jdbc.password}</prop>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.connection.charSet">${encoding.filter}</prop>
-                <prop key="current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</prop>
+                <prop key="current_session_context_class">${current_session_context_class}</prop>
             </props>
         </property>
         <property name="packagesToScan" value="bugztracker.entity"/>
