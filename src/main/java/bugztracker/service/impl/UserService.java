@@ -151,7 +151,7 @@ public class UserService implements IUserService {
         User user = userRepository.getUserByRegistrationToken(registrationToken);
         Map<String, String> response = new HashMap<>();
 
-        if (user == null) {
+        if (user == null || new Timestamp(DateTime.now().getMillis()).after(user.getDueRegisterDate())) {
             response.put("error", "Activation link has been disabled. Please, sign up again to get new activation link.");
         } else {
             user.setIsActive(true);
