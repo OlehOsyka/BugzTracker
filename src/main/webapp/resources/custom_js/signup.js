@@ -22,17 +22,21 @@ $(document).ready(function () {
                 },
                 data: JSON.stringify(credentials),
                 success: function (data) {
-                    window.location.href = data.redirect;
+                    $('#valid_signup').removeClass('non-visible');
+                    $('#valid_signup').text(data.message);
+                    $('#full_name').val('');
+                    $('#email').val('');
+                    $('#password').val('');
                 },
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
                     if (errorText.indexOf("Email") >= 0) {
-                        $('#form_group_password').removeClass('has-success');
-                        $('#form_group_password').addClass('has-error');
+                        $('#form_group_email').removeClass('has-success');
+                        $('#form_group_email').addClass('has-error');
                     }
-                    $('#invalid_login').removeClass('non-visible');
-                    $('#invalid_login').text(errorText);
+                    $('#invalid_signup').removeClass('non-visible');
+                    $('#invalid_signup').text(errorText);
                 }
             });
         }

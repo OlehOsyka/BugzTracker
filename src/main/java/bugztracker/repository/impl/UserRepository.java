@@ -5,12 +5,14 @@ import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IUserRepository;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,5 +65,21 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
                 .add(Subqueries.propertyIn("id", subCriteria))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
+    }
+
+    @Override
+    public User getUserByRegistrationToken(String registrationToken) {
+        return (User) sessionFactory.getCurrentSession()
+                .createCriteria(User.class)
+                .add(Restrictions.eq("registrationToken", registrationToken))
+                .uniqueResult();
+    }
+
+    @Override
+    public void removeUsersWithRegistrationDatePassed(Date date) {
+        Query query = sessionFactory.getCurrentSession().createQuery("delete User where :date is not null and :date > dueRegisterDate");
+        query.setParameter("date", date);
+
+        query.executeUpdate();
     }
 }

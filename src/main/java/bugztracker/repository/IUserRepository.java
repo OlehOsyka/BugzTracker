@@ -2,6 +2,7 @@ package bugztracker.repository;
 
 import bugztracker.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,5 +14,7 @@ public interface IUserRepository extends IRepository<User> {
     List<User> findById(List<Integer> ids);
     List<User> findAll(String query);
     List<User> getUsersByProjectId(int id, String query);
+    User getUserByRegistrationToken(String registrationToken);
+    void removeUsersWithRegistrationDatePassed(Date date);
 }
 

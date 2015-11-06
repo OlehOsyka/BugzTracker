@@ -3,6 +3,7 @@ package bugztracker.service;
 import bugztracker.bean.LoginBean;
 import bugztracker.entity.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,6 @@ public interface IUserService extends IService<User> {
     Map<String, String> register(User user);
     List<Integer> getProjectsIdsOfUser(User user);
     List<User> getUsersByProjectId(int id, String query);
+    Map<String, String> activateAccount(String registrationToken);
+    void removeUsersWithRegistrationDatePassed(Date date);
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -63,16 +64,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody User newUser, WebRequest request) {
+    public ResponseEntity register(@RequestBody User newUser) {
         userValidator.validate(newUser);
 
         Map<String, String> response = userService.register(newUser);
 
-        if (!response.isEmpty()) {
+        if (response.containsKey("error")) {
             return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
         }
-
-        request.setAttribute("user", newUser, WebRequest.SCOPE_SESSION);
 
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
@@ -113,5 +112,13 @@ public class UserController {
         errors.put("error", exc.getMessage());
 
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/account/activation", method = RequestMethod.GET, params = {"token"})
+    @ResponseBody
+    public ModelAndView activateAccount(@RequestParam("token") String registrationToken) {
+
+        Map<String, String> response = userService.activateAccount(registrationToken);
+       return new ModelAndView("/result", response);
     }
 }

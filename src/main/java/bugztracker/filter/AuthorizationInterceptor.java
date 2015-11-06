@@ -17,7 +17,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         User user = (User) request.getSession().getAttribute("user");
         boolean isLoggedIn = user != null;
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/") || requestURI.equals("/login") || requestURI.equals("/signup")) {
+        if (requestURI.equals("/") || requestURI.equals("/login") || requestURI.equals("/signup") || requestURI.equals("/register")) {
             if (isLoggedIn) {
                 response.sendRedirect("/dashboard");
                 return false;

@@ -113,6 +113,8 @@ public class IssueComment implements Serializable {
                 .append("comment", comment)
                 .append("date", date)
                 .append("issueByIssueId", issueByIssueId)
+                .append("sender", sender)
+                .append("updateDate", updateDate)
                 .toString();
     }
 }

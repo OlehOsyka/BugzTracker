@@ -17,6 +17,8 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="alert alert-danger non-visible alert-danger-position" id="invalid_signup"
                      role="alert"></div>
+                <div class="alert alert-success non-visible alert-danger-position" id="valid_signup"
+                     role="alert"></div>
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please, Sign up</h3>

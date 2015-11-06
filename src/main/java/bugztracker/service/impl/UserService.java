@@ -2,11 +2,14 @@ package bugztracker.service.impl;
 
 
 import bugztracker.bean.LoginBean;
+import bugztracker.bean.Mail;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.IUserRepository;
+import bugztracker.service.IEmailService;
 import bugztracker.service.IUserService;
 import bugztracker.util.MD5Encoder;
+import org.apache.velocity.VelocityContext;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IEmailService emailService;
 
     @Override
     public User get(int id) {
@@ -74,12 +80,16 @@ public class UserService implements IUserService {
         } else if (!MD5Encoder.encrypt(loginBean.getPassword()).startsWith(user.getPassword())) {
             response.put("error", "Incorrect password! Please, check and try again!");
         } else {
-            response.put("redirect", "/dashboard");
-            if (loginBean.isRemember()) {
-                //now + two weeks
-                user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
-                //set session on two weeks
-                update(user);
+            if (!user.getIsActive()) {
+                response.put("error", "Your account has not been activated!");
+            } else {
+                response.put("redirect", "/dashboard");
+                if (loginBean.isRemember()) {
+                    //now + two weeks
+                    user.setDateExpired(new Timestamp(DateTime.now().plusWeeks(2).getMillis()));
+                    //set session on two weeks
+                    userRepository.update(user);
+                }
             }
         }
         return response;
@@ -94,12 +104,29 @@ public class UserService implements IUserService {
             response.put("error", "Email has already been registered! ");
         } else {
             newUser.setId((int) UUID.randomUUID().getMostSignificantBits());
-
             newUser.setPassword(MD5Encoder.encrypt(newUser.getPassword()).substring(0, 10));
+            newUser.setIsActive(false);
+            newUser.setDueRegisterDate(new Timestamp(DateTime.now().plusMinutes(30).getMillis()));
 
-            add(newUser);
+            String registrationToken = UUID.randomUUID().toString().substring(0, 15);
+            newUser.setRegistrationToken(registrationToken);
 
-            response.put("redirect", "/dashboard");
+            userRepository.add(newUser);
+
+            Mail mail = new Mail();
+            mail.setMailFrom("smyulia96@gmail.com");
+            mail.setMailTo(newUser.getEmail());
+            mail.setMailSubject("Activation link for Bugzz Tracker");
+            mail.setTemplateName("confirmation-template.vm");
+
+
+            VelocityContext velocityContext = new VelocityContext();
+            velocityContext.put("fullName", newUser.getFullName());
+            velocityContext.put("link", "http://109.86.228.225:8080/account/activation?token="+registrationToken);
+
+            emailService.sendEmail(mail, velocityContext);
+
+            response.put("message", "Email with activation link has been sent! Please, follow it to succeed in signing up!");
         }
 
         return response;
@@ -117,5 +144,29 @@ public class UserService implements IUserService {
     @Override
     public List<User> getUsersByProjectId(int id, String query) {
         return userRepository.getUsersByProjectId(id, query);
+    }
+
+    @Override
+    public Map<String, String> activateAccount(String registrationToken) {
+        User user = userRepository.getUserByRegistrationToken(registrationToken);
+        Map<String, String> response = new HashMap<>();
+
+        if (user == null) {
+            response.put("error", "Activation link has been disabled. Please, sign up again to get new activation link.");
+        } else {
+            user.setIsActive(true);
+            user.setRegistrationToken(null);
+            user.setDueRegisterDate(null);
+            userRepository.update(user);
+
+            response.put("approve", "Your account has been activated! You can ");
+        }
+
+        return response;
+    }
+
+    @Override
+    public void removeUsersWithRegistrationDatePassed(Date date) {
+        userRepository.removeUsersWithRegistrationDatePassed(date);
     }
 }

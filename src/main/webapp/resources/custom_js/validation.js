@@ -65,6 +65,11 @@ Validation.validPassword = function (password) {
         $('#form_group_password').addClass('has-error');
         error += "Password is required! ";
     } else {
+        if(password.length < 6) {
+            $('#form_group_password').removeClass('has-success');
+            $('#form_group_password').addClass('has-error');
+            error += "Password must be more than 6 symbols length! ";
+        }
         $('#form_group_password').removeClass('has-error');
         $('#form_group_password').addClass('has-success');
     }

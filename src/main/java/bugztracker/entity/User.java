@@ -26,6 +26,9 @@ public class User implements Serializable {
     private String password;
     private String email;
     private Timestamp dateExpired;
+    private Timestamp dueRegisterDate;
+    private boolean isActive;
+    private String registrationToken;
     private Set<Project> projects = new HashSet<>(0);
     private Set<Issue> issuesAss = new HashSet<>(0);
     private Set<Issue> issuesCr = new HashSet<>(0);
@@ -55,6 +58,7 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     @NotBlank(message = "Password is required! ")
+    @Size(min= 6, message = "Password must be more than 6 symbols length! ")
     public String getPassword() {
         return password;
     }
@@ -128,6 +132,33 @@ public class User implements Serializable {
         this.issueComments = issueComments;
     }
 
+    @Column(name = "due_register_date")
+    public Timestamp getDueRegisterDate() {
+        return dueRegisterDate;
+    }
+
+    public void setDueRegisterDate(Timestamp dueRegisterDate) {
+        this.dueRegisterDate = dueRegisterDate;
+    }
+
+    @Column(name="is_active", nullable = false)
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @Column(name = "registration_token", unique = true)
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -156,6 +187,9 @@ public class User implements Serializable {
                 .append("fullName", fullName)
                 .append("password", password)
                 .append("email", email)
+                .append("isActivate", isActive)
+                .append("dueRegisterDate", dueRegisterDate)
+                .append("registrationToken", registrationToken)
                 .toString();
     }
 }
