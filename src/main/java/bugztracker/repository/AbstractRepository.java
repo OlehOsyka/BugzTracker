@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by Y. Vovk on 17.09.15.
+ * Created by Y. Vovk
+ * Date: 17.09.15
+ * Time: 23:50
  */
 @Repository
 public abstract class AbstractRepository<T> implements IRepository<T> {

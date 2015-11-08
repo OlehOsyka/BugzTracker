@@ -3,6 +3,7 @@
 <%@attribute name="footer" fragment="true" %>
 <!DOCTYPE html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
     <link href="<c:url value="https://fonts.googleapis.com/css?family=Raleway"/>" rel="stylesheet" type="text/css"/>
     <link href="<c:url value="https://fonts.googleapis.com/css?family=Quicksand"/>" rel="stylesheet" type="text/css"/>

@@ -5,6 +5,9 @@ import bugztracker.entity.IssueAttachment;
 import bugztracker.service.IFileService;
 import bugztracker.service.IIssueAttachmentService;
 import bugztracker.util.UriBuilder;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.CanReadFileFilter;
+import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,11 +48,18 @@ public class FileService implements IFileService {
                 String newName = uriBuilder.buildPathForAttachment(issueId, multipart.getOriginalFilename());
                 File file = new File(newName);
 
-                if (!file.exists() && !file.mkdirs() && !file.createNewFile()) {
+                if (!file.mkdirs() && !file.createNewFile() && !file.exists() && file.length() > 0) {
                     logger.warn(format("Can't create file %s.", newName));
                     continue;
                 }
                 multipart.transferTo(file);
+
+                IssueAttachment result = attachmentService.getAttachment(issueId, newName);
+                if (result != null) {
+                    logger.info("File already exist.");
+                    continue;
+                }
+
 
                 // update DB
                 Issue issue = new Issue();
@@ -83,8 +94,22 @@ public class FileService implements IFileService {
 
     @Override
     public File get(int issueId, String fileName) {
-        IssueAttachment attachment = attachmentService.getAttachment(issueId, fileName);
+        String name = uriBuilder.buildPathForAttachment(issueId, fileName);
+        IssueAttachment attachment = attachmentService.getAttachment(issueId, name);
         return new File(attachment.getAttachmentPath());
+    }
+
+    //TRANSACTIONAL
+    @Override
+    public void remove(int issueId, String fileName) {
+        String folder = uriBuilder.buildPathForIssueFolder(issueId);
+        Collection<File> files = FileUtils.listFiles(new File(folder), CanReadFileFilter.CAN_READ, new PrefixFileFilter(fileName));
+        for (File file : files) {
+            FileUtils.deleteQuietly(file);
+        }
+
+        String name = uriBuilder.buildPathForAttachment(issueId, fileName);
+        attachmentService.delete(attachmentService.getAttachment(issueId, name));
     }
 
     private List<String> extractNames(List<IssueAttachment> attachments) {

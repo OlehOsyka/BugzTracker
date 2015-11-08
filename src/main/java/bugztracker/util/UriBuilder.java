@@ -1,10 +1,8 @@
 package bugztracker.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletContext;
 import java.io.File;
 
 /**
@@ -17,9 +15,6 @@ public final class UriBuilder {
 
     private static final String SLASH = File.separator;
     private static final String FILES = "files";
-
-    @Autowired
-    private ServletContext servletContext;
 
     @Value("${repository.path}")
     private String rootPath;
@@ -40,12 +35,13 @@ public final class UriBuilder {
                 append(SLASH).
                 append(issueId).
                 append(SLASH).
-                append(filename).
+                append(filename.replaceAll(" ", "_")).
                 toString();
     }
 
     private StringBuilder build() {
-        return new StringBuilder(servletContext.getRealPath(rootPath)).
+        return new StringBuilder(System.getProperty("user.home")).
+                append(rootPath).
                 append(SLASH).
                 append(FILES);
     }

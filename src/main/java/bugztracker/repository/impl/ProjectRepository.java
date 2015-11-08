@@ -5,7 +5,6 @@ import bugztracker.entity.User;
 import bugztracker.repository.AbstractRepository;
 import bugztracker.repository.IProjectRepository;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import static org.hibernate.FetchMode.JOIN;
 
 /**
  * Created by Y. Vovk on 06.10.15.
@@ -48,9 +49,9 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     public List<Project> getAllWithParticipants() {
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
-                .setFetchMode("participants", FetchMode.JOIN)
+                .setFetchMode("participants", JOIN)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                //.addOrder(Order.asc("name"))
+                        //.addOrder(Order.asc("name"))
                 .list();
     }
 
@@ -58,7 +59,7 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     public Project getProjectWithUsers(int id) {
         return (Project) sessionFactory.getCurrentSession().createCriteria(Project.class)
                 .add(Restrictions.eq("id", id))
-                .setFetchMode("participants", FetchMode.JOIN)
+                .setFetchMode("participants", JOIN)
                 .uniqueResult();
     }
 
@@ -71,8 +72,11 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
 
         return (List<Project>) sessionFactory.getCurrentSession()
                 .createCriteria(Project.class)
-                .setFetchMode("participants", FetchMode.JOIN)
-                .add(Subqueries.propertyIn("id", subCriteria))
+                .setFetchMode("participants", JOIN)
+                .createAlias("userOwner", "owner")
+                .add(Restrictions.disjunction()
+                        .add(Subqueries.propertyIn("id", subCriteria))
+                        .add(Restrictions.eq("owner.id", user.getId())))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .addOrder(Order.asc("name"))
                 .list();

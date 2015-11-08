@@ -2,6 +2,7 @@ package bugztracker.controller;
 
 import bugztracker.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @Controller
 @RequestMapping("/file")
-public class FileUploadController {
+public class FileController {
 
     @Autowired
     private IFileService fileService;
@@ -40,6 +41,21 @@ public class FileUploadController {
         return fileService.listAttachments(issueId);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/get/{issueId}/{fileName}", method = GET)
+    public FileSystemResource downloadFile(@PathVariable int issueId,
+                                           @PathVariable String fileName) {
+        return new FileSystemResource(fileService.get(issueId, fileName));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/remove/{issueId}/{fileName}", method = GET)
+    public void removeFile(@PathVariable int issueId,
+                                           @PathVariable String fileName) {
+        fileService.remove(issueId, fileName);
+    }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

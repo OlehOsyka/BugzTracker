@@ -22,4 +22,6 @@ public interface IFileService {
     List<File> getAttachments(int issueId);
 
     File get(int issueId, String fileName);
+
+    void remove(int issueId, String fileName);
 }

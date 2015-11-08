@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     function validate(email, password, fullName) {
         var error = "";
-        error += Validation.validPassword(password);
+        error += Validation.validPassword(password, 6);
         error += Validation.validEmailRegistration(email);
         error += Validation.validFullNameRegistration(fullName);
         if (error) {

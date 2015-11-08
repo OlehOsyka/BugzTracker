@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Y. Vovk on 21.10.15.
+ * Created by Y. Vovk
+ * Date: 21.10.15
+ * Time: 22:20
  */
 public class ContextPathAddInterceptor implements HandlerInterceptor {
 

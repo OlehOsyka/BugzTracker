@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static org.hibernate.FetchMode.JOIN;
+
 /**
  * Created by oleg
  * Date: 02.11.15
@@ -35,8 +37,10 @@ public class IssueAttacmentRepository extends AbstractRepository<IssueAttachment
     @Override
     public IssueAttachment getAttachment(int issueId, String fileName) {
         return (IssueAttachment) sessionFactory.getCurrentSession().createCriteria(IssueAttachment.class)
-                .add(Restrictions.eq("issue_id", issueId))
-                .add(Restrictions.eq("attachment_path", fileName))
+                .setFetchMode("issueByIssueId", JOIN)
+                .createAlias("issueByIssueId", "issue")
+                .add(Restrictions.eq("issue.id", issueId))
+                .add(Restrictions.ilike("attachmentPath", "%" + fileName + "%"))
                 .uniqueResult();
     }
 }
