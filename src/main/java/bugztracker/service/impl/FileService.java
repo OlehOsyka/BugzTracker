@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.UUID;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Created by oleg
@@ -40,6 +43,21 @@ public class FileService implements IFileService {
     @Autowired
     private IIssueAttachmentService attachmentService;
 
+    @Transactional
+    @PostConstruct
+    private void cleanAttachment() {
+        String rootPath = uriBuilder.buildRootPathForAttachments();
+        List<IssueAttachment> allAttachments = attachmentService.getAll();
+        for (IssueAttachment attachment : allAttachments) {
+            String filePath = attachment.getAttachmentPath();
+            if (isNotBlank(filePath) && filePath.startsWith(rootPath)) {
+                FileUtils.deleteQuietly(new File(filePath));
+                attachmentService.delete(attachment);
+            }
+        }
+    }
+
+    @Transactional
     @Override
     public void save(List<MultipartFile> files, int issueId) {
         for (MultipartFile multipart : files) {
@@ -99,7 +117,7 @@ public class FileService implements IFileService {
         return new File(attachment.getAttachmentPath());
     }
 
-    //TRANSACTIONAL
+    @Transactional
     @Override
     public void remove(int issueId, String fileName) {
         String folder = uriBuilder.buildPathForIssueFolder(issueId);

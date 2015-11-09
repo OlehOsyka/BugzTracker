@@ -42,7 +42,7 @@ public class IssueAttachmentService implements IIssueAttachmentService {
 
     @Override
     public List<IssueAttachment> getAll() {
-        return getAll();
+        return attachmentRepository.getAll();
     }
 
     @Override

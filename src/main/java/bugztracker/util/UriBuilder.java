@@ -14,7 +14,6 @@ import java.io.File;
 public final class UriBuilder {
 
     private static final String SLASH = File.separator;
-    private static final String FILES = "files";
 
     @Value("${repository.path}")
     private String rootPath;
@@ -39,11 +38,14 @@ public final class UriBuilder {
                 toString();
     }
 
+
+    public String buildRootPathForAttachments() {
+        return build().toString();
+    }
+
     private StringBuilder build() {
         return new StringBuilder(System.getProperty("user.home")).
-                append(rootPath).
-                append(SLASH).
-                append(FILES);
+                append(rootPath);
     }
 
 }

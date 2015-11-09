@@ -6,29 +6,34 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Y. Vovk on 20.10.15.
  */
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
+    private List<String> openUrls = Arrays.asList("/", "/login", "/signup", "/register");
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
         boolean isLoggedIn = user != null;
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/") || requestURI.equals("/login") || requestURI.equals("/signup") || requestURI.equals("/register")) {
-            if (isLoggedIn) {
+        if (isLoggedIn) {
+            if (openUrls.contains(requestURI)) {
                 response.sendRedirect("/dashboard");
                 return false;
             }
+            return true;
         } else {
-            if (!isLoggedIn) {
-                response.sendRedirect(requestURI);
-                return false;
+            if (openUrls.contains(requestURI)) {
+                return true;
             }
+            response.sendRedirect("/");
+            return false;
         }
-        return true;
     }
 
     @Override

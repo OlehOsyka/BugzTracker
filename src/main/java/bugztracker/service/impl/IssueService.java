@@ -1,6 +1,7 @@
 package bugztracker.service.impl;
 
 import bugztracker.entity.Issue;
+import bugztracker.entity.IssueComment;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
 import bugztracker.repository.IIssueRepository;
@@ -13,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Y. Vovk
@@ -99,6 +99,15 @@ public class IssueService implements IIssueService {
 
     @Override
     public Issue getFull(int id) {
-        return issueRepository.getFull(id);
+        Issue full = issueRepository.getFull(id);
+        Set<IssueComment> sortedComments = new TreeSet<>(new Comparator<IssueComment>() {
+            @Override
+            public int compare(IssueComment o1, IssueComment o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        sortedComments.addAll(full.getComments());
+        full.setComments(sortedComments);
+        return full;
     }
 }

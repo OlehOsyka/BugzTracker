@@ -2,12 +2,15 @@ package bugztracker.controller;
 
 import bugztracker.entity.IssueComment;
 import bugztracker.entity.User;
+import bugztracker.exception.service.IssueCommentServiceException;
 import bugztracker.service.IIssueCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.List;
 
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
@@ -23,20 +26,45 @@ public class CommentController {
     private IIssueCommentService issueCommentService;
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void add(@RequestBody IssueComment comment, WebRequest request) {
-       //validator
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public void add(@RequestParam String comment,
+                    @RequestParam int issueId,
+                    WebRequest request) {
+        //validator
 
         User user = (User) request.getAttribute("user", SCOPE_SESSION);
-        issueCommentService.addComment(comment, user);
+        issueCommentService.addComment(comment, issueId, user);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(@RequestBody IssueComment comment) {
+    public void update(@RequestParam String comment,
+                       @RequestParam int issueId,
+                       @RequestParam int commentId) {
         //validator
 
-        issueCommentService.updateComment(comment);
+        issueCommentService.updateComment(comment, issueId, commentId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/list/{issueId}", method = RequestMethod.GET)
+    public List<IssueComment> listComments(@PathVariable int issueId) {
+        return issueCommentService.getAll(issueId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/delete/{issueId}/{commentId}", method = RequestMethod.GET)
+    public void delete(@PathVariable int issueId,
+                       @PathVariable int commentId) {
+        issueCommentService.delete(issueId, commentId);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    private String uploadErrorHandler(IssueCommentServiceException e) {
+        return e.getMessage();
     }
 
 }
