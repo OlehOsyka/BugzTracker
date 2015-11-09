@@ -22,60 +22,60 @@
 
                 <div class="modal-body">
                     <fieldset>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <div class="alert alert-danger non-visible text-center" id="invalid-issue-edit"
-                                     role="alert"></div>
-                            </div>
-                            <div class="form-group col-md-3" id="form-group-name">
+                        <div class="row row-flex">
+                            <%--<div class="form-group col-md-12">--%>
+                                <%--<div class="alert alert-danger non-visible text-center" id="invalid-issue-edit"--%>
+                                     <%--role="alert"></div>--%>
+                            <%--</div>--%>
+                            <div class="col-md-3 issue-div" id="form-group-name">
                                 <label class="control-label" for="name">Name:</label>
                                 <span id="name"/>
                             </div>
-                            <div class="form-group col-md-3" id="form-group-status">
-                                <label class="control-label" for="status">Status:</label>
-                                <span id="status"/>
-                            </div>
-                            <div class="form-group col-md-3" id="form-group-category">
-                                <label class="control-label" for="category">Category:</label>
-                                <span id="category"/>
-                            </div>
-                            <div class="form-group col-md-3" id="form-group-priority">
-                                <label class="control-label" for="priority">Priority:</label>
-                                <span id="priority"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-2" id="form-group-namedate">
+                            <div class="col-md-3 issue-div" id="form-group-namedate">
                                 <label class="control-label" for="date">Date:</label>
                                 <span id="date"/>
                             </div>
-                            <div class="form-group col-md-2" id="form-group-last-update">
+                            <div class="col-md-3 issue-div" id="form-group-last-update">
                                 <label class="control-label" for="lastUpdate">Last update:</label>
                                 <span id="lastUpdate"/>
                             </div>
-                            <div class="form-group col-md-4" id="form-group-version">
+                            <div class="col-md-3 issue-div" id="form-group-version">
                                 <label class="control-label" for="version">Version:</label>
                                 <span id="version"/>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-5" id="form-group-assignee">
+                        <div class="row row-flex">
+                            <div class="issue-div col-md-4" id="form-group-category">
+                                <label class="control-label" for="category">Category:</label>
+                                <span id="category"/>
+                            </div>
+                            <div class="issue-div col-md-4" id="form-group-status">
+                                <label class="control-label" for="status">Status:</label>
+                                <span id="status"/>
+                            </div>
+                            <div class="issue-div col-md-4" id="form-group-priority">
+                                <label class="control-label" for="priority">Priority:</label>
+                                <span id="priority"/>
+                            </div>
+                        </div>
+                        <div class="row row-flex">
+                            <div class="issue-div col-md-6" id="form-group-assignee">
                                 <label class="control-label" for="assignee">Assignee:</label>
                                 <span id="assignee"/>
                             </div>
-                            <div class="form-group col-md-5" id="form-group-creator">
+                            <div class="issue-div col-md-6" id="form-group-creator">
                                 <label class="control-label" for="creator">Creator:</label>
                                 <span id="creator"/>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12" id="form-group-desc">
+                            <div class="issue-div" id="form-group-desc">
                                 <label class="control-label" for="desc">Description:</label>
                                 <span id="desc"/>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-6" id="form-group-upload">
+                        <div class="row row-flex">
+                            <div class="issue-div col-md-6" id="form-group-upload">
                                 <label class="control-label">New attachments:</label>
 
                                 <div id="fileTable" class="btn-group">
@@ -84,14 +84,14 @@
                                 <button id="addFile" type="button" class="btn btn-primary btn-sm">Add file</button>
                                 <button id="uploadFile" type="button" class="btn btn-primary btn-sm">Upload</button>
                             </div>
-                            <div class="form-group col-md-6" id="form-group-uploaded">
+                            <div class="issue-div col-md-6" id="form-group-uploaded">
                                 <label class="control-label">Attached files:</label>
 
                                 <div id="files" class="btn-group"></div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12" id="form-group-comments">
+                            <div id="form-group-comments" class="comment-div">
                                 <label class="control-label">Comments:</label>
 
                                 <div id="comments">

@@ -8,8 +8,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -83,6 +86,7 @@ public class Issue implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotBlank(message = "Priority is required! ")
     public Priority getPriority() {
         return priority;
     }
@@ -93,6 +97,7 @@ public class Issue implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotBlank(message = "Status is required! ")
     public Status getStatus() {
         return status;
     }
@@ -112,6 +117,7 @@ public class Issue implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotBlank(message = "Category is required! ")
     public Category getCategory() {
         return category;
     }
@@ -121,6 +127,8 @@ public class Issue implements Serializable {
     }
 
     @Column(nullable = false)
+    @Digits(integer = 2, fraction = 1, message = "Version must be a float number from 1 to 10! ")
+    @Range(min = 1, max = 10, message = "Version must be a float number from 1 to 10! ")
     public BigDecimal getVersion() {
         return version;
     }
@@ -145,6 +153,7 @@ public class Issue implements Serializable {
     @JoinColumn(name = "user_id_as",
             referencedColumnName = "id",
             nullable = false)
+    @NotNull(message = "Assignee is required! ")
     public User getAssignee() {
         return assignee;
     }
@@ -157,6 +166,7 @@ public class Issue implements Serializable {
     @JoinColumn(name = "project_id",
             referencedColumnName = "id",
             nullable = false)
+    @NotNull(message = "Project is required! ")
     public Project getProject() {
         return project;
     }

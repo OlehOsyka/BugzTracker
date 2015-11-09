@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -70,6 +71,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Email is required! ")
     @Size(max = 50, message = "Please, use email 50 symbols length! ")
+    @Email(message = "Email is not valid! ")
     public String getEmail() {
         return email;
     }

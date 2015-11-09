@@ -34,9 +34,14 @@ function renderPage(issue) {
             var name = (/\/files\/\d+\/(.+)/gi).exec(value.attachmentPath)[1];
             var href = "/file/get/" + issueId + "/" + name;
             var deleteHref = "/file/remove/" + issueId + "/" + name;
-            $('div#files').append('<a href="' + href + '" target="_blank">' + name + '</a>'
-                + '<span class="remove-attachment close" data-href="' + deleteHref + '">  &times;</span><br/>');
+            $('div#files').append(
+                '<div class="attachment-table">' +
+                '<a href="' + href + '" target="_blank">' + name + '</a>' +
+                '<span class="remove-attachment close" data-href="' + deleteHref + '">  &times;</span>' +
+                '</div>');
         });
+    } else {
+        $('div#files').append('<span>+ ' - ' +</span>');
     }
 
     // init upload buttons
@@ -57,18 +62,17 @@ function renderPage(issue) {
     if (issue.hasOwnProperty('comments') && !$.isEmptyObject(issue.comments)) {
         $.each(issue.comments, function (i, comment) {
             var date = new Date(comment.date);
-            commentsField.append('<div class="comment alert alert-dismissible alert-success" id="comment-' + comment.id + '">' +
-                '<span class="comment-util">Date:' +
-                date.toLocaleDateString() + ' ' + date.toLocaleTimeString() +
-                ' User:' + comment.sender.fullName + '</span>' +
-                '<br/>' +
+            commentsField.append('<div class="comment alert alert-dismissible" id="comment-' + comment.id + '">' +
+                '<span class="comment-util">' + comment.sender.fullName + '</span>' +
+                '<span style="float: right">' + date.toLocaleDateString() + date.toLocaleTimeString() + '</span>' +
+                '<hr/>' +
                 '<span class="comments" data-id="' + comment.id + '">' + comment.comment + '</span>' +
                 '<span class="remove-comment close" data-id="' + comment.id + '"> &times;</span><br/>' +
                 '</div>');
         });
     }
     commentsField.append('<div id="text-comment">' +
-        '<textarea id="comment" placeholder="Add comment..."></textarea>' +
+        '<textarea id="comment" class="form-control" placeholder="Add comment..."></textarea>' +
         '<br/>' +
         '<button id="addComment" type="button" class="btn btn-primary btn-sm">Add comment</button>' +
         '</div>');
@@ -192,7 +196,7 @@ function workflow(data) {
             '   Browse&hellip; <input name="files[' + uploadCounter + ']" type="file">' +
             '</span>' +
             '<span class="filename"></span>' +
-            '<span data-id="' + uploadCounter + '" class="remove-extra-file">   &times;</span>' +
+            '<span data-id="' + uploadCounter + '" class="remove-extra-file close">   &times;</span>' +
             '</div>');
         initUploadEvents();
     });

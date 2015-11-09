@@ -45,12 +45,12 @@ public class FileService implements IFileService {
 
     @Transactional
     @PostConstruct
-    private void cleanAttachment() {
+    private void cleanAttachments() {
         String rootPath = uriBuilder.buildRootPathForAttachments();
         List<IssueAttachment> allAttachments = attachmentService.getAll();
         for (IssueAttachment attachment : allAttachments) {
             String filePath = attachment.getAttachmentPath();
-            if (isNotBlank(filePath) && filePath.startsWith(rootPath)) {
+            if (isNotBlank(filePath) && !filePath.startsWith(rootPath)) {
                 FileUtils.deleteQuietly(new File(filePath));
                 attachmentService.delete(attachment);
             }

@@ -51,7 +51,6 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
                 .createCriteria(Project.class)
                 .setFetchMode("participants", JOIN)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                        //.addOrder(Order.asc("name"))
                 .list();
     }
 
@@ -78,7 +77,6 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
                         .add(Subqueries.propertyIn("id", subCriteria))
                         .add(Restrictions.eq("owner.id", user.getId())))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .addOrder(Order.asc("name"))
                 .list();
     }
 }

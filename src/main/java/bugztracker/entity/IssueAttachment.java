@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -37,7 +38,8 @@ public class IssueAttachment implements Serializable  {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "issue_id",
-            referencedColumnName = "id")
+            referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Issue to add a attachment to! ")
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }

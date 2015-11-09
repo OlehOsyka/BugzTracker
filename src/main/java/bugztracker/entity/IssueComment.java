@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -36,6 +38,7 @@ public class IssueComment implements Serializable {
     }
 
     @Column(nullable = false)
+    @NotBlank(message = "Comment is required! ")
     public String getComment() {
         return comment;
     }
@@ -56,7 +59,8 @@ public class IssueComment implements Serializable {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "issue_id",
-            referencedColumnName = "id")
+            referencedColumnName = "id", nullable = false)
+    @NotNull(message = "Issue to  be commented is required! ")
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }
