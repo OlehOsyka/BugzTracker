@@ -17,10 +17,10 @@ function preLoad() {
 function renderPage(issue) {
     $('span#name').text(issue.name);
     $('span#date').text(issue.date);
-    $('span#lastUpdate').text(issue.lastUpdate);
+    $('span#lastUpdate').text(issue.lastUpdate == null ? '-':issue.lastUpdate);
     $('span#status').text(issue.status);
     $('span#priority').text(issue.priority);
-    $('span#desc').text(issue.description);
+    $('span#desc').text(issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description);
     $('span#category').text(issue.category);
     $('span#creator').text(issue.userCreator.fullName);
     $('span#version').text(issue.version);
@@ -41,7 +41,7 @@ function renderPage(issue) {
                 '</div>');
         });
     } else {
-        $('div#files').append('<span>+ ' - ' +</span>');
+        $('div#files').append('<span>'+ '-' +'</span>');
     }
 
     // init upload buttons

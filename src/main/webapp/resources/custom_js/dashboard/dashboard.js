@@ -187,6 +187,7 @@ $(document).ready(function () {
         $('#dropdown-issues').addClass('non-visible');
         //$('#btn-my-proj').addClass('active');
         isChecked = false;
+        $('#btn-edit').text('Add');
         //$('#btn-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
@@ -196,6 +197,7 @@ $(document).ready(function () {
         $('#dropdown-issues').addClass('non-visible');
         //$('#btn-proj').addClass('active');
         isChecked = false;
+        $('#btn-edit').text('Add');
         //$('#btn-my-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });

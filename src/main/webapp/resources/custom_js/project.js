@@ -221,15 +221,14 @@ $.when(preLoaded).done(function (data) {
             if ($('#modalEdit').find('#modal-name').text() == 'Add') {
                 url = '/issue';
                 issue = {
-                    "id": checkedId,
                     "name": name,
                     "description": desc,
                     "priority": priority,
                     "project": project,
                     "version": version,
                     "category": category,
-                    "assignee": assignee
-                };
+                    "assignee": assignee.id == undefined ? null : assignee
+                 };
             }
             else {
                 url = '/issue/update';
@@ -241,7 +240,7 @@ $.when(preLoaded).done(function (data) {
                     "version": version,
                     "category": category,
                     "status": status,
-                    "assignee": assignee
+                    "assignee": assignee.id == undefined ? null : assignee
                 };
             }
             $.ajax({
@@ -359,6 +358,8 @@ $.when(preLoaded).done(function (data) {
         //$('#btn-issues').removeClass('active');
         isChecked = false;
         lastBtn = $(this).attr('id');
+        $('#btn-edit').text('Add');
+        $('#btn-delete').addClass('show-none');
     });
 
     $('#btn-issues').click(function () {
@@ -367,6 +368,8 @@ $.when(preLoaded).done(function (data) {
         isChecked = false;
         //$('#btn-my-issues').removeClass('active');
         lastBtn = $(this).attr('id');
+        $('#btn-delete').addClass('show-none');
+        $('#btn-edit').text('Add');
     });
 
     $('#issuesTable').find('tbody').on('click', 'tr', function () {
