@@ -7,6 +7,15 @@
 $.fn.editable.defaults.mode = 'inline';
 var issueId = Cookies.get('checkedIssueId');
 
+function wrapText(txt) {
+    var index = 30;
+    while (index < txt.length) {
+        txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
+        index = index + 30;
+    }
+    return txt;
+}
+
 function preLoad() {
     return $.ajax({
         type: "GET",
@@ -15,9 +24,19 @@ function preLoad() {
 }
 
 function renderPage(issue) {
+    $('span#name').html(wrapText(issue.name));
+    $('span#date').html(wrapText(issue.date));
+    $('span#lastUpdate').html(wrapText(issue.lastUpdate));
+    $('span#status').html(wrapText(issue.status));
+    $('span#priority').html(wrapText(issue.priority));
+    $('span#desc').html(wrapText(issue.description));
+    $('span#category').html(wrapText(issue.category));
+    $('span#creator').html(wrapText(issue.userCreator.fullName));
+    $('span#version').html(wrapText(issue.version));
+    $('span#assignee').html(wrapText(issue.assignee.fullName));
     $('span#name').text(issue.name);
     $('span#date').text(issue.date);
-    $('span#lastUpdate').text(issue.lastUpdate == null ? '-':issue.lastUpdate);
+    $('span#lastUpdate').text(issue.lastUpdate == null ? '-' : issue.lastUpdate);
     $('span#status').text(issue.status);
     $('span#priority').text(issue.priority);
     $('span#desc').text(issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description);
@@ -36,12 +55,12 @@ function renderPage(issue) {
             var deleteHref = "/file/remove/" + issueId + "/" + name;
             $('div#files').append(
                 '<div class="attachment-table">' +
-                '<a href="' + href + '" target="_blank">' + name + '</a>' +
+                '<a href="' + href + '" target="_blank">' + wrapText(name) + '</a>' +
                 '<span class="remove-attachment close" data-href="' + deleteHref + '">  &times;</span>' +
                 '</div>');
         });
     } else {
-        $('div#files').append('<span>'+ '-' +'</span>');
+        $('div#files').append('<span>' + '-' + '</span>');
     }
 
     // init upload buttons
@@ -66,7 +85,7 @@ function renderPage(issue) {
                 '<span class="comment-util">' + comment.sender.fullName + '</span>' +
                 '<span style="float: right">' + date.toLocaleDateString() + date.toLocaleTimeString() + '</span>' +
                 '<hr/>' +
-                '<span class="comments" data-id="' + comment.id + '">' + comment.comment + '</span>' +
+                '<span class="comments" data-id="' + comment.id + '">' + wrapText(comment.comment) + '</span>' +
                 '<span class="remove-comment close" data-id="' + comment.id + '"> &times;</span><br/>' +
                 '</div>');
         });
@@ -97,6 +116,13 @@ function initAttachmentEvents() {
     // Delete attachment
     $('.remove-attachment').unbind('click').on('click', function () {
         var href = $(this).attr('data-href');
+        $('#btn-del-att').attr('data-href', href);
+        $('#modalDeleteAtt').modal('show');
+    });
+
+    $('#btn-del-att').unbind('click').on('click', function () {
+        var href = $(this).attr('data-href');
+        $('#modalDeleteAtt').modal('hide');
         $.ajax({
             type: "GET",
             url: href,
@@ -132,6 +158,7 @@ function initCommentEvents() {
 
     //Update
     $('.comments').editable({
+        emptytext: 'Input text!',
         type: 'text',
         url: function (params) {
             var comment = params.value;
@@ -155,9 +182,20 @@ function initCommentEvents() {
         title: 'Enter new comment message'
     });
 
+    // Validate
+    $('.comments').editable('option', 'validate', function (v) {
+        if (!v) return 'Required text!';
+    });
+
     // Delete comment
     $('.remove-comment').unbind('click').on('click', function () {
         var commentId = $(this).attr('data-id');
+        $('#btn-del-com').attr('data-id', commentId);
+        $('#modalDeleteCom').modal('show');
+    });
+    $('#btn-del-com').unbind('click').on('click', function () {
+        var commentId = $(this).attr('data-id');
+        $('#modalDeleteCom').modal('hide');
         $.ajax({
             type: "GET",
             url: "/comment/delete/" + issueId + "/" + commentId,

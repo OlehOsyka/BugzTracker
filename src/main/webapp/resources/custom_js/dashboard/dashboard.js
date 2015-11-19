@@ -414,3 +414,12 @@ $(document).ready(function () {
 
 });
 
+function wrapText(txt) {
+    var index = 30;
+    while (index < txt.length) {
+        txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
+        index = index + 30;
+    }
+    return txt;
+}
+

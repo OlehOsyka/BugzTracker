@@ -100,6 +100,47 @@
                         </div>
                     </fieldset>
 
+                        <%--Delete attachment--%>
+                    <div class="modal fade" id="modalDeleteAtt" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" id="btn-close" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title></title>" id="modal-name"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    Do you really want to delete attachment?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="btn-del-att">Delete</button>
+                                    <button type="button" class="btn btn-default" id="btn-cancel-att" data-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <%--Delete comment--%>
+                    <div class="modal fade" id="modalDeleteCom" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" id="btn-close-com" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title></title>" id="modal-name-com"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    Do you really want to delete comment?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="btn-del-com">Delete</button>
+                                    <button type="button" class="btn btn-default" id="btn-cancel-com" data-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
