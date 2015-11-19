@@ -110,7 +110,7 @@
                                     <h4 class="modal-title></title>" id="modal-name"></h4>
                                 </div>
                                 <div class="modal-body">
-                                    Do you really want to delete attachment?
+                                    Are you sure you want to delete attachment?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" id="btn-del-att">Delete</button>
@@ -131,7 +131,7 @@
                                     <h4 class="modal-title></title>" id="modal-name-com"></h4>
                                 </div>
                                 <div class="modal-body">
-                                    Do you really want to delete comment?
+                                    Are you sure you want to delete comment?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" id="btn-del-com">Delete</button>

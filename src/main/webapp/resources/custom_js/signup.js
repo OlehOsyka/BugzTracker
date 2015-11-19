@@ -31,10 +31,6 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    if (errorText.indexOf("Email") >= 0) {
-                        $('#form_group_email').removeClass('has-success');
-                        $('#form_group_email').addClass('has-error');
-                    }
                     $('#invalid_signup').removeClass('non-visible');
                     $('#invalid_signup').text(errorText);
                 }

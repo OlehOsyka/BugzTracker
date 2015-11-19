@@ -2,6 +2,7 @@ package bugztracker.service.impl;
 
 import bugztracker.entity.Issue;
 import bugztracker.entity.IssueAttachment;
+import bugztracker.exception.service.FileServiceException;
 import bugztracker.service.IFileService;
 import bugztracker.service.IIssueAttachmentService;
 import bugztracker.util.UriBuilder;
@@ -90,7 +91,7 @@ public class FileService implements IFileService {
                 attachmentService.addAttachment(attachment);
             } catch (IOException e) {
                 logger.info(format("Can't save file %s for issue %s!", multipart.getOriginalFilename(), issueId), e);
-                // TODO Should throw?
+                throw new FileServiceException("Can't save file!");
             }
         }
     }

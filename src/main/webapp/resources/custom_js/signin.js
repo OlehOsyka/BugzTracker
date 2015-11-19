@@ -26,17 +26,17 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    if (errorText.indexOf("No") >= 0) {
-                        $('#form_group_email').removeClass('has-success');
-                        $('#form_group_email').addClass("has-error");
-
-                        $('#form_group_password').removeClass('has-success');
-                        $('#form_group_password').addClass('has-error');
-                    }
-                    if (errorText.indexOf("Incorrect") >= 0) {
-                        $('#form_group_password').removeClass('has-success');
-                        $('#form_group_password').addClass('has-error');
-                    }
+                    //if (errorText.indexOf("No") >= 0) {
+                    //    $('#form_group_email').removeClass('has-success');
+                    //    $('#form_group_email').addClass("has-error");
+                    //
+                    //    $('#form_group_password').removeClass('has-success');
+                    //    $('#form_group_password').addClass('has-error');
+                    //}
+                    //if (errorText.indexOf("Incorrect") >= 0) {
+                    //    $('#form_group_password').removeClass('has-success');
+                    //    $('#form_group_password').addClass('has-error');
+                    //}
                     $('#invalid_login').removeClass('non-visible');
                     $('#invalid_login').text(errorText);
                 }

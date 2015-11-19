@@ -4,6 +4,7 @@ import bugztracker.entity.IssueComment;
 import bugztracker.entity.User;
 import bugztracker.exception.service.IssueCommentServiceException;
 import bugztracker.service.IIssueCommentService;
+import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,12 +26,15 @@ public class CommentController {
     @Autowired
     private IIssueCommentService issueCommentService;
 
+    @Autowired
+    private IValidator<IssueComment> issueCommentValidator;
+
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void add(@RequestParam String comment,
                     @RequestParam int issueId,
                     WebRequest request) {
-        //validator
+        //issueCommentValidator.validate();
 
         User user = (User) request.getAttribute("user", SCOPE_SESSION);
         issueCommentService.addComment(comment, issueId, user);
@@ -41,7 +45,7 @@ public class CommentController {
     public void update(@RequestParam String comment,
                        @RequestParam int issueId,
                        @RequestParam int commentId) {
-        //validator
+        //issueCommentValidator.validate();
 
         issueCommentService.updateComment(comment, issueId, commentId);
     }

@@ -8,10 +8,12 @@ $.fn.editable.defaults.mode = 'inline';
 var issueId = Cookies.get('checkedIssueId');
 
 function wrapText(txt) {
-    var index = 30;
-    while (index < txt.length) {
-        txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
-        index = index + 30;
+    if (!jQuery.isEmptyObject(txt)) {
+        var index = 30;
+        while (index < txt.length) {
+            txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
+            index = index + 30;
+        }
     }
     return txt;
 }
@@ -50,7 +52,7 @@ function renderPage(issue) {
     // if key exists -> show file list
     if (issue.hasOwnProperty('attachments') && !$.isEmptyObject(issue.attachments)) {
         $.each(issue.attachments, function (index, value) {
-            var name = (/\/files\/\d+\/(.+)/gi).exec(value.attachmentPath)[1];
+            var name = (/\/files\/-?\d+\/(.+)/gi).exec(value.attachmentPath)[1];
             var href = "/file/get/" + issueId + "/" + name;
             var deleteHref = "/file/remove/" + issueId + "/" + name;
             $('div#files').append(
@@ -184,7 +186,7 @@ function initCommentEvents() {
 
     // Validate
     $('.comments').editable('option', 'validate', function (v) {
-        if (!v) return 'Required text!';
+        if (!v) return 'Comment is required!';
     });
 
     // Delete comment
@@ -236,7 +238,7 @@ function workflow(data) {
             '<span class="filename"></span>' +
             '<span data-id="' + uploadCounter + '" class="remove-extra-file close">   &times;</span>' +
             '</div>');
-        initUploadEvents();
+        initAttachmentEvents();
     });
 
     // Get all files and upload using AJAX

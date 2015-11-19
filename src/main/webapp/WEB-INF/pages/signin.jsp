@@ -25,11 +25,11 @@
                             <fieldset>
                                 <div class="form-group" id="form_group_email">
                                     <label class="control-label" for="email">E-mail:</label>
-                                    <input class="form-control" placeholder="E-mail" id="email" type="text" value="juliia.vovk@gmail.com" autofocus>
+                                    <input class="form-control" placeholder="E-mail" id="email" type="text" autofocus>
                                 </div>
                                 <div class="form-group" id="form_group_password">
                                     <label class="control-label" for="password">Password:</label>
-                                    <input class="form-control" placeholder="Password" id="password" value="12345" type="password">
+                                    <input class="form-control" placeholder="Password" id="password" type="password">
                                 </div>
                                 <div class="checkbox">
                                     <label>
