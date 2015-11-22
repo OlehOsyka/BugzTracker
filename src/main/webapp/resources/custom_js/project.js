@@ -10,7 +10,6 @@ var preLoaded = preLoad();
 
 function preLoad() {
     projectId = Cookies.get('checkedId');
-    //Cookies.remove('checkedId');
     return $.ajax({
         type: "GET",
         url: "/check/" + projectId
@@ -19,12 +18,12 @@ function preLoad() {
 
 function renderTable(data) {
     isMyProject = data;
-    if (!isMyProject) {
-        $('#btn-my-issues').addClass('show-none');
-        $('#btn-issues').addClass('active');
-    } else {
-        $('#btn-my-issues').addClass('active');
-    }
+    //if (!isMyProject) {
+    //    $('#btn-my-issues').addClass('show-none');
+    //    $('#btn-issues').addClass('active');
+    //} else {
+    //    $('#btn-my-issues').addClass('active');
+    //}
     dt = $('#issuesTable').DataTable({
         "bInfo" : false,
         ajax: {
@@ -193,8 +192,7 @@ $.when(preLoaded).done(function (data) {
         error += Validation.validDescription();
         error += Validation.validStatusPriorityCategory();
         if (error) {
-            $('#invalid-issue-edit').removeClass('non-visible');
-            $('#invalid-issue-edit').text(error);
+            $('#invalid-issue-edit').removeClass('non-visible').text(error);
             return false;
         } else {
             $('#invalid-issue-edit').addClass('non-visible');
@@ -259,8 +257,7 @@ $.when(preLoaded).done(function (data) {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    $('#invalid-issue-edit').removeClass('non-visible');
-                    $('#invalid-issue-edit').text(errorText);
+                    $('#invalid-issue-edit').removeClass('non-visible').text(errorText);
                 }
             });
         }
@@ -347,8 +344,7 @@ $.when(preLoaded).done(function (data) {
         $('#desc').val('');
         $('#assignee').val('');
         $('#assignee-field').empty();
-        $('#invalid-issue-edit').addClass('non-visible');
-        $('#invalid-issue-edit').empty();
+        $('#invalid-issue-edit').addClass('non-visible').empty();
         $('#form-group-name, #form-group-desc, #form-group-status, #form-group-category, #form-group-priority, #form-group-assignee, #form-group-version').removeClass('has-error has-success');
     }
 
@@ -397,7 +393,7 @@ $.when(preLoaded).done(function (data) {
     });
 
     $(document).mousedown(function (e) {
-        if (e.button == 2 && $(e.target).is('td')) {
+        if (e.button == 2 && $(e.target).is('td') && e.target.className != "dataTables_empty") {
             checkedId = e.target.parentElement.cells[0].innerText;
             Cookies.set('checkedIssueId', checkedId);
             window.location.href = '/issue';

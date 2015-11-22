@@ -55,19 +55,12 @@ public class ProjectController {
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
     public void update(@RequestBody Project project, WebRequest request) {
         projectValidator.validate(project);
+
         User user = (User) request.getAttribute("user", SCOPE_SESSION);
 
         projectService.updateProject(project);
 
-        List<Integer> prIds = (List<Integer>) request.getAttribute("userProjectIds", WebRequest.SCOPE_SESSION);
-        //to refactor
-        if ((project.getParticipants().contains(user) && !prIds.contains(project.getId()))
-        || (!project.getParticipants().contains(user) && prIds.contains(project.getId()))) {
-            user = userService.find(user.getEmail());
-            List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
-            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
-            request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
-        }
+        updateProjectsForUserInSession(user, project, request);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -79,15 +72,7 @@ public class ProjectController {
 
         projectService.addProject(project, user);
 
-        //to refactor
-        List<Integer> prIds = (List<Integer>) request.getAttribute("userProjectIds", WebRequest.SCOPE_SESSION);
-        if ((project.getParticipants().contains(user) && !prIds.contains(project.getId()))
-                || (!project.getParticipants().contains(user) && prIds.contains(project.getId()))) {
-            user = userService.find(user.getEmail());
-            List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
-            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
-            request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
-        }
+        updateProjectsForUserInSession(user, project, request);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -98,6 +83,14 @@ public class ProjectController {
         return projectIds.contains(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    public Boolean haveProjects(WebRequest request) {
+        List<Long> projectIds = (List<Long>) request.getAttribute("userProjectIds", SCOPE_SESSION);
+        return !projectIds.isEmpty();
+    }
+
     @ExceptionHandler
     @ResponseBody
     public ResponseEntity handleException(ValidationException exc) {
@@ -105,5 +98,16 @@ public class ProjectController {
         errors.put("error", exc.getMessage());
 
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    private void updateProjectsForUserInSession(User user, Project project, WebRequest request) {
+        List<Integer> prIds = (List<Integer>) request.getAttribute("userProjectIds", WebRequest.SCOPE_SESSION);
+        if ((project.getParticipants().contains(user) && !prIds.contains(project.getId()))
+                || (!project.getParticipants().contains(user) && prIds.contains(project.getId()))) {
+            user = userService.find(user.getEmail());
+            List<Integer> projectIds = userService.getProjectsIdsOfUser(user);
+            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+            request.setAttribute("userProjectIds", projectIds, WebRequest.SCOPE_SESSION);
+        }
     }
 }

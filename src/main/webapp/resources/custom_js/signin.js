@@ -26,19 +26,7 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    //if (errorText.indexOf("No") >= 0) {
-                    //    $('#form_group_email').removeClass('has-success');
-                    //    $('#form_group_email').addClass("has-error");
-                    //
-                    //    $('#form_group_password').removeClass('has-success');
-                    //    $('#form_group_password').addClass('has-error');
-                    //}
-                    //if (errorText.indexOf("Incorrect") >= 0) {
-                    //    $('#form_group_password').removeClass('has-success');
-                    //    $('#form_group_password').addClass('has-error');
-                    //}
-                    $('#invalid_login').removeClass('non-visible');
-                    $('#invalid_login').text(errorText);
+                    $('#invalid_login').removeClass('non-visible').text(errorText);
                 }
             });
         }
@@ -56,8 +44,7 @@ $(document).ready(function () {
         error += Validation.validEmail(email);
         error += Validation.validPassword(password);
         if (error) {
-            $('#invalid_login').removeClass('non-visible');
-            $('#invalid_login').text(error);
+            $('#invalid_login').removeClass('non-visible').text(error);
             return false;
         } else {
             $('#invalid_login').addClass('non-visible');

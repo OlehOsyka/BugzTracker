@@ -22,8 +22,7 @@ $(document).ready(function () {
                 },
                 data: JSON.stringify(credentials),
                 success: function (data) {
-                    $('#valid_signup').removeClass('non-visible');
-                    $('#valid_signup').text(data.message);
+                    $('#valid_signup').removeClass('non-visible').text(data.message);
                     $('#full_name').val('');
                     $('#email').val('');
                     $('#password').val('');
@@ -31,8 +30,7 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    $('#invalid_signup').removeClass('non-visible');
-                    $('#invalid_signup').text(errorText);
+                    $('#invalid_signup').removeClass('non-visible').text(errorText);
                 }
             });
         }
@@ -51,8 +49,7 @@ $(document).ready(function () {
         error += Validation.validEmailRegistration(email);
         error += Validation.validFullNameRegistration(fullName);
         if (error) {
-            $('#invalid_signup').removeClass('non-visible');
-            $('#invalid_signup').text(error);
+            $('#invalid_signup').removeClass('non-visible').text(error);
             return false;
         } else {
             $('#invalid_signup').addClass('non-visible');

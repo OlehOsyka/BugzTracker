@@ -32,7 +32,7 @@ hr {
     border-radius: 4px;
     padding: 3px;
     color: white;
-    background-color: darkseagreen;
+    background-color: #7aba7b;
 }
 
 .row {
@@ -51,7 +51,7 @@ hr {
 }
 
 .comment {
-    background: darkseagreen;
+    background: #7aba7b;
 }
 
 #comments {

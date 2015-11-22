@@ -1,8 +1,3 @@
-/**
- * Created by oleg
- * Date: 01.11.15
- * Time: 15:56
- */
 // inline mode for x-editable
 $.fn.editable.defaults.mode = 'inline';
 var issueId = Cookies.get('checkedIssueId');

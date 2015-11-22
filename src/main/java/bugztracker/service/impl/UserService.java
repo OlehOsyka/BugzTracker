@@ -5,6 +5,7 @@ import bugztracker.bean.LoginBean;
 import bugztracker.bean.Mail;
 import bugztracker.entity.Project;
 import bugztracker.entity.User;
+import bugztracker.repository.IProjectRepository;
 import bugztracker.repository.IUserRepository;
 import bugztracker.service.IEmailService;
 import bugztracker.service.IUserService;
@@ -27,6 +28,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IProjectRepository projectRepository;
 
     @Autowired
     private IEmailService emailService;
@@ -137,6 +141,13 @@ public class UserService implements IUserService {
         List<Integer> projectIds = new ArrayList<>();
         for (Project pr : user.getProjects()) {
             projectIds.add(pr.getId());
+        }
+
+        List<Project> projects = projectRepository.getAll();
+        for(Project pr : projects) {
+            if(pr.getUserOwner().equals(user)){
+                projectIds.add(pr.getId());
+            }
         }
         return projectIds;
     }

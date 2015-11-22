@@ -1,3 +1,5 @@
+var dt;
+
 function format(d) {
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
@@ -51,17 +53,23 @@ function dataFormatter(data) {
     return data;
 }
 
-$(document).ready(function () {
+var preLoaded = preLoad();
 
-    $('#dropdown-projects').removeClass('non-visible');
-    $('#list-issues').addClass('non-visible');
+function preLoad() {
+    return $.ajax({
+        type: "GET",
+        url: "/check"
+    });
+}
 
-    var dt = $('#example').DataTable({
+function renderTable(data) {
+
+    dt = $('#example').DataTable({
         "bInfo" : false,
         ajax: {
             contentType: "application/json",
             dataType: 'json',
-            url: "/projects?my=true",
+            url: "/projects?my="+data,
             type: "get",
             dataSrc: ''
         },
@@ -149,6 +157,15 @@ $(document).ready(function () {
         scrollY: 385
     });
 
+}
+
+$.when(preLoaded).done(function (data) {
+
+    renderTable(data);
+
+    $('#dropdown-projects').removeClass('non-visible');
+    $('#list-issues').addClass('non-visible');
+
     $('#btn-cancel, #btn-close').click(function () {
         cleanModal();
     });
@@ -158,8 +175,7 @@ $(document).ready(function () {
         $('#name').val('');
         $('#user').val('');
         $('#users-list').empty();
-        $('#invalid-project-edit').addClass('non-visible');
-        $('#invalid-project-edit').empty();
+        $('#invalid-project-edit').addClass('non-visible').empty();
         $('#form-group-name, #form-group-desc, #form-group-users').removeClass('has-error has-success');
     }
 
@@ -168,9 +184,6 @@ $(document).ready(function () {
     // add placeholder to searchbox
     $('.dataTables_filter label input').attr('placeholder','Search');
 
-    //$('<div class="btn-group" role="group">' +
-    //    '<button type="button" class="btn btn-primary" id="btn-proj">All projects</button>' +
-    //    '<button type="button" class="btn btn-primary active" id="btn-my-proj">My projects</button>' +
     $('<button type="button" class="btn btn-primary" id="btn-edit">Add</button>').appendTo('div.dataTables_filter');
 
     //what btn was pushed last
@@ -185,20 +198,16 @@ $(document).ready(function () {
     $('#btn-my-proj, #btn-dashboard').click(function () {
         dt.ajax.url('/projects?my=true').load();
         $('#dropdown-issues').addClass('non-visible');
-        //$('#btn-my-proj').addClass('active');
         isChecked = false;
         $('#btn-edit').text('Add');
-        //$('#btn-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
     $('#btn-proj').click(function () {
         dt.ajax.url('/projects?my=false').load();
         $('#dropdown-issues').addClass('non-visible');
-        //$('#btn-proj').addClass('active');
         isChecked = false;
         $('#btn-edit').text('Add');
-        //$('#btn-my-proj').removeClass('active');
         lastBtn = $(this).attr('id');
     });
 
@@ -230,7 +239,7 @@ $(document).ready(function () {
     };
 
     $(document).mousedown(function (e) {
-        if (e.button == 2 && $(e.target).is('td')) {
+        if (e.button == 2 && $(e.target).is('td') && e.target.className != "dataTables_empty") {
             checkedId = e.target.parentElement.cells[1].innerText;
             Cookies.set('checkedId', checkedId);
             window.location.href = '/project';
@@ -294,8 +303,7 @@ $(document).ready(function () {
                 error: function (data) {
                     var error = data.responseJSON;
                     var errorText = error.error;
-                    $('#invalid-project-edit').removeClass('non-visible');
-                    $('#invalid-project-edit').text(errorText);
+                    $('#invalid-project-edit').removeClass('non-visible').text(errorText);
                 }
             });
         }
@@ -307,8 +315,7 @@ $(document).ready(function () {
         error += Validation.validParticipants();
         error += Validation.validDescription();
         if (error) {
-            $('#invalid-project-edit').removeClass('non-visible');
-            $('#invalid-project-edit').text(error);
+            $('#invalid-project-edit').removeClass('non-visible').text(error);
             return false;
         } else {
             $('#invalid-project-edit').addClass('non-visible');
@@ -317,15 +324,7 @@ $(document).ready(function () {
     }
 
     $("#users-list").on('click', 'button.close', function (e) {
-        //if ($('#modalEdit').find('#modal-name').text() == 'Add') {
-        //    $(e.currentTarget.parentElement).remove();
-        //} else {
-        //    var userName = $('#current-user').val();
-        //    var text = e.currentTarget.parentElement.innerText;
-        //if (text.substring(0, text.length - 1) != userName) {
         $(e.currentTarget.parentElement).remove();
-        //   }
-        //}
     });
 
 
@@ -333,7 +332,7 @@ $(document).ready(function () {
         $('#modalEdit').modal('show');
     });
 
-    $('#modalEdit').on('show.bs.modal', function (event) {
+    $('#modalEdit').on('show.bs.modal', function () {
         var modal = $(this);
         if (isChecked) {
             modal.find('#modal-name').text("Edit");

@@ -23,10 +23,9 @@
 </div>
 <div class="footer">
     <div class="footer-text">
-            Bugz Tracker, 2015
+        Bugz Tracker, 2015
     </div>
 </div>
 </body>
-    <%--for js + css after body--%>
-    <jsp:invoke fragment="footer"/>
-</html>
+<%--for js + css after body--%>
+<jsp:invoke fragment="footer"/>
