@@ -68,6 +68,7 @@ function renderPage(issue) {
         });
     }
     commentsField.append('<div id="text-comment">' +
+        '<div id="comment-error" class="non-visible error-comment"></div>' +
         '<textarea id="comment" class="form-control" placeholder="Add comment..."></textarea>' +
         '<br/>' +
         '<button id="addComment" type="button" class="btn btn-primary btn-sm">Add comment</button>' +
@@ -120,6 +121,16 @@ function initCommentEvents() {
     // Add comment
     $('#addComment').unbind('click').on('click', function () {
         var comment = $('#comment').val();
+        var error = validate(comment);
+        if (!jQuery.isEmptyObject(error)) {
+            $('#comment-error').removeClass('non-visible').text(error);
+            $('#comment').addClass('error-comment');
+            return;
+        }
+        else {
+            $('#comment-error').addClass('non-visible');
+            $('#comment').removeClass('error-comment');
+        }
         $.ajax({
             type: "POST",
             url: "/comment/add",
@@ -192,8 +203,7 @@ function initCommentEvents() {
 
     // Validate
     $('.comments').editable('option', 'validate', function (v) {
-        if (!$.trim(v)) return 'Comment is required!';
-        else if ($.trim(v).length > 500) return 'Please, shorten the name of issue. Not more than 500 symbols is possible!';
+        return validate(v);
     });
 
     // Delete comment
@@ -281,6 +291,11 @@ function workflow(data) {
     });
 }
 
+function validate(v) {
+    if (!$.trim(v)) return 'Comment is required!';
+    else if ($.trim(v).length > 500) return 'Please, shorten your comment. Not more than 500 symbols is possible!';
+
+}
 $.when(preLoad()).done(function (issue) {
     workflow(issue);
 });

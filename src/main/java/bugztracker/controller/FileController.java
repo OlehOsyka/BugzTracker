@@ -61,19 +61,15 @@ public class FileController {
         fileService.remove(issueId, fileName);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {
+            MultipartException.class,
+            FileServiceException.class})
     @ResponseBody
-    private ResponseEntity uploadErrorHandler(MultipartException e) {
+    private ResponseEntity uploadErrorHandler(Throwable e) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", e.getMessage());
 
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    private String fileErrorHandler(FileServiceException e) {
-        return e.getMessage();
-    }
 }

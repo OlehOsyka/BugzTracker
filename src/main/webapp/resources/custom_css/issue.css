@@ -65,3 +65,7 @@ hr {
 .padding-bottom {
     padding-bottom: 4%;
 }
+.error-comment{
+    color: red;
+    border: 2px red !important;
+}

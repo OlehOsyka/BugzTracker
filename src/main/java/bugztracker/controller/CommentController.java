@@ -3,6 +3,7 @@ package bugztracker.controller;
 import bugztracker.entity.IssueComment;
 import bugztracker.entity.User;
 import bugztracker.exception.ValidationException;
+import bugztracker.exception.service.IssueCommentServiceException;
 import bugztracker.service.IIssueCommentService;
 import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,11 @@ public class CommentController {
         issueCommentService.delete(issueId, commentId);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(value = {
+            ValidationException.class,
+            IssueCommentServiceException.class})
     @ResponseBody
-    private ResponseEntity commentErrorHandler(ValidationException e) {
+    private ResponseEntity commentErrorHandler(Throwable e) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", e.getMessage());
 
