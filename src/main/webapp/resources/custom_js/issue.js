@@ -124,12 +124,10 @@ function initCommentEvents() {
         var error = validate(comment);
         if (!jQuery.isEmptyObject(error)) {
             $('#comment-error').removeClass('non-visible').text(error);
-            $('#comment').addClass('error-comment');
             return;
         }
         else {
             $('#comment-error').addClass('non-visible');
-            $('#comment').removeClass('error-comment');
         }
         $.ajax({
             type: "POST",
