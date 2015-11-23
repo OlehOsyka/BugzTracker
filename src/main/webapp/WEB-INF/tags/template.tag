@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
-<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
@@ -22,10 +22,13 @@
     <jsp:doBody/>
 </div>
 <div class="footer">
-    <div class="footer-text">
-        Bugz Tracker, 2015
-    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="footer-text">
+            Bugz Tracker, 2015
+        </div>
+    </nav>
 </div>
 </body>
 <%--for js + css after body--%>
 <jsp:invoke fragment="footer"/>
+</html>

@@ -2,16 +2,18 @@ package bugztracker.controller;
 
 import bugztracker.entity.IssueComment;
 import bugztracker.entity.User;
-import bugztracker.exception.service.IssueCommentServiceException;
 import bugztracker.service.IIssueCommentService;
 import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
@@ -31,23 +33,20 @@ public class CommentController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void add(@RequestParam String comment,
-                    @RequestParam int issueId,
+    public void add(@RequestBody IssueComment comment,
                     WebRequest request) {
-        //issueCommentValidator.validate();
+        issueCommentValidator.validate(comment);
 
         User user = (User) request.getAttribute("user", SCOPE_SESSION);
-        issueCommentService.addComment(comment, issueId, user);
+        issueCommentService.addComment(comment, user);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(@RequestParam String comment,
-                       @RequestParam int issueId,
-                       @RequestParam int commentId) {
-        //issueCommentValidator.validate();
+    public void update(@RequestBody IssueComment comment) {
+        issueCommentValidator.validate(comment);
 
-        issueCommentService.updateComment(comment, issueId, commentId);
+        issueCommentService.updateComment(comment);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -67,8 +66,11 @@ public class CommentController {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    private String uploadErrorHandler(IssueCommentServiceException e) {
-        return e.getMessage();
+    private ResponseEntity<Object> commentErrorHandler(Throwable e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+
+        return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     }
 
 }

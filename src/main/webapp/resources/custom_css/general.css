@@ -28,11 +28,11 @@
     line-height: 20px;
 }
 
-.padding-top{
+.padding-top {
     padding-top: 10px;
 }
 
-.container {
+.container, table {
     font-family: Raleway, sans-serif;
     font-size: 12px !important;
 }
@@ -64,7 +64,7 @@
 }
 
 /*.padding-modal {*/
-    /*margin-top: 10%;*/
+/*margin-top: 10%;*/
 /*}*/
 
 .display-user-label {
@@ -109,7 +109,7 @@
     display: inline;
 }
 
-.panel-heading{
+.panel-heading {
     color: white;
     background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
 }
@@ -120,7 +120,7 @@
     color: white;
 }
 
-.panel-title{
+.panel-title {
     color: white;
 }
 
@@ -128,6 +128,6 @@
     display: none !important;
 }
 
-.margin-top{
+.margin-top {
     margin-top: 5%;
 }

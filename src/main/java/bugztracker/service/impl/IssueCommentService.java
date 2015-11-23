@@ -34,13 +34,13 @@ public class IssueCommentService implements IIssueCommentService {
 
     @Transactional
     @Override
-    public void addComment(String text, int issueId,User sender) throws IssueCommentServiceException {
+    public void addComment(IssueComment commentDto, User sender) throws IssueCommentServiceException {
         User fullSender = userRepository.get(sender.getId());
         if (fullSender == null) {
             throw new IssueCommentServiceException("Can't find specified user!");
         }
 
-        Issue fullIssue = issueRepository.get(issueId);
+        Issue fullIssue = issueRepository.get(commentDto.getIssueByIssueId().getId());
         if (fullIssue == null) {
             throw new IssueCommentServiceException("Can't find specified issue!");
         }
@@ -50,23 +50,23 @@ public class IssueCommentService implements IIssueCommentService {
         comment.setDate(new Timestamp(DateTime.now().getMillis()));
         comment.setSender(fullSender);
         comment.setIssueByIssueId(fullIssue);
-        comment.setComment(text);
+        comment.setComment(commentDto.getComment());
         add(comment);
     }
 
     @Transactional
     @Override
-    public void updateComment(String comment, int issueId, int commentId) throws IssueCommentServiceException {
-        IssueComment oldComment = issueCommentRepository.get(commentId);
-        if(oldComment == null){
+    public void updateComment(IssueComment comment) throws IssueCommentServiceException {
+        IssueComment oldComment = issueCommentRepository.get(comment.getId());
+        if (oldComment == null) {
             throw new IssueCommentServiceException("Specified comment not found!");
         }
-        if (oldComment.getIssueByIssueId().getId() != issueId) {
+        if (oldComment.getIssueByIssueId().getId() != comment.getIssueByIssueId().getId()) {
             throw new IssueCommentServiceException("Comment doesn't concern to current issue!");
         }
 
         oldComment.setUpdateDate(new Timestamp(DateTime.now().getMillis()));
-        oldComment.setComment(comment);
+        oldComment.setComment(comment.getComment());
         update(oldComment);
     }
 

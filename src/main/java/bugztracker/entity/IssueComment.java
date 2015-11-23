@@ -60,7 +60,7 @@ public class IssueComment implements Serializable {
     @JsonBackReference
     @JoinColumn(name = "issue_id",
             referencedColumnName = "id", nullable = false)
-    @NotNull(message = "Issue to  be commented is required! ")
+    @NotNull(message = "Issue to be commented is required! ")
     public Issue getIssueByIssueId() {
         return issueByIssueId;
     }

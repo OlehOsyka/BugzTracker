@@ -11,8 +11,8 @@ import java.util.List;
  */
 public interface IIssueCommentService  extends IService<IssueComment>{
 
-    void addComment(String comment, int issueId, User sender) throws IssueCommentServiceException;
-    void updateComment(String comment, int issueId, int commentId) throws IssueCommentServiceException;
+    void addComment(IssueComment comment, User sender) throws IssueCommentServiceException;
+    void updateComment(IssueComment comment) throws IssueCommentServiceException;
 
     List<IssueComment> getAll(int issueId);
 

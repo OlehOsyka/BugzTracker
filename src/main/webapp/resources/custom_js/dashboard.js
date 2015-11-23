@@ -1,4 +1,5 @@
 var dt;
+var lang='en-us';
 
 function format(d) {
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
@@ -9,16 +10,16 @@ function format(d) {
         '<tr>' +
         '<tr>' +
         '<td>Project name:</td>' +
-        '<td>' + d.name + '</td>' +
+        '<td>' + Hyphenator.hyphenate(d.name, lang) + '</td>' +
         '</tr>' +
         '<tr>' +
         '<tr>' +
         '<td>Project owner:</td>' +
-        '<td>' + d.userOwner.fullName + '</td>' +
+        '<td>' + Hyphenator.hyphenate(d.userOwner.fullName, lang) + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>Participants:</td>' +
-        '<td>' + participantsFormatter(d.participants) + '</td>' +
+        '<td>' + Hyphenator.hyphenate(participantsFormatter(d.participants), lang) + '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>Date of creation:</td>' +
@@ -26,7 +27,7 @@ function format(d) {
         '</tr>' +
         '<tr>' +
         '<td>Description:</td>' +
-        '<td>' + dataFormatter(d.description) + '</td>' +
+        '<td>' + Hyphenator.hyphenate(dataFormatter(d.description), lang) + '</td>' +
         '</tr>' +
         '</table>';
 }
@@ -65,11 +66,11 @@ function preLoad() {
 function renderTable(data) {
 
     dt = $('#example').DataTable({
-        "bInfo" : false,
+        "bInfo": false,
         ajax: {
             contentType: "application/json",
             dataType: 'json',
-            url: "/projects?my="+data,
+            url: "/projects?my=" + data,
             type: "get",
             dataSrc: ''
         },
@@ -182,7 +183,7 @@ $.when(preLoaded).done(function (data) {
     // remove all text inside element without deleting child elements
     $('.dataTables_filter label').get(0).childNodes[0].nodeValue = '';
     // add placeholder to searchbox
-    $('.dataTables_filter label input').attr('placeholder','Search');
+    $('.dataTables_filter label input').attr('placeholder', 'Search');
 
     $('<button type="button" class="btn btn-primary" id="btn-edit">Add</button>').appendTo('div.dataTables_filter');
 
@@ -412,13 +413,3 @@ $.when(preLoaded).done(function (data) {
     });
 
 });
-
-function wrapText(txt) {
-    var index = 30;
-    while (index < txt.length) {
-        txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
-        index = index + 30;
-    }
-    return txt;
-}
-

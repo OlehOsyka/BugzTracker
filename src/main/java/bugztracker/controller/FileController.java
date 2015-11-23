@@ -1,5 +1,6 @@
 package bugztracker.controller;
 
+import bugztracker.exception.service.FileServiceException;
 import bugztracker.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -53,13 +54,21 @@ public class FileController {
     @ResponseBody
     @RequestMapping(value = "/remove/{issueId}/{fileName}", method = GET)
     public void removeFile(@PathVariable int issueId,
-                                           @PathVariable String fileName) {
+                           @PathVariable String fileName) {
         fileService.remove(issueId, fileName);
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
     private String uploadErrorHandler(MultipartException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    private String fileErrorHandler(FileServiceException e) {
         return e.getMessage();
     }
 }

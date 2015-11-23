@@ -124,7 +124,9 @@ public class FileService implements IFileService {
         String folder = uriBuilder.buildPathForIssueFolder(issueId);
         Collection<File> files = FileUtils.listFiles(new File(folder), CanReadFileFilter.CAN_READ, new PrefixFileFilter(fileName));
         for (File file : files) {
-            FileUtils.deleteQuietly(file);
+            if (file.getAbsolutePath().contains(fileName)) {
+                FileUtils.deleteQuietly(file);
+            }
         }
 
         String name = uriBuilder.buildPathForAttachment(issueId, fileName);

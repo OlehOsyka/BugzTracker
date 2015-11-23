@@ -2,17 +2,6 @@
 $.fn.editable.defaults.mode = 'inline';
 var issueId = Cookies.get('checkedIssueId');
 
-function wrapText(txt) {
-    if (!jQuery.isEmptyObject(txt)) {
-        var index = 30;
-        while (index < txt.length) {
-            txt = [txt.slice(index - 30, index), '<br/>', txt.slice(index)].join('');
-            index = index + 30;
-        }
-    }
-    return txt;
-}
-
 function preLoad() {
     return $.ajax({
         type: "GET",
@@ -21,26 +10,16 @@ function preLoad() {
 }
 
 function renderPage(issue) {
-    $('span#name').html(wrapText(issue.name));
-    $('span#date').html(wrapText(issue.date));
-    $('span#lastUpdate').html(wrapText(issue.lastUpdate));
-    $('span#status').html(wrapText(issue.status));
-    $('span#priority').html(wrapText(issue.priority));
-    $('span#desc').html(wrapText(issue.description));
-    $('span#category').html(wrapText(issue.category));
-    $('span#creator').html(wrapText(issue.userCreator.fullName));
-    $('span#version').html(wrapText(issue.version));
-    $('span#assignee').html(wrapText(issue.assignee.fullName));
-    $('span#name').text(issue.name);
-    $('span#date').text(issue.date);
-    $('span#lastUpdate').text(issue.lastUpdate == null ? '-' : issue.lastUpdate);
-    $('span#status').text(issue.status);
-    $('span#priority').text(issue.priority);
-    $('span#desc').text(issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description);
-    $('span#category').text(issue.category);
-    $('span#creator').text(issue.userCreator.fullName);
-    $('span#version').text(issue.version);
-    $('span#assignee').text(issue.assignee.fullName);
+    $('span#name').html((issue.name));
+    $('span#date').html((issue.date));
+    $('span#lastUpdate').html((issue.lastUpdate == null ? '-' : issue.lastUpdate));
+    $('span#status').html((issue.status));
+    $('span#priority').html((issue.priority));
+    $('span#desc').html((issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description));
+    $('span#category').html((issue.category));
+    $('span#creator').html((issue.userCreator.fullName));
+    $('span#version').html((issue.version));
+    $('span#assignee').html((issue.assignee.fullName));
 
     // Show attachments
     $('div#files').empty();
@@ -52,7 +31,7 @@ function renderPage(issue) {
             var deleteHref = "/file/remove/" + issueId + "/" + name;
             $('div#files').append(
                 '<div class="attachment-table">' +
-                '<a href="' + href + '" target="_blank">' + wrapText(name) + '</a>' +
+                '<a href="' + href + '" target="_blank">' + (name) + '</a>' +
                 '<span class="remove-attachment close" data-href="' + deleteHref + '">  &times;</span>' +
                 '</div>');
         });
@@ -78,11 +57,12 @@ function renderPage(issue) {
     if (issue.hasOwnProperty('comments') && !$.isEmptyObject(issue.comments)) {
         $.each(issue.comments, function (i, comment) {
             var date = new Date(comment.date);
+            var updateDate = !jQuery.isNumeric(comment.updateDate) ? '' : '(' + new Date(comment.updateDate).toLocaleDateString() + ' ' + new Date(comment.updateDate).toLocaleTimeString() + ')';
             commentsField.append('<div class="comment alert alert-dismissible" id="comment-' + comment.id + '">' +
                 '<span class="comment-util">' + comment.sender.fullName + '</span>' +
-                '<span style="float: right">' + date.toLocaleDateString() + date.toLocaleTimeString() + '</span>' +
+                '<span style="float: right"><b>' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</b> ' + updateDate + '</span>' +
                 '<hr/>' +
-                '<span class="comments" data-id="' + comment.id + '">' + wrapText(comment.comment) + '</span>' +
+                '<span class="comments hyphenate" data-id="' + comment.id + '">' + comment.comment + '</span>' +
                 '<span class="remove-comment close" data-id="' + comment.id + '"> &times;</span><br/>' +
                 '</div>');
         });
@@ -92,6 +72,9 @@ function renderPage(issue) {
         '<br/>' +
         '<button id="addComment" type="button" class="btn btn-primary btn-sm">Add comment</button>' +
         '</div>');
+
+    $('#error').addClass('non-visible');
+    Hyphenator.run();
 }
 
 function initAttachmentEvents() {
@@ -140,15 +123,30 @@ function initCommentEvents() {
         $.ajax({
             type: "POST",
             url: "/comment/add",
-            data: {
-                comment: comment,
-                issueId: issueId
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
+            data: JSON.stringify({
+                comment: comment,
+                issueByIssueId: {
+                    id: issueId
+                }
+            }),
             success: function () {
                 // refresh page
                 preLoad().done(function (issue) {
                     workflow(issue);
                 });
+            },
+            error: function (data) {
+                if (data.hasOwnProperty('responseJSON') && !$.isEmptyObject(data.responseJSON)) {
+                    var error = data.responseJSON;
+                    var errorText = error.error;
+                    $('#error').removeClass('non-visible').text(errorText);
+                }else{
+                    $('#error').html(data);
+                }
             }
         });
     });
@@ -156,6 +154,9 @@ function initCommentEvents() {
     //Update
     $('.comments').editable({
         emptytext: 'Input text!',
+        //display: function(value, sourceData) {
+        //    $(this).text(Hyphenator.hyphenate(value, 'en-us'));
+        //},
         type: 'text',
         url: function (params) {
             var comment = params.value;
@@ -163,16 +164,31 @@ function initCommentEvents() {
             $.ajax({
                 type: "POST",
                 url: "/comment/update",
-                data: {
-                    comment: comment,
-                    commentId: commentId,
-                    issueId: issueId
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
                 },
+                data: JSON.stringify({
+                    comment: comment,
+                    id: commentId,
+                    issueByIssueId: {
+                        id: issueId
+                    }
+                }),
                 success: function () {
                     // refresh page
                     preLoad().done(function (issue) {
                         workflow(issue);
                     });
+                },
+                error: function (data) {
+                    if (data.hasOwnProperty('responseJSON') && !$.isEmptyObject(data.responseJSON)) {
+                        var error = data.responseJSON;
+                        var errorText = error.error;
+                        $('#error').removeClass('non-visible').text(errorText);
+                    }else{
+                        $('#error').html(data);
+                    }
                 }
             });
         },

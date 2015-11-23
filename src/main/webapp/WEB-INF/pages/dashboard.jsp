@@ -20,6 +20,8 @@
         <script src="<c:url value="/resources/js/dataTables.bootstrap.min.js"/>"></script>
         <script src="<c:url value="/resources/js/bootstrap-editable.js"/>"></script>
         <script src="<c:url value="/resources/js/bootstrap3-typeahead.min.js"/>"></script>
+        <script src="<c:url value="/resources/js/Hyphenator.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/patterns/en-us.js"/>" type="text/javascript"></script>
         <script src="<c:url value="/resources/custom_js/dashboard.js"/>"></script>
         <script src="<c:url value="/resources/custom_js/validation.js"/>"></script>
     </jsp:attribute>

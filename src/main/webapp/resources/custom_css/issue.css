@@ -58,10 +58,10 @@ hr {
     margin: 10px;
 }
 
-.attachment-table{
+.attachment-table {
     display: table;
 }
 
-.footer {
-    position: relative;
+.padding-bottom {
+    padding-bottom: 4%;
 }
