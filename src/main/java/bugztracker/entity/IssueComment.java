@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -39,6 +40,7 @@ public class IssueComment implements Serializable {
 
     @Column(nullable = false)
     @NotBlank(message = "Comment is required! ")
+    @Size(max = 500, message = "Please, shorten the name of issue. Not more than 500 symbols is possible! ")
     public String getComment() {
         return comment;
     }

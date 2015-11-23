@@ -10,16 +10,16 @@ function preLoad() {
 }
 
 function renderPage(issue) {
-    $('span#name').html((issue.name));
-    $('span#date').html((issue.date));
-    $('span#lastUpdate').html((issue.lastUpdate == null ? '-' : issue.lastUpdate));
-    $('span#status').html((issue.status));
-    $('span#priority').html((issue.priority));
-    $('span#desc').html((issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description));
-    $('span#category').html((issue.category));
-    $('span#creator').html((issue.userCreator.fullName));
-    $('span#version').html((issue.version));
-    $('span#assignee').html((issue.assignee.fullName));
+    $('span#name').text((issue.name));
+    $('span#date').text((issue.date));
+    $('span#lastUpdate').text((issue.lastUpdate == null ? '-' : issue.lastUpdate));
+    $('span#status').text((issue.status));
+    $('span#priority').text((issue.priority));
+    $('span#desc').text((issue.description == "" || jQuery.isEmptyObject(issue.description) ? '-' : issue.description));
+    $('span#category').text((issue.category));
+    $('span#creator').text((issue.userCreator.fullName));
+    $('span#version').text((issue.version));
+    $('span#assignee').text((issue.assignee.fullName));
 
     // Show attachments
     $('div#files').empty();
@@ -144,8 +144,8 @@ function initCommentEvents() {
                     var error = data.responseJSON;
                     var errorText = error.error;
                     $('#error').removeClass('non-visible').text(errorText);
-                }else{
-                    $('#error').html(data);
+                } else {
+                    $('#error').text(data);
                 }
             }
         });
@@ -153,10 +153,6 @@ function initCommentEvents() {
 
     //Update
     $('.comments').editable({
-        emptytext: 'Input text!',
-        //display: function(value, sourceData) {
-        //    $(this).text(Hyphenator.hyphenate(value, 'en-us'));
-        //},
         type: 'text',
         url: function (params) {
             var comment = params.value;
@@ -186,18 +182,18 @@ function initCommentEvents() {
                         var error = data.responseJSON;
                         var errorText = error.error;
                         $('#error').removeClass('non-visible').text(errorText);
-                    }else{
-                        $('#error').html(data);
+                    } else {
+                        $('#error').text(data);
                     }
                 }
             });
-        },
-        title: 'Enter new comment message'
+        }
     });
 
     // Validate
     $('.comments').editable('option', 'validate', function (v) {
-        if (!v) return 'Comment is required!';
+        if (!$.trim(v)) return 'Comment is required!';
+        else if ($.trim(v).length > 500) return 'Please, shorten the name of issue. Not more than 500 symbols is possible!';
     });
 
     // Delete comment
@@ -206,6 +202,7 @@ function initCommentEvents() {
         $('#btn-del-com').attr('data-id', commentId);
         $('#modalDeleteCom').modal('show');
     });
+
     $('#btn-del-com').unbind('click').on('click', function () {
         var commentId = $(this).attr('data-id');
         $('#modalDeleteCom').modal('hide');
@@ -220,6 +217,7 @@ function initCommentEvents() {
             }
         });
     });
+
 }
 
 function workflow(data) {
@@ -270,6 +268,14 @@ function workflow(data) {
                 preLoad().done(function (issue) {
                     workflow(issue);
                 });
+            }, error: function (data) {
+                if (data.hasOwnProperty('responseJSON') && !$.isEmptyObject(data.responseJSON)) {
+                    var error = data.responseJSON;
+                    var errorText = error.error;
+                    $('#error').removeClass('non-visible').text(errorText);
+                } else {
+                    $('#error').text(data);
+                }
             }
         });
     });

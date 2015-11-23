@@ -2,6 +2,7 @@ package bugztracker.controller;
 
 import bugztracker.entity.IssueComment;
 import bugztracker.entity.User;
+import bugztracker.exception.ValidationException;
 import bugztracker.service.IIssueCommentService;
 import bugztracker.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,8 @@ public class CommentController {
     }
 
     @ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    private ResponseEntity<Object> commentErrorHandler(Throwable e) {
+    private ResponseEntity commentErrorHandler(ValidationException e) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", e.getMessage());
 

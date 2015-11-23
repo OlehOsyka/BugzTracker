@@ -5,12 +5,15 @@ import bugztracker.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -61,13 +64,15 @@ public class FileController {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    private String uploadErrorHandler(MultipartException e) {
-        return e.getMessage();
+    private ResponseEntity uploadErrorHandler(MultipartException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+
+        return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
     private String fileErrorHandler(FileServiceException e) {
         return e.getMessage();
     }

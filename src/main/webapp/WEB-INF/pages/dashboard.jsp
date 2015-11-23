@@ -34,12 +34,6 @@
         <div class="row white-back">
             <div class="col-md-12">
                 <div class="table-panel">
-                        <%--<div class="btn-group btn-distance" role="group">--%>
-                        <%--<button type="button" class="btn btn-primary" id="btn-proj">All projects</button>--%>
-                        <%--<button type="button" class="btn btn-primary active" id="btn-my-proj">My projects</button>--%>
-                        <%--</div>--%>
-
-                        <%--<button type="button" class="btn btn-primary" id="btn-edit"></button>--%>
 
                     <table id="example" class="table table-striped table-bordered" data-order="[[ 2, &quot;asc&quot; ]]"
                            cellspacing="0" width="100%"></table>

@@ -25,10 +25,6 @@
                 <div class="modal-body">
                     <fieldset>
                         <div class="row row-flex">
-                            <%--<div class="form-group col-md-12">--%>
-                                <%--<div class="alert alert-danger non-visible text-center" id="invalid-issue-edit"--%>
-                                     <%--role="alert"></div>--%>
-                            <%--</div>--%>
                             <div class="col-md-3 issue-div" id="form-group-name">
                                 <label class="control-label" for="name">Name:</label>
                                 <span id="name" class="hyphenate"/>
@@ -137,7 +133,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" id="btn-del-com">Delete</button>
-                                    <button type="button" class="btn btn-default" id="btn-cancel-com" data-dismiss="modal">Cancel
+                                    <button type="button" class="btn btn-primary" id="btn-cancel-com" data-dismiss="modal">Cancel
                                     </button>
                                 </div>
                             </div>
