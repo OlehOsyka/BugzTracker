@@ -122,7 +122,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" id="btn-delete-yes">Delete</button>
-                        <button type="button" class="btn btn-primary" id="btn-cancel-sel" data-dismiss="modal">Cancel
+                        <button type="button" class="btn btn-default" id="btn-cancel-sel" data-dismiss="modal">Cancel
                         </button>
                     </div>
                 </div>

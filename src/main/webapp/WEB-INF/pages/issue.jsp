@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" id="btn-del-att">Delete</button>
-                                    <button type="button" class="btn btn-primary" id="btn-cancel-att" data-dismiss="modal">Cancel
+                                    <button type="button" class="btn btn-default" id="btn-cancel-att" data-dismiss="modal">Cancel
                                     </button>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" id="btn-del-com">Delete</button>
-                                    <button type="button" class="btn btn-primary" id="btn-cancel-com" data-dismiss="modal">Cancel
+                                    <button type="button" class="btn btn-default" id="btn-cancel-com" data-dismiss="modal">Cancel
                                     </button>
                                 </div>
                             </div>

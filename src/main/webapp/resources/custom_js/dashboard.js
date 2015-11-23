@@ -363,6 +363,12 @@ $.when(preLoaded).done(function (data) {
         });
     });
 
+    $('body').keypress(function (eventCode) {
+        if (eventCode.keyCode == 13) {
+            $('#btn-save').click();
+        }
+    });
+
     $('#user').typeahead({
         source: function (query, process) {
             return $.ajax({

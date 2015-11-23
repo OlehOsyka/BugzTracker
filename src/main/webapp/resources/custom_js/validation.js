@@ -71,11 +71,12 @@ Validation.validProjectName = function (name) {
         $('#form-group-name').removeClass('has-success').addClass('has-error');
         error += "Name is required! ";
     } else {
-        if(name > 300) {
+        if(name.length > 300) {
             $('#form-group-name').removeClass('has-success').addClass('has-error');
             error += "Please, shorten the name. Not more than 300 symbols is possible! ";
+        } else {
+            $('#form-group-name').removeClass('has-error').addClass('has-success');
         }
-        $('#form-group-name').removeClass('has-error').addClass('has-success');
     }
     return error;
 };

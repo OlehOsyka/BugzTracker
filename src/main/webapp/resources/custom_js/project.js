@@ -128,7 +128,12 @@ function loadProjectName() {
             $('#dropdown-issues').removeClass('non-visible');
             $('#dropdown-projects').addClass('non-visible');
             $('#list-issues').addClass('non-visible');
-            $('#project-name').html(data.name+'<span class="caret"></span>');
+            var name = data.name;
+            if (name < 17) {
+                $('#project-name').html(name+'<span class="caret"></span>');
+            }
+            var substrName = name.substring(0, 17);
+            $('#project-name').html(substrName.concat('...')+'<span class="caret"></span>');
         }
     });
 }
@@ -330,6 +335,12 @@ $.when(preLoaded).done(function (data) {
                     return '';
                 }
             }
+        }
+    });
+
+    $('body').keypress(function (eventCode) {
+        if (eventCode.keyCode == 13) {
+            $('#btn-save').click();
         }
     });
 
