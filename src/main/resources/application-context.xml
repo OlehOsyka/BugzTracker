@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -22,6 +22,10 @@
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
+
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:schema.sql" />
+    </jdbc:embedded-database>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -54,6 +58,8 @@
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.connection.charSet">${encoding.filter}</prop>
                 <prop key="current_session_context_class">${current_session_context_class}</prop>
+
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
             </props>
         </property>
         <property name="packagesToScan" value="bugztracker.entity"/>
