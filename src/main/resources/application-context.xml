@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:task="http://www.springframework.org/schema/task" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -23,9 +23,17 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
-    <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:schema.sql" />
-    </jdbc:embedded-database>
+    <!--<jdbc:embedded-database id="bugztracker" type="H2">-->
+        <!--<jdbc:script location="classpath:schema.sql" />-->
+    <!--</jdbc:embedded-database>-->
+
+    <!--<bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="stop" depends-on="h2WebServer">-->
+        <!--<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092"/>-->
+    <!--</bean>-->
+    <!--<bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">-->
+        <!--<constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>-->
+    <!--</bean>-->
+
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -39,31 +47,64 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="validator"
-          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
-
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.connection.provider_class">${jdbc.provider}</prop>
-                <prop key="hibernate.hikari.minimumIdle">${jdbc.minidle}</prop>
-                <prop key="hibernate.hikari.maximumPoolSize">${jdbc.maxpoolsize}</prop>
+                <!--<prop key="hibernate.hikari.minimumIdle">${jdbc.minidle}</prop>-->
+                <!--<prop key="hibernate.hikari.maximumPoolSize">${jdbc.maxpoolsize}</prop>-->
                 <prop key="hibernate.show_sql">${database.show_sql}</prop>
-                <prop key="hibernate.hikari.idleTimeout">${jdbc.idletimeout}</prop>
-                <prop key="hibernate.hikari.dataSourceClassName">${jdbc.driverclassname}</prop>
-                <prop key="hibernate.hikari.dataSource.url">${jdbc.databaseurl}</prop>
+                <!--<prop key="hibernate.hikari.idleTimeout">${jdbc.idletimeout}</prop>-->
+                <prop key="hibernate.connection.driver_class">${jdbc.driverclassname}</prop>
+                <prop key="hibernate.connection.url">${jdbc.databaseurl}</prop>
                 <prop key="hibernate.hikari.dataSource.user">${jdbc.username}</prop>
                 <prop key="hibernate.hikari.dataSource.password">${jdbc.password}</prop>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.connection.charSet">${encoding.filter}</prop>
-                <prop key="current_session_context_class">${current_session_context_class}</prop>
+                <!--<prop key="current_session_context_class">${current_session_context_class}</prop>-->
 
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
         <property name="packagesToScan" value="bugztracker.entity"/>
     </bean>
+
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+        <!--<property name="configLocation" value="classpath:hibernate.cfg.xml"/>-->
+        <!--&lt;!&ndash;<property name="dataSource" ref="dataSource"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="hibernateProperties">&ndash;&gt;-->
+            <!--&lt;!&ndash;<props>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.connection.provider_class">${jdbc.provider}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.minimumIdle">${jdbc.minidle}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.maximumPoolSize">${jdbc.maxpoolsize}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.show_sql">${database.show_sql}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.idleTimeout">${jdbc.idletimeout}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.dataSourceClassName">${jdbc.driverclassname}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.dataSource.url">${jdbc.databaseurl}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.dataSource.user">${jdbc.username}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.hikari.dataSource.password">${jdbc.password}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.dialect">${jdbc.dialect}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.connection.charSet">${encoding.filter}</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="current_session_context_class">${current_session_context_class}</prop>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<prop key="hibernate.hbm2ddl.auto">create</prop>&ndash;&gt;-->
+            <!--&lt;!&ndash;</props>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="p">-->
+            <!--<bean class="org.hibernate.jpa.HibernatePersistenceProvider" />-->
+        <!--</property>-->
+        <!--<property name="jpaProperties">-->
+            <!--<map>-->
+                <!--<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />-->
+                <!--<entry key="hibernate.hbm2ddl.auto" value="create" />-->
+                <!--<entry key="hibernate.hbm2ddl.import_files" value="import_data.sql" />-->
+                <!--<entry key="hibernate.show_sql" value="true" />-->
+            <!--</map>-->
+        <!--</property>-->
+        <!--<property name="packagesToScan" value="bugztracker.entity"/>-->
+    <!--</bean>-->
     
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${mail.host}" />
@@ -92,6 +133,9 @@
             </props>
         </property>
     </bean>
+
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <bean id="scheduler" class="bugztracker.service.impl.Scheduler" autowire="byName"/>
 

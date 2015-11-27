@@ -26,7 +26,7 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes" value="application/json"/>
                 <property name="objectMapper">
-                    <bean class="bugztracker.util.HibernateLazyObjectMapper"/>
+                    <bean class="bugztracker.configuration.HibernateLazyObjectMapper"/>
                 </property>
             </bean>
         </mvc:message-converters>

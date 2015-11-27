@@ -22,4 +22,4 @@ ALTER TABLE `issue_comment` ADD CONSTRAINT `user_id_sender_frk` FOREIGN KEY (`us
 ALTER TABLE `participant` ADD CONSTRAINT `project_id_frk` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`);
 ALTER TABLE `participant` ADD CONSTRAINT `user_id_frk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-INSERT INTO `user` VALUES (1,'Yuliia Vovk','827ccb0eea','juliia.vovk@gmail.com',NULL);
+INSERT INTO user( id, full_name, password, email) VALUES (1,'Yuliia Vovk','827ccb0eea','juliia.vovk@gmail.com');
