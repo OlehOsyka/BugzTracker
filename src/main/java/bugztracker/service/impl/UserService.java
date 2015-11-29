@@ -13,6 +13,7 @@ import bugztracker.util.MD5Encoder;
 import org.apache.velocity.VelocityContext;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ import java.util.*;
 @Service
 @Transactional
 public class UserService implements IUserService {
+
+    @Value("${simple.registration}")
+    private boolean simpleRegistration;
 
     @Autowired
     private IUserRepository userRepository;
@@ -106,6 +110,12 @@ public class UserService implements IUserService {
 
         if (user != null) {
             response.put("error", "Email has already been registered! ");
+        } else if (simpleRegistration) {
+            newUser.setId((int) UUID.randomUUID().getMostSignificantBits());
+            newUser.setPassword(MD5Encoder.encrypt(newUser.getPassword()).substring(0, 10));
+            newUser.setIsActive(true);
+
+            userRepository.add(newUser);
         } else {
             newUser.setId((int) UUID.randomUUID().getMostSignificantBits());
             newUser.setPassword(MD5Encoder.encrypt(newUser.getPassword()).substring(0, 10));
@@ -126,7 +136,7 @@ public class UserService implements IUserService {
 
             VelocityContext velocityContext = new VelocityContext();
             velocityContext.put("fullName", newUser.getFullName());
-            velocityContext.put("link", "http://109.86.228.225:8080/account/activation?token="+registrationToken);
+            velocityContext.put("link", "http://109.86.228.225:8080/account/activation?token=" + registrationToken);
 
             emailService.sendEmail(mail, velocityContext);
 
@@ -144,8 +154,8 @@ public class UserService implements IUserService {
         }
 
         List<Project> projects = projectRepository.getAll();
-        for(Project pr : projects) {
-            if(pr.getUserOwner().equals(user)){
+        for (Project pr : projects) {
+            if (pr.getUserOwner().equals(user)) {
                 projectIds.add(pr.getId());
             }
         }
