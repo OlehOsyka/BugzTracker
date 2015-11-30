@@ -1,9 +1,7 @@
 package bugztracker.configuration;
 
-import com.mysql.management.MysqldResource;
-import com.mysql.management.MysqldResourceI;
+import bugztracker.util.EmbeddedMySQL;
 import com.zaxxer.hikari.HikariDataSource;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,15 +11,11 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created by oleg
@@ -31,8 +25,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Configuration
 @EnableTransactionManagement
 public class PersistenceConfiguration {
-
-    private final Logger logger = getLogger(getClass());
 
     private static final String BASE_ENTITY_PACKAGE = "bugztracker.entity";
 
@@ -103,7 +95,6 @@ public class PersistenceConfiguration {
                 setProperty("hibernate.hbm2ddl.auto", "create-drop");
                 setProperty("hibernate.hbm2ddl.import_files", "dump.sql");
                 setProperty("hibernate.hbm2ddl.import_files_sql_extractor", "org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor");
-//                setProperty("hibernate.connection.provider_class", provider);
                 setProperty("hibernate.dialect", dialect);
                 setProperty("hibernate.show_sql", showSQL);
                 setProperty("current_session_context_class", sessionContext);
@@ -111,32 +102,15 @@ public class PersistenceConfiguration {
         };
     }
 
-    private void initEmbeddedMySqlDB() throws ClassNotFoundException {
-        File databaseDir = new File(System.getProperty("user.home"), "db");
+    @Bean(initMethod = "initDb", destroyMethod = "shutdownDB")
+    public EmbeddedMySQL initEmbeddedMySqlDB() {
         Pattern p = Pattern.compile(":(\\d+)");
         Matcher m = p.matcher(url);
         if (m.find()) {
-            startDatabase(databaseDir, m.group(1), user, password);
+            return new EmbeddedMySQL(Integer.parseInt(m.group(1)), user, password);
         } else {
             throw new RuntimeException(format("Can't init embedded MySql. No port for inputted url %s.", url));
         }
-    }
-
-    private void startDatabase(File databaseDir, String port, String userName, String password) {
-        MysqldResource mysqldResource = new MysqldResource(databaseDir);
-        Map database_options = new HashMap();
-        database_options.put(MysqldResourceI.PORT, port);
-        database_options.put(MysqldResourceI.INITIALIZE_USER, "true");
-        database_options.put(MysqldResourceI.INITIALIZE_USER_NAME, userName);
-        database_options.put(MysqldResourceI.INITIALIZE_PASSWORD, password);
-
-        mysqldResource.start("embedded-mysqld-thread", database_options);
-        if (!mysqldResource.isRunning()) {
-            throw new RuntimeException("MySQL did not start.");
-        }
-        logger.info("MySQL is running.");
-//        how should we shutdown???
-//        mysqldResource.shutdown();
     }
 
 }
