@@ -72,6 +72,10 @@
                                 <span id="desc" class="hyphenate"/>
                             </div>
                         </div>
+
+                        <div id="file-alert" class="alert alert-danger non-visible text-center">
+                        </div>
+
                         <div class="row row-flex">
                             <div class="issue-div col-md-6" id="form-group-upload">
                                 <label class="control-label">New attachments:</label>

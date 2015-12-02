@@ -260,8 +260,13 @@ function workflow(data) {
 
     // Get all files and upload using AJAX
     $('#uploadFile').unbind('click').on('click', function () {
+        $('#file-alert').addClass('non-visible');
         var formData = new FormData();
         $('input[type=file]').each(function (i, file) {
+            if (!file.files[0].name.match(/\.(jpg|jpeg|png|gif)$/)){
+                $('#file-alert').removeClass('non-visible').text('Only images are allowed!');
+                return;
+            }
             formData.append('files[]', file.files[0]);
         });
         $.ajax({

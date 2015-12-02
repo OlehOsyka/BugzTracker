@@ -1,8 +1,7 @@
-INSERT INTO `user` VALUES (1,'Yuliia Vovk','827ccb0eea','juliia.vovk@gmail.com',NULL,NULL,1,NULL);
-
-
-
-
+INSERT INTO `user` VALUES (1045776836,NULL,NULL,'juliia.vovk@gmail.com','Julia',true,'cf7095506f',NULL);
+INSERT INTO `project` VALUES (922109983,2015-12-02,'Description','test project',1045776836);
+INSERT INTO `participant` VALUES (922109983,1045776836);
+INSERT INTO `issue` VALUES (1828079230,'ISSUE',2015-12-02,'Issue desc',NULL,'Issue','MINOR','OPENED',1.0,1045776836,922109983,1045776836);
 
 
 

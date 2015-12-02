@@ -116,6 +116,8 @@ public class UserService implements IUserService {
             newUser.setIsActive(true);
 
             userRepository.add(newUser);
+            response.put("message", "You was successfully registered!");
+
         } else {
             newUser.setId((int) UUID.randomUUID().getMostSignificantBits());
             newUser.setPassword(MD5Encoder.encrypt(newUser.getPassword()).substring(0, 10));

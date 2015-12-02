@@ -6,19 +6,22 @@ import bugztracker.util.HibernateLazyObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
+import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.xml.transform.Source;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * Created by oleg
@@ -37,6 +40,14 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+        stringConverter.setWriteAcceptCharset(false);
+
+        converters.add(new ByteArrayHttpMessageConverter());
+        converters.add(stringConverter);
+        converters.add(new ResourceHttpMessageConverter());
+        converters.add(new SourceHttpMessageConverter<Source>());
+        converters.add(new AllEncompassingFormHttpMessageConverter());
         converters.add(initJsonConverter());
     }
 
@@ -67,11 +78,17 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public HttpMessageConverter initJsonConverter() {
+    public MappingJackson2HttpMessageConverter initJsonConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(singletonList(MediaType.APPLICATION_JSON));
+        converter.setSupportedMediaTypes(singletonList(APPLICATION_JSON));
         converter.setObjectMapper(new HibernateLazyObjectMapper());
         return converter;
 
+    }
+
+    @Override
+    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer) {
+        // Turn off suffix-based content negotiation
+        configurer.ignoreAcceptHeader(true);
     }
 }
