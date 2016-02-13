@@ -1,4 +1,4 @@
-package com.bugztracker.commons.beans.user;
+package com.bugztracker.commons.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Y. Vovk on 02.10.15.

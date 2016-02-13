@@ -23,6 +23,7 @@
         <hibernate.validator>5.2.3.Final</hibernate.validator>
         <apache.commons.lang3>3.4</apache.commons.lang3>
         <jackson>2.7.1-1</jackson>
+        <guava>19.0</guava>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -32,8 +33,8 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

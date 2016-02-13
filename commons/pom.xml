@@ -47,6 +47,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava}</version>
+        </dependency>
 
     </dependencies>
 

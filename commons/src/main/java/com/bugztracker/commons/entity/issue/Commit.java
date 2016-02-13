@@ -1,4 +1,4 @@
-package com.bugztracker.commons.beans.issue;
+package com.bugztracker.commons.entity.issue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;

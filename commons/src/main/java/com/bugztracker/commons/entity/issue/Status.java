@@ -1,4 +1,4 @@
-package com.bugztracker.commons.beans.issue;
+package com.bugztracker.commons.entity.issue;
 
 /**
  * Created by Oleh_Osyka for EPMC-CLO

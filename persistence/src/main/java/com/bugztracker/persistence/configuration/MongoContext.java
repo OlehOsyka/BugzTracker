@@ -1,4 +1,4 @@
-package com.bugztracker.thoth.configuration;
+package com.bugztracker.persistence.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

@@ -1,6 +1,6 @@
-package com.bugztracker.commons.beans.user;
+package com.bugztracker.commons.entity.user;
 
-import com.bugztracker.commons.beans.project.ProjectRole;
+import com.bugztracker.commons.entity.project.ProjectRole;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

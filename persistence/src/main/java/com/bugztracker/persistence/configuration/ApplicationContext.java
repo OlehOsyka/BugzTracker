@@ -1,4 +1,4 @@
-package com.bugztracker.thoth.configuration;
+package com.bugztracker.persistence.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

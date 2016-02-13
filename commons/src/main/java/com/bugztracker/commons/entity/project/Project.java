@@ -1,6 +1,6 @@
-package com.bugztracker.commons.beans.project;
+package com.bugztracker.commons.entity.project;
 
-import com.bugztracker.commons.beans.user.User;
+import com.bugztracker.commons.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

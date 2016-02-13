@@ -1,4 +1,4 @@
-package com.bugztracker.commons.beans.user;
+package com.bugztracker.commons.entity.user;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
