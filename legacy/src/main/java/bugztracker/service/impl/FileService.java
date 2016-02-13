@@ -45,7 +45,6 @@ public class FileService implements IFileService {
     private IIssueAttachmentService attachmentService;
 
     @Transactional
-    @PostConstruct
     private void cleanAttachments() {
         String rootPath = uriBuilder.buildRootPathForAttachments();
         List<IssueAttachment> allAttachments = attachmentService.getAll();

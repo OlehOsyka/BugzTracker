@@ -5,9 +5,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
-    <link href="<c:url value="https://fonts.googleapis.com/css?family=Raleway"/>" rel="stylesheet" type="text/css"/>
-    <link href="<c:url value="https://fonts.googleapis.com/css?family=Quicksand"/>" rel="stylesheet" type="text/css"/>
-    <link href="<c:url value="/resources/custom_css/general.css"/>" rel="stylesheet"/>
+    <link href="<c:url value="/resources/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/resources/css/sb-admin-2.css"/>" rel="stylesheet" type="text/css">
 
     <script src="<c:url value="/resources/js/jquery-2.1.4.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
@@ -18,15 +17,12 @@
     <title>Bugz Tracker</title>
 </head>
 <body>
-<div class="container margin-top">
+<div class="container">
     <jsp:doBody/>
-</div>
-<div class="footer">
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="footer-text">
-            Bugz Tracker, 2015
-        </div>
-    </nav>
+<hr/>
+<footer class="footer">
+    <p>2016 Company, Inc.</p>
+</footer>
 </div>
 </body>
 <%--for js + css after body--%>

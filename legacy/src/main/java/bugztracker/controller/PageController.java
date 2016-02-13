@@ -33,4 +33,8 @@ public class PageController {
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     public String getIssueDetailPage(){return "issue";}
 
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String getMainPage(){return "main";}
+
+
 }
