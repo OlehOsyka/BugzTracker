@@ -6,6 +6,8 @@
         <mapping class="bugztracker.entity.IssueAttachment"/>
         <mapping class="bugztracker.entity.IssueComment"/>
         <mapping class="bugztracker.entity.Project"/>
+        <mapping class="bugztracker.entity.IssueCommit"/>
+        <mapping class="bugztracker.entity.GitUser"/>
         <mapping class="bugztracker.entity.User"/>
     </session-factory>
 </hibernate-configuration>

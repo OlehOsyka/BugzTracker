@@ -15,7 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Author: Y. Vovk
+ * 02.10.15
  */
 @Entity
 @Table(name = "user")
@@ -30,14 +31,14 @@ public class User implements Serializable {
     private Timestamp dueRegisterDate;
     private boolean isActive;
     private String registrationToken;
-    private Set<Project> projects = new HashSet<>(0);
-    private Set<Issue> issuesAss = new HashSet<>(0);
-    private Set<Issue> issuesCr = new HashSet<>(0);
-    private Set<Project> ownedProjects = new HashSet<>(0);
-    private Set<IssueComment> issueComments = new HashSet<>(0);
+    private Set<Project> projects = new HashSet<>();
+    private Set<Issue> issuesAss = new HashSet<>();
+    private Set<Issue> issuesCr = new HashSet<>();
+    private Set<Project> ownedProjects = new HashSet<>();
+    private Set<IssueComment> issueComments = new HashSet<>();
 
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -184,14 +185,13 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("dateExpired", dateExpired)
                 .append("id", id)
                 .append("fullName", fullName)
-                .append("password", password)
                 .append("email", email)
-                .append("isActivate", isActive)
+                .append("isActive", isActive)
                 .append("dueRegisterDate", dueRegisterDate)
                 .append("registrationToken", registrationToken)
+                .append("dateExpired", dateExpired)
                 .toString();
     }
 }

@@ -29,7 +29,7 @@ public class IssueComment implements Serializable {
     private Timestamp updateDate;
 
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -72,6 +72,7 @@ public class IssueComment implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id_sender",
             referencedColumnName = "id",
             nullable = false)
@@ -118,8 +119,6 @@ public class IssueComment implements Serializable {
                 .append("id", id)
                 .append("comment", comment)
                 .append("date", date)
-                .append("issueByIssueId", issueByIssueId)
-                .append("sender", sender)
                 .append("updateDate", updateDate)
                 .toString();
     }

@@ -1,9 +1,7 @@
 package bugztracker.entity;
 
-import bugztracker.entity.constant.IEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -34,19 +32,20 @@ public class Issue implements Serializable {
     private String name;
     private Date date;
     private Date lastUpdate;
-    private Priority priority;
-    private Status status;
+    private String priority;
+    private String status;
     private String description;
-    private Category category;
+    private String category;
     private BigDecimal version;
     private User userCreator;
     private User assignee;
     private Project project;
     private Set<IssueAttachment> attachments = new HashSet<>();
     private Set<IssueComment> comments = new HashSet<>();
+    private Set<IssueCommit> commits = new HashSet<>();
 
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -84,24 +83,31 @@ public class Issue implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    public Priority getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Column(nullable = false)
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Column
@@ -111,16 +117,6 @@ public class Issue implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     @Column(nullable = false)
@@ -136,6 +132,7 @@ public class Issue implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id_cr",
             referencedColumnName = "id",
             nullable = false)
@@ -148,6 +145,7 @@ public class Issue implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id_as",
             referencedColumnName = "id",
             nullable = false)
@@ -161,6 +159,7 @@ public class Issue implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "project_id",
             referencedColumnName = "id",
             nullable = false)
@@ -173,7 +172,6 @@ public class Issue implements Serializable {
     }
 
     @OneToMany(mappedBy = "issueByIssueId", cascade = CascadeType.ALL)
-    @JsonManagedReference
     public Set<IssueAttachment> getAttachments() {
         return attachments;
     }
@@ -183,7 +181,6 @@ public class Issue implements Serializable {
     }
 
     @OneToMany(mappedBy = "issueByIssueId",  cascade = CascadeType.ALL)
-    @JsonManagedReference
     public Set<IssueComment> getComments() {
         return comments;
     }
@@ -192,82 +189,13 @@ public class Issue implements Serializable {
         this.comments = comments;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public enum Priority implements IEnum {
-
-        BLOCKER(1), CRITICAL(2), MAJOR(3), TRIVIAL(4), MINOR(5);
-
-        private final static Priority[] values = values();
-        private final int value;
-
-        Priority(int v) {
-            value = v;
-        }
-
-        public int value() {
-            return value;
-        }
-
-        public static Priority fromValue(int typeCode) {
-            for (Priority priority : values) {
-                if (priority.value == typeCode) {
-                    return priority;
-                }
-            }
-            throw new IllegalArgumentException("Invalid status type code: " + typeCode);
-        }
+    @OneToMany(mappedBy = "issueCommit")
+    public Set<IssueCommit> getCommits() {
+        return commits;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public enum Status implements IEnum {
-
-        OPENED(1), INPROGRESS(2), RESOLVED(3), CLOSED(4);
-
-        private final static Status[] values = values();
-        private final int value;
-
-        Status(int v) {
-            value = v;
-        }
-
-        public int value() {
-            return value;
-        }
-
-        public static Status fromValue(int typeCode) {
-            for (Status status : values) {
-                if (status.value == typeCode) {
-                    return status;
-                }
-            }
-            throw new IllegalArgumentException("Invalid status type code: " + typeCode);
-        }
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public enum Category implements IEnum {
-
-        ISSUE(1), BUG(2), IMPROVEMENT(3);
-
-        private final static Category[] values = Category.values();
-        private final int value;
-
-        Category(int v) {
-            value = v;
-        }
-
-        public int value() {
-            return value;
-        }
-
-        public static Category fromValue(int typeCode) {
-            for (Category category : values) {
-                if (category.value == typeCode) {
-                    return category;
-                }
-            }
-            throw new IllegalArgumentException("Invalid status type code: " + typeCode);
-        }
+    public void setCommits(Set<IssueCommit> commits) {
+        this.commits = commits;
     }
 
     @Override

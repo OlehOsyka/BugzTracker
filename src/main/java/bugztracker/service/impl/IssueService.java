@@ -76,7 +76,7 @@ public class IssueService implements IIssueService {
         issue.setDate(new Date(DateTime.now().getMillis()));
         issue.setAssignee(userRepository.get(issue.getAssignee().getId()));
         issue.setProject(projectRepository.get(issue.getProject().getId()));
-        issue.setStatus(Issue.Status.OPENED);
+        issue.setStatus("OPENED");
 
         issueRepository.add(issue);
     }

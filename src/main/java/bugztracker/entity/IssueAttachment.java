@@ -26,7 +26,7 @@ public class IssueAttachment implements Serializable  {
     private Issue issueByIssueId;
 
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }

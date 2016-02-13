@@ -1,5 +1,6 @@
 package bugztracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -14,7 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Author: Y. Vovk
+ * 02.10.15.
  */
 @Entity
 @Table(name = "project")
@@ -26,11 +28,14 @@ public class Project implements Serializable {
     private Date date;
     private String description;
     private User userOwner;
+    private boolean isArchived;
     private Set<User> participants = new HashSet<>();
     private Set<Issue> issues = new HashSet<>();
+    private Set<IssueCommit> commits = new HashSet<>();
+    private Set<GitUser> gitUsers = new HashSet<>();
 
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -69,6 +74,7 @@ public class Project implements Serializable {
     }
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(name = "participant",
             joinColumns = {@JoinColumn(name = "project_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false)})
@@ -91,6 +97,7 @@ public class Project implements Serializable {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_owner_id",
             referencedColumnName = "id",
             nullable = false)
@@ -100,6 +107,33 @@ public class Project implements Serializable {
 
     public void setUserOwner(User userOwner) {
         this.userOwner = userOwner;
+    }
+
+    @Column(name="is_active")
+    public boolean getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(boolean archived) {
+        isArchived = archived;
+    }
+
+    @OneToMany(mappedBy = "projectCommit")
+    public Set<IssueCommit> getCommits() {
+        return commits;
+    }
+
+    public void setCommits(Set<IssueCommit> commits) {
+        this.commits = commits;
+    }
+
+    @OneToMany(mappedBy = "projectGit")
+    public Set<GitUser> getGitUsers() {
+        return gitUsers;
+    }
+
+    public void setGitUsers(Set<GitUser> gitUsers) {
+        this.gitUsers = gitUsers;
     }
 
     @Override
@@ -129,6 +163,7 @@ public class Project implements Serializable {
                 .append("name", name)
                 .append("date", date)
                 .append("description", description)
+                .append("isArchived", isArchived)
                 .toString();
     }
 }
