@@ -1,5 +1,6 @@
 package com.bugztracker.persistence.dao.impl;
 
+import com.bugztracker.commons.entity.user.Participation;
 import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.commons.utils.DbUtils;
 import com.bugztracker.persistence.dao.BaseDao;
@@ -29,6 +30,12 @@ public class UserRepository extends BaseDao<User> implements IUserRepository {
     }
 
     @Override
+    public void createIndex() {
+        createIndex(new Index("email", Sort.Direction.ASC).unique().sparse());
+        createIndex(new Index("fullName", Sort.Direction.ASC).unique().sparse());
+    }
+
+    @Override
     public User find(String email) {
         return findOne(query(where("email").is(email)));
     }
@@ -44,23 +51,17 @@ public class UserRepository extends BaseDao<User> implements IUserRepository {
     }
 
     @Override
-    public List<User> getUsersByProjectName(String projectName, String query) {
+    public List<User> findUsersByProjectName(String projectName, String query) {
         return findAll(query(where("projects.projectName").is(projectName).and("fullName").regex(query)));
     }
 
     @Override
-    public User getUserByRegistrationToken(String registrationToken) {
+    public User findUserByRegistrationToken(String registrationToken) {
         return findOne(query(where("registrationToken").is(registrationToken)));
     }
 
     @Override
     public void removeUsersWithRegistrationDatePassed(Date date) {
         mongo().remove(query(where("dueRegisterDate").lt(date)), COLLECTION_NAME);
-    }
-
-    @Override
-    public void createIndex() {
-        createIndex(new Index("email", Sort.Direction.ASC).unique().sparse());
-        createIndex(new Index("fullName", Sort.Direction.ASC).unique().sparse());
     }
 }

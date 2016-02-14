@@ -27,11 +27,12 @@ public abstract class BaseDao<ENTITY> implements IBaseDao<ENTITY> {
 
     @Autowired
     private MongoOperations mongoOperations;
+
     @Autowired
     private IPersistenceObjectValidator objectValidator;
 
     @PostConstruct
-    private void init() {
+    private void initIndexes() {
         createIndex();
     }
 
@@ -40,7 +41,6 @@ public abstract class BaseDao<ENTITY> implements IBaseDao<ENTITY> {
         Assert.notNull(clazz, "clazz can't be null.");
         this.collectionName = collectionName;
         this.clazz = clazz;
-        createIndex();
     }
 
     protected MongoOperations mongo() {

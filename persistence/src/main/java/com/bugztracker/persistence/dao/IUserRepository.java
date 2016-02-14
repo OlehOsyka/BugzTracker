@@ -1,6 +1,7 @@
 package com.bugztracker.persistence.dao;
 
 
+import com.bugztracker.commons.entity.user.Participation;
 import com.bugztracker.commons.entity.user.User;
 
 import java.util.Date;
@@ -17,10 +18,11 @@ public interface IUserRepository extends IBaseDao<User> {
 
     List<User> findByFullName(String regexp);
 
-    List<User> getUsersByProjectName(String projectName, String query);
+    List<User> findUsersByProjectName(String projectName, String query);
 
-    User getUserByRegistrationToken(String registrationToken);
+    User findUserByRegistrationToken(String registrationToken);
 
     void removeUsersWithRegistrationDatePassed(Date date);
+
 }
 

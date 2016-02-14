@@ -21,9 +21,12 @@
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring.data.version>1.8.2.RELEASE</spring.data.version>
         <hibernate.validator>5.2.3.Final</hibernate.validator>
+        <javax.el>3.0.0</javax.el>
         <apache.commons.lang3>3.4</apache.commons.lang3>
         <jackson>2.7.1-1</jackson>
         <guava>19.0</guava>
+        <junit>4.12</junit>
+        <springockito>1.0.9</springockito>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -33,8 +36,8 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>

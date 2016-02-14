@@ -36,6 +36,12 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${javax.el}</version>
+        </dependency>
+
         <!--Utils-->
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -1,9 +1,19 @@
 package com.bugztracker.persistence.configuration;
 
+import com.bugztracker.commons.validators.IPersistenceObjectValidator;
+import com.bugztracker.commons.validators.impl.PersistenceObjectValidator;
+import com.mongodb.MongoClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  * Created by Oleh_Osyka
@@ -20,4 +30,22 @@ public class ApplicationContext {
         configurer.setIgnoreUnresolvablePlaceholders(true);
         return configurer;
     }
+
+    @Bean
+    public MongoOperations mongoDbFactory(@Value("${db.name}") String dbName,
+                                          @Value("${db.host}") String dbHost) throws Exception {
+        return new MongoTemplate(new MongoClient(dbHost), dbName);
+    }
+
+    @Bean
+    public IPersistenceObjectValidator initObjectValidator() {
+        return new PersistenceObjectValidator();
+    }
+
+    @Bean(name = "persistenceValidator")
+    public Validator initPersistenceValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        return factory.getValidator();
+    }
+
 }
