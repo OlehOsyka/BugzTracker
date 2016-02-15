@@ -18,7 +18,7 @@ import javax.validation.ValidatorFactory;
 public class ApplicationContext {
 
     @Bean
-    public PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
+    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         configurer.setLocations(new ClassPathResource("db.properties"));
         configurer.setIgnoreUnresolvablePlaceholders(true);
