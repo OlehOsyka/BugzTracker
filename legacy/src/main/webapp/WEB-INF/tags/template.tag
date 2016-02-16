@@ -19,10 +19,12 @@
 <body>
 <div class="container">
     <jsp:doBody/>
-<hr/>
-<footer class="footer">
-    <p>2016 Company, Inc.</p>
-</footer>
+    <%--<div class="col-md-12">--%>
+        <%--<hr/>--%>
+        <%--<footer class="footer">--%>
+            <%--<p>2016 Company, Inc.</p>--%>
+        <%--</footer>--%>
+    <%--</div>--%>
 </div>
 </body>
 <%--for js + css after body--%>

@@ -13,30 +13,40 @@
     </jsp:attribute>
 
     <jsp:body>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login" role="alert"></div>
-                <div class="login-panel panel panel-default">
+        <body style="background: url('../../resources/images/macbook-5.jpg') center center no-repeat fixed; opacity: 0.9; background-size: cover;">
+        <div class="login-panel">
+            <div class="col-md-7" style="color: white">
+                <h1>Bugztracker</h1>
+                <h3>Tool for tracking your projects and tasks</h3>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-danger non-visible alert-danger-position" id="invalid_login"
+                     role="alert"></div>
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Please, Sign in or <a href="<c:url value="/signup"/>"><cite>Sign up</cite></a></h3>
+                        <h3 class="panel-title">Please, Sign in or <a type="button" class="btn btn-success" href="<c:url value="/signup"/>">Sign up</a></h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
                             <fieldset>
                                 <div class="form-group" id="form_group_email">
                                     <label class="control-label" for="email">E-mail:</label>
-                                    <input class="form-control" placeholder="E-mail" id="email" type="text" autofocus>
+                                    <input class="form-control" placeholder="E-mail" id="email" type="text"
+                                           autofocus>
                                 </div>
                                 <div class="form-group" id="form_group_password">
                                     <label class="control-label" for="password">Password:</label>
-                                    <input class="form-control" placeholder="Password" id="password" type="password">
+                                    <input class="form-control" placeholder="Password" id="password"
+                                           type="password">
                                 </div>
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" value="Remember Me" id="remember">Remember Me
                                     </label>
                                 </div>
-                                <button type="submit" class="btn btn-lg btn-primary btn-block" id="sign_in_btn">Sign in
+                                <button type="submit" class="btn btn-lg btn-primary btn-block"
+                                        id="sign_in_btn">Sign
+                                    in
                                 </button>
                             </fieldset>
                         </form>

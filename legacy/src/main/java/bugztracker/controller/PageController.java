@@ -36,5 +36,10 @@ public class PageController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String getMainPage(){return "main";}
 
+    @RequestMapping(value = "/code", method = RequestMethod.GET)
+    public String getCodePage(){return "code";}
+
+    @RequestMapping(value = "/issue/new", method = RequestMethod.GET)
+    public String getNewIssuePage(){return "issue_new";}
 
 }

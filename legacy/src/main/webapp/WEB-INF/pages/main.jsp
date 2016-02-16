@@ -18,7 +18,7 @@
             <li class="active"><a href="#project1-pills" data-toggle="tab">Project1</a></li>
             <li><a href="#project2-pills" data-toggle="tab">Project2</a></li>
 
-            <p style="float: right;"><a href="#" class="btn btn-success">Create issue</a></p>
+            <p class="pull-right"><a href="#" class="btn btn-success">Create issue</a></p>
         </ul>
 
         <div class="tab-content">
