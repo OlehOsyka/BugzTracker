@@ -163,7 +163,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- /.panel-body -->
                 <div class="panel-footer">
                     <div class="input-group">
                         <input id="btn-input" type="text" class="form-control input-sm"
@@ -175,7 +174,6 @@
                                 </span>
                     </div>
                 </div>
-                <!-- /.panel-footer -->
             </div>
         </div>
     </jsp:body>

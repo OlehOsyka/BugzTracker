@@ -32,10 +32,10 @@
     padding-top: 10px;
 }
 
-.container, table {
-    font-family: Raleway, sans-serif;
-    font-size: 12px !important;
-}
+/*.container, table {*/
+    /*font-family: Raleway, sans-serif;*/
+    /*font-size: 12px !important;*/
+/*}*/
 
 .label-info {
     background-color: #178acc;

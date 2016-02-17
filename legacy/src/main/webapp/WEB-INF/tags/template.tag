@@ -4,12 +4,10 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet"/>
     <link href="<c:url value="/resources/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/sb-admin-2.css"/>" rel="stylesheet" type="text/css">
-
-    <script src="<c:url value="/resources/js/jquery-2.1.4.min.js"/>"></script>
-    <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 
     <%--for js + css in head tag--%>
     <jsp:invoke fragment="header"/>
@@ -27,6 +25,9 @@
     <%--</div>--%>
 </div>
 </body>
+<script src="<c:url value="/resources/js/jquery-2.1.4.min.js"/>"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/js/sb-admin-2.js"/>"></script>
 <%--for js + css after body--%>
 <jsp:invoke fragment="footer"/>
 </html>
