@@ -13,15 +13,16 @@
     </jsp:attribute>
 
     <jsp:body>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+        <body style="background: url('../../resources/images/macbook-6.jpg') center center no-repeat fixed; opacity: 0.9; background-size: cover;">
+        <div class="login-panel">
+            <div class="col-md-4">
                 <div class="alert alert-danger non-visible alert-danger-position" id="invalid_signup"
                      role="alert"></div>
                 <div class="alert alert-success non-visible alert-danger-position" id="valid_signup"
                      role="alert"></div>
-                <div class="login-panel panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Please, Sign up</h3>
+                        <h3 class="panel-title">Sign up</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
@@ -45,6 +46,9 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-8" style="color: white">
+                <h3>Join Bugztracker and simplify development as never before</h3>
             </div>
         </div>
     </jsp:body>

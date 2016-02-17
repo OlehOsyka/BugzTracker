@@ -15,7 +15,7 @@
     <jsp:body>
         <body style="background: url('../../resources/images/macbook-5.jpg') center center no-repeat fixed; opacity: 0.9; background-size: cover;">
         <div class="login-panel">
-            <div class="col-md-7" style="color: white">
+            <div class="col-md-8" style="color: white">
                 <h1>Bugztracker</h1>
                 <h3>Tool for tracking your projects and tasks</h3>
             </div>
