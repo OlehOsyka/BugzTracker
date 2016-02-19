@@ -16,6 +16,7 @@ import java.util.Date;
 public class Commit implements Serializable {
 
     private String commitHash;
+    private String message;
     private Date date;
 
     public String getCommitHash() {
@@ -32,6 +33,14 @@ public class Commit implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

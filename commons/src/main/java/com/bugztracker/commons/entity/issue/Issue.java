@@ -23,7 +23,7 @@ import java.util.List;
 public class Issue implements Serializable {
 
     @Id
-    private int id;
+    private String id;
 
     @NotBlank(message = "Name is required! ")
     @Size(max = 300, message = "Please, shorten the name of issue. Not more than 300 symbols is possible!")
@@ -45,7 +45,6 @@ public class Issue implements Serializable {
 
     @NotBlank(message = "Assignee is required! ")
     private String assigneeEmail;
-    private String testerEmail;
     private String projectName;
 
     // attachmentPath
@@ -53,11 +52,11 @@ public class Issue implements Serializable {
     private List<Commit> commits;
     private List<String> commentIds;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -139,14 +138,6 @@ public class Issue implements Serializable {
 
     public void setAssigneeEmail(String assigneeEmail) {
         this.assigneeEmail = assigneeEmail;
-    }
-
-    public String getTesterEmail() {
-        return testerEmail;
-    }
-
-    public void setTesterEmail(String testerEmail) {
-        this.testerEmail = testerEmail;
     }
 
     public String getProjectName() {

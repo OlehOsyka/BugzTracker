@@ -21,7 +21,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
-    private int id;
+    private String id;
 
     @NotBlank(message = "Full name is required! ")
     @Size(max = 100, message = "Please, shorten your full name to 100 symbols! ")
@@ -42,11 +42,11 @@ public class User implements Serializable {
     private String registrationToken;
     private List<Participation> projects;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

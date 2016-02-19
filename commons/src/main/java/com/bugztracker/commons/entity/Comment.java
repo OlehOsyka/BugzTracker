@@ -21,21 +21,23 @@ import java.util.Date;
 public class Comment implements Serializable {
 
     @Id
-    private int id;
+    private String id;
+
     @NotBlank(message = "Comment is required! ")
     @Size(max = 500, message = "Please, shorten the name of issue. Not more than 500 symbols is possible! ")
     private String comment;
     private Date date;
+
     @NotNull(message = "Issue to be commented is required! ")
     private String issueId;
     private User sender;
     private Date updateDate;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

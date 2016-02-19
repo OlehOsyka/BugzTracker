@@ -26,7 +26,7 @@ public class ProjectRepository extends BaseDao<Project> implements IProjectRepos
 
     @Override
     protected void createIndex() {
-        createIndex(new Index("name", Sort.Direction.ASC).on("date", Sort.Direction.ASC).unique().sparse());
+        createIndex(new Index("name", Sort.Direction.ASC).unique());
     }
 
     @Override

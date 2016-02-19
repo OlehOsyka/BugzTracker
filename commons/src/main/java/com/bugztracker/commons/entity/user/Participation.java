@@ -15,7 +15,7 @@ public class Participation {
 
     private String projectName;
     private List<ProjectRole> roles;
-    private List<RepositoryInfo> repository;
+    private RepositoryInfo repository;
 
     public String getProjectName() {
         return projectName;
@@ -33,11 +33,11 @@ public class Participation {
         this.roles = roles;
     }
 
-    public List<RepositoryInfo> getRepository() {
+    public RepositoryInfo getRepository() {
         return repository;
     }
 
-    public void setRepository(List<RepositoryInfo> repository) {
+    public void setRepository(RepositoryInfo repository) {
         this.repository = repository;
     }
 

@@ -28,9 +28,9 @@ public class IssueRepository extends BaseDao<Issue> implements IIssueRepository 
 
     @Override
     protected void createIndex() {
-        createIndex(new Index("name", Sort.Direction.ASC).on("creationDate", Sort.Direction.ASC).unique().sparse());
-        createIndex(new Index("lastUpdateDate", Sort.Direction.ASC).unique().sparse());
-        createIndex(new Index("projectName", Sort.Direction.ASC).on("assigneeEmail", Sort.Direction.ASC).unique().sparse());
+        createIndex(new Index("name", Sort.Direction.ASC).unique());
+        createIndex(new Index("status", Sort.Direction.ASC).on("category", Sort.Direction.ASC).on("priority", Sort.Direction.ASC).sparse());
+        createIndex(new Index("projectName", Sort.Direction.ASC).on("assigneeEmail", Sort.Direction.ASC).sparse());
     }
 
     @Override

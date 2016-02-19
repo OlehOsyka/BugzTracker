@@ -28,11 +28,13 @@ public class CommentRepository extends BaseDao<Comment> implements ICommentRepos
 
     @Override
     protected void createIndex() {
-        createIndex(new Index("issueId", Sort.Direction.ASC).on("date", Sort.Direction.ASC).unique().sparse());
+        createIndex(new Index("issueId", Sort.Direction.ASC).on("date", Sort.Direction.ASC).sparse());
     }
 
     @Override
     public List<Comment> findSortedCommentsOfIssue(int issueId) {
         return findAll(query(where("issueId").is(issueId)).with(new Sort(Sort.Direction.ASC, "date")));
     }
+
+    //todo find by list<comentids>
 }

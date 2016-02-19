@@ -31,8 +31,8 @@ public class UserRepository extends BaseDao<User> implements IUserRepository {
 
     @Override
     public void createIndex() {
-        createIndex(new Index("email", Sort.Direction.ASC).unique().sparse());
-        createIndex(new Index("fullName", Sort.Direction.ASC).unique().sparse());
+        createIndex(new Index("email", Sort.Direction.ASC).unique());
+        createIndex(new Index("fullName", Sort.Direction.ASC));
     }
 
     @Override

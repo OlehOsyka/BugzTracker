@@ -10,6 +10,8 @@
         <module>legacy</module>
         <module>persistence</module>
         <module>commons</module>
+        <module>web</module>
+        <module>service</module>
     </modules>
     <name>bugztracker</name>
 

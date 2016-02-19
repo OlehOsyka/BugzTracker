@@ -1,4 +1,4 @@
-package com.bugztracker.persistence.configuration;
+package com.bugztracker.service.configuration;
 
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configuration;
