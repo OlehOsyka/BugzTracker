@@ -16,7 +16,7 @@ import java.net.URI;
 
 
 /**
- * Created by Oleh_Osyka for EPMC-CLO
+ * Created by Oleh_Osyka
  * Date: 15.02.2016
  * Time: 11:07
  */

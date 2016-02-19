@@ -5,9 +5,9 @@ import com.bugztracker.commons.entity.issue.Issue;
 import java.util.List;
 
 /**
- * Created by Y. Vovk
- * Date: 16.10.15
- * Time: 1:20
+ * Author: Yuliia Vovk
+ * Date: 04.11.15
+ * Time: 10:56
  */
 public interface IIssueRepository extends IBaseDao<Issue> {
 

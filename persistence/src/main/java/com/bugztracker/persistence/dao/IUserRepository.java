@@ -1,14 +1,14 @@
 package com.bugztracker.persistence.dao;
 
-
-import com.bugztracker.commons.entity.user.Participation;
 import com.bugztracker.commons.entity.user.User;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Y. Vovk on 17.09.15.
+ * Author: Yuliia Vovk
+ * Date: 04.11.15
+ * Time: 10:56
  */
 public interface IUserRepository extends IBaseDao<User> {
 

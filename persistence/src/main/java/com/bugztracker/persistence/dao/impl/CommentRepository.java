@@ -13,7 +13,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
- * Created by Oleh_Osyka for EPMC-CLO
+ * Created by Oleh_Osyka
  * Date: 14.02.2016
  * Time: 17:29
  */

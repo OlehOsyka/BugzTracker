@@ -13,7 +13,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Y. Vovk on 02.10.15.
+ * Author: Yuliia Vovk
+ * Date: 04.11.15
+ * Time: 10:56
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment implements Serializable {

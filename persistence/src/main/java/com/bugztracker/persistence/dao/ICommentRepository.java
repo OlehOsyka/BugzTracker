@@ -5,7 +5,9 @@ import com.bugztracker.commons.entity.Comment;
 import java.util.List;
 
 /**
- * Created by Y. Vovk on 04.11.15.
+ * Author: Yuliia Vovk
+ * Date: 04.11.15
+ * Time: 10:56
  */
 public interface ICommentRepository extends IBaseDao<Comment> {
 
