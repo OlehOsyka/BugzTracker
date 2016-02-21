@@ -3,6 +3,7 @@ package com.bugztracker.service.impl;
 import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.persistence.dao.IUserRepository;
 import com.bugztracker.service.IUserService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,11 @@ public class UserService implements IUserService {
     @Override
     public List<User> getByProject(String projectName) {
         return userRepository.getByProject(projectName);
+    }
+
+    @Override
+    public void removeUsersWithRegistrationDatePassed() {
+        userRepository.removeUsersWithRegistrationDatePassed(DateTime.now().toDate());
     }
 
     @Override

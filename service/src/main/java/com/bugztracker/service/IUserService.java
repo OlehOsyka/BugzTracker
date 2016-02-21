@@ -24,5 +24,5 @@ public interface IUserService extends IService<User> {
 //    List<Integer> getProjectsIdsOfUser(User user);
 //    List<User> getUsersByProjectId(int id, String query);
 //    Map<String, String> activateAccount(String registrationToken);
-//    void removeUsersWithRegistrationDatePassed(Date date);
+    void removeUsersWithRegistrationDatePassed();
 }

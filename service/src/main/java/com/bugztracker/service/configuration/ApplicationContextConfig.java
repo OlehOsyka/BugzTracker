@@ -1,5 +1,7 @@
 package com.bugztracker.service.configuration;
 
+import com.bugztracker.service.impl.RegistrationPassScheduler;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -65,6 +67,11 @@ public class ApplicationContextConfig {
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         velocityEngineFactoryBean.setVelocityProperties(properties);
         return velocityEngineFactoryBean;
+    }
+
+    @Bean(autowire = Autowire.BY_NAME)
+    public RegistrationPassScheduler provideRegistrationScheduler() {
+        return new RegistrationPassScheduler();
     }
 
 }
