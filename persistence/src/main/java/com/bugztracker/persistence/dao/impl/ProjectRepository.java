@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -32,5 +34,10 @@ public class ProjectRepository extends BaseDao<Project> implements IProjectRepos
     @Override
     public Project findByProjectName(String name) {
         return findOne(query(where("name").is(name)));
+    }
+
+    @Override
+    public List<Project> getProjects(String email) {
+        return null;
     }
 }

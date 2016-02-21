@@ -15,7 +15,6 @@ import java.net.URI;
 import static org.apache.logging.log4j.Level.*;
 import static org.apache.logging.log4j.core.Filter.Result.*;
 
-
 /**
  * Created by Oleh_Osyka
  * Date: 15.02.2016

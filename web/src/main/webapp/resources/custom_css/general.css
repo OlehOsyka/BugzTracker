@@ -1,0 +1,133 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-family: Raleway, sans-serif;
+    font-size: 12px;
+}
+
+.footer .footer-text {
+    text-align: center;
+    background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-image: -o-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#54b4eb), color-stop(60%, #2fa4e7), to(#1d9ce5));
+    background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-repeat: no-repeat;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff54b4eb', endColorstr='#ff1d9ce5', GradientType=0);
+    border-bottom: 1px solid #178acc;
+    color: white;
+    padding: 15px;
+}
+
+.brand-title {
+    font-family: Quicksand, sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.padding-top {
+    padding-top: 10px;
+}
+
+/*.container, table {*/
+    /*font-family: Raleway, sans-serif;*/
+    /*font-size: 12px !important;*/
+/*}*/
+
+.label-info {
+    background-color: #178acc;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+.dropdown-menu {
+    background-color: #2fa4e7;
+}
+
+.dropdown-menu li a {
+    color: white;
+}
+
+.btn {
+    font-family: Raleway, sans-serif;
+    font-size: 12px !important;
+}
+
+.dropdown-menu {
+    font-family: Raleway, sans-serif;
+    font-size: 12px !important;
+}
+
+/*.padding-modal {*/
+/*margin-top: 10%;*/
+/*}*/
+
+.display-user-label {
+    margin-right: 2%;
+    display: inline-block;
+}
+
+.margin-close-btn {
+    margin-left: 3px;
+}
+
+.label {
+    line-height: 2;
+}
+
+.color-red {
+    background-color: red;
+}
+
+.color-orange {
+    background-color: orange;
+}
+
+.color-yellow {
+    background-color: #edde34;
+}
+
+.color-cream {
+    background-color: #1d9ce5;
+}
+
+.color-grey {
+    background-color: bisque;
+}
+
+.btn-pro {
+    display: inline;
+    margin-right: 1%;
+}
+
+.inline {
+    display: inline;
+}
+
+.panel-heading {
+    color: white;
+    background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+}
+
+.panel-body {
+    padding: 15px;
+    background-color: #7aba7b;
+    color: white;
+}
+
+.panel-title {
+    color: white;
+}
+
+.non-visible {
+    display: none !important;
+}
+
+.margin-top {
+    margin-top: 5%;
+}

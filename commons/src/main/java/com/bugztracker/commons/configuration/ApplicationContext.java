@@ -1,9 +1,10 @@
 package com.bugztracker.commons.configuration;
 
+import com.bugztracker.commons.validators.IPersistenceObjectValidator;
+import com.bugztracker.commons.validators.impl.PersistenceObjectValidator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -15,14 +16,12 @@ import javax.validation.ValidatorFactory;
  * Time: 13:12
  */
 @Configuration
+@ComponentScan("com.bugztracker.commons")
 public class ApplicationContext {
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
-        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocations(new ClassPathResource("db.properties"));
-        configurer.setIgnoreUnresolvablePlaceholders(true);
-        return configurer;
+    public IPersistenceObjectValidator initObjecteValidator() {
+        return new PersistenceObjectValidator();
     }
 
     @Bean(name = "persistenceValidator")

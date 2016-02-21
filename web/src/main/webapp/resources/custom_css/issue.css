@@ -1,0 +1,71 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+
+hr {
+    margin-top: 0;
+}
+
+.issue-div {
+    border: 1px solid green;
+    border-radius: 4px;
+    padding: 3px;
+    color: white;
+    background-color: #7aba7b;
+}
+
+.row {
+    margin-bottom: 0.5%;
+}
+
+.row-flex {
+    display: flex;
+}
+
+.comment-div {
+    background-color: green;
+    color: white;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.comment {
+    background: #7aba7b;
+}
+
+#comments {
+    margin: 10px;
+}
+
+.attachment-table {
+    display: table;
+}
+
+.padding-bottom {
+    padding-bottom: 4%;
+}
+.error-comment{
+    color: red;
+    border: 2px red !important;
+}

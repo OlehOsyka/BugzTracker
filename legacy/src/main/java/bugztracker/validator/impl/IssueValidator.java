@@ -11,7 +11,9 @@ import javax.validation.Validator;
 import java.util.Set;
 
 /**
- * Created by Y. Vovk on 08.11.15.
+ * Author: Yuliia Vovk
+ * Date: 04.11.15
+ * Time: 10:56
  */
 @Component
 public class IssueValidator implements IValidator<Issue> {

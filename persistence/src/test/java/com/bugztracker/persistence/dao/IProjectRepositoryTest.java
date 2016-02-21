@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Created by Oleh_Osyka for EPMC-CLO
+ * Created by Oleh_Osyka
  * Date: 14.02.2016
  * Time: 17:56
  */

@@ -24,5 +24,7 @@ public interface IUserRepository extends IBaseDao<User> {
 
     void removeUsersWithRegistrationDatePassed(Date date);
 
+    List<User> getByProject(String projectName);
+
 }
 

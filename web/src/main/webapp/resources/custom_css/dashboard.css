@@ -1,0 +1,58 @@
+.table-panel {
+    margin-top: 4%;
+}
+
+td.details-control {
+    background: url('../images/plus.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+}
+
+tr.details td.details-control {
+    background: url('../images/minus.png') no-repeat center center;
+    background-size: contain;
+}
+
+.table {
+    background-color: green;
+    color: white;
+}
+
+table.dataTable tbody tr {
+    background-color: #7aba7b !important;
+    color: white;
+}
+
+table.dataTable tbody tr.selected{
+    background-color: green !important;
+}
+
+.show-none {
+    display: none;
+}
+
+.btn-distance {
+    margin-right: 54%;
+}
+
+.btn-distance-pr {
+    margin-right: 47%;
+}
+
+.btn-distance-project {
+    margin-right: 39%;
+    display: inline;
+}
+
+.non-visible {
+    display: none !important;
+}
+
+.alert-danger-position {
+    text-align: center;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: 0 !important;
+}
+

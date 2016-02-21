@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -40,6 +41,9 @@ public class User implements Serializable {
     private Date dueRegisterDate;
     private boolean isActive;
     private String registrationToken;
+
+    @Transient
+    private boolean isRemember;
     private List<Participation> projects;
 
     public String getId() {
@@ -112,6 +116,14 @@ public class User implements Serializable {
 
     public void setProjects(List<Participation> projects) {
         this.projects = projects;
+    }
+
+    public boolean isRemember() {
+        return isRemember;
+    }
+
+    public void setRemember(boolean remember) {
+        isRemember = remember;
     }
 
     @Override

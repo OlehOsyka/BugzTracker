@@ -1,6 +1,5 @@
 package com.bugztracker.persistence.dao.impl;
 
-import com.bugztracker.commons.entity.user.Participation;
 import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.commons.utils.DbUtils;
 import com.bugztracker.persistence.dao.BaseDao;
@@ -63,5 +62,10 @@ public class UserRepository extends BaseDao<User> implements IUserRepository {
     @Override
     public void removeUsersWithRegistrationDatePassed(Date date) {
         mongo().remove(query(where("dueRegisterDate").lt(date)), COLLECTION_NAME);
+    }
+
+    @Override
+    public List<User> getByProject(String projectName) {
+        return null;
     }
 }

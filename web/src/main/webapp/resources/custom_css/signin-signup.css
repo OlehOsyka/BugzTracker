@@ -1,0 +1,9 @@
+.non-visible {
+    display: none;
+}
+
+.alert-danger-position {
+    position: absolute;
+    width: 90%;
+    text-align: center;
+}
