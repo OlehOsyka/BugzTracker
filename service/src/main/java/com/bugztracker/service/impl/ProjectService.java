@@ -1,6 +1,5 @@
 package com.bugztracker.service.impl;
 
-import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.persistence.dao.IProjectRepository;
 import com.bugztracker.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,9 @@ public class ProjectService implements IProjectService {
     private IProjectRepository projectRepository;
 
     @Override
-    public List<String> getProjectNames(User user) {
+    public List<String> getProjectNames(String userEmail) {
         List<String> projectNames = new ArrayList<>();
-        projectRepository.getProjects(user.getEmail()).forEach(pr -> projectNames.add(pr.getName()));
+        projectRepository.getProjects(userEmail).forEach(pr -> projectNames.add(pr.getName()));
         return projectNames;
     }
 }

@@ -1,8 +1,9 @@
 package com.bugztracker.service;
 
+import com.bugztracker.commons.bean.StatusPoint;
 import com.bugztracker.commons.entity.issue.Issue;
-import com.bugztracker.commons.entity.user.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,9 @@ public interface IIssueService {
 
     int getCountOfIssuesByProjectAndStatus(String projectName, String status);
     List<Issue> getByProjectAndStatus(String projectName, String status);
-    List<Issue> getByProjectAndUserAndStatus(String projectName, String status, User user);
+    List<Issue> getByProjectAndUserAndStatus(String projectName, String status, String userEmail);
+    List<Issue> getByProjectAndAssignedUser(String projectName, String userEmail);
     List<Issue> getByProject(String projectName);
+    List<StatusPoint> getStatusPointInRange(String projectName, Date from, Date to);
+
 }

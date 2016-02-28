@@ -4,8 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.bugztracker.web.Constants.MESSAGE_TO_USER;
-import static com.bugztracker.web.Constants.PROJECT_NAMES;
+import static com.bugztracker.web.Constants.*;
 
 /**
  * Author: Yuliia Vovk
@@ -19,7 +18,7 @@ public class ProjectManagerHelper {
         Response response = new Response();
 
         if (projectNames.isEmpty()) {
-            response.add(MESSAGE_TO_USER, "No projects found");
+            response.add(MESSAGE_PROJECT_NAMES, "No projects found");
         } else {
             response.add(PROJECT_NAMES, projectNames);
         }

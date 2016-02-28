@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.bugztracker.web.Constants.*;
@@ -122,4 +123,12 @@ public class UserController {
 
         return new ModelAndView(RESULT_PATH, response.getResponse());
     }
+
+    @RequestMapping(value = "{projectName}/participants", method = RequestMethod.GET)
+    public ResponseEntity getParticipantsOfProject(@PathVariable String projectName) {
+        List<User> userList = userService.getByProject(projectName);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+
+
 }

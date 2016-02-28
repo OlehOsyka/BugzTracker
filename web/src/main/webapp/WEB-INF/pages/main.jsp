@@ -21,7 +21,7 @@
                 <a data-toggle="modal" data-target="#create-issue-modal" class="btn btn-success pull-right">Create issue</a>
             </ul>
 
-            <div class="tab-content">
+            <div class="tab-content" id="content">
 
                 <div class="tab-pane fade in active" id="project1">
 
@@ -460,10 +460,10 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="project2">
+                </div>
+                <div class="tab-pane fade" id="project2">
 
 
-                    </div>
                 </div>
             </div>
         </div>

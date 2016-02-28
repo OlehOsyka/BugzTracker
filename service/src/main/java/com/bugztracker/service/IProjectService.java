@@ -1,7 +1,5 @@
 package com.bugztracker.service;
 
-import com.bugztracker.commons.entity.user.User;
-
 import java.util.List;
 
 /**
@@ -11,5 +9,5 @@ import java.util.List;
  */
 public interface IProjectService {
 
-    List<String> getProjectNames(User user);
+    List<String> getProjectNames(String userEmail);
 }

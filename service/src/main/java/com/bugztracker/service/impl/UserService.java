@@ -4,6 +4,8 @@ import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.persistence.dao.IUserRepository;
 import com.bugztracker.service.IUserService;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     private IUserRepository userRepository;
 
@@ -32,8 +36,7 @@ public class UserService implements IUserService {
         try {
             userRepository.update(user);
         } catch (ConstraintViolationException cve) {
-            //TODO log
-            System.out.printf("Updating user with id = %s failed, %s", user.getId(), cve.getMessage());
+            LOG.error("Updating user with id = %s failed, %s", user.getId(), cve.getMessage());
         }
     }
 
@@ -42,8 +45,7 @@ public class UserService implements IUserService {
         try {
             userRepository.add(user);
         } catch (ConstraintViolationException cve) {
-            //TODO log
-            System.out.printf("Creating user with email = %s failed, %s", user.getEmail(), cve.getMessage());
+            LOG.error("Creating user with email = %s failed, %s", user.getEmail(), cve.getMessage());
         }
     }
 

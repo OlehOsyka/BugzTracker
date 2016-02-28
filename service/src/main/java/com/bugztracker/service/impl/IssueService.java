@@ -1,12 +1,15 @@
 package com.bugztracker.service.impl;
 
+import com.bugztracker.commons.bean.StatusPoint;
 import com.bugztracker.commons.entity.issue.Issue;
-import com.bugztracker.commons.entity.user.User;
 import com.bugztracker.persistence.dao.IIssueRepository;
 import com.bugztracker.service.IIssueService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,21 +30,40 @@ public class IssueService implements IIssueService {
 
     @Override
     public List<Issue> getByProjectAndStatus(String projectName, String status) {
-        List<Issue> issues = issueRepository.getByProject(projectName);
-        issues.removeIf(issue -> !issue.getStatus().name().equals(status));
-        return issues;
+       return issueRepository.getByProjectAndStatus(projectName, status);
     }
 
     @Override
-    public List<Issue> getByProjectAndUserAndStatus(String projectName, String status, User user) {
-        List<Issue> issues = issueRepository.getByProjectAndAssignedUser(projectName, user.getEmail());
-        issues.removeIf(issue -> !issue.getStatus().name().equals(status));
-        return issues;
+    public List<Issue> getByProjectAndUserAndStatus(String projectName, String status, String userEmail) {
+        return issueRepository.getByProjectAndUserAndStatus(projectName, status, userEmail);
+    }
+
+    @Override
+    public List<Issue> getByProjectAndAssignedUser(String projectName, String userEmail) {
+        return issueRepository.getByProjectAndAssignedUser(projectName, userEmail);
     }
 
     @Override
     public List<Issue> getByProject(String projectName) {
         return issueRepository.getByProject(projectName);
+    }
+
+    @Override
+    public List<StatusPoint> getStatusPointInRange(String projectName, Date from, Date to) {
+        DateTime dateTimeFrom = new DateTime(from);
+        DateTime dateTimeTo = new DateTime(to);
+        List<StatusPoint> statusPoints = new ArrayList<>();
+
+        while(dateTimeFrom.isBefore(dateTimeTo)) {
+            StatusPoint statusPoint = new StatusPoint(
+                    issueRepository.getCountByDateAndOpenedStatus(dateTimeFrom.toDate()),
+                    issueRepository.getCountByDateAndClosedStatus(dateTimeTo.toDate()),
+                    dateTimeFrom.toDate());
+            statusPoints.add(statusPoint);
+            dateTimeFrom = dateTimeFrom.plusDays(1);
+        }
+
+        return statusPoints;
     }
 
 }

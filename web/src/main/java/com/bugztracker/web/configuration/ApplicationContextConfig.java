@@ -1,7 +1,11 @@
 package com.bugztracker.web.configuration;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -14,9 +18,11 @@ import javax.validation.Validator;
  * Time: 10:27
  */
 @Configuration
-@ComponentScan(basePackages = "com.bugztracker.web", excludeFilters =
+@ComponentScan(basePackages = {"com.bugztracker.web","com.bugztracker.service.configuration",
+        "com.bugztracker.commons.configuration","com.bugztracker.persistence.configuration"}, excludeFilters =
         @ComponentScan.Filter(type = FilterType.ANNOTATION,
                 value = Controller.class))
+@Order(2)
 public class ApplicationContextConfig {
 
     @Bean(name = "entityValidator")

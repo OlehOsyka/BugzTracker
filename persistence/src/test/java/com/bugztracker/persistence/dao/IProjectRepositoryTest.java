@@ -2,6 +2,7 @@ package com.bugztracker.persistence.dao;
 
 import com.bugztracker.commons.entity.project.Project;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class IProjectRepositoryTest {
     private IProjectRepository projectRepository;
 
     @Test
+    @Ignore
     public void testFindByProjectName() throws Exception {
         Project test = new Project();
         test.setName("BT-NURE");

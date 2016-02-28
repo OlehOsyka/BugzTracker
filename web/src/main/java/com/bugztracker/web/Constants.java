@@ -23,6 +23,10 @@ public final class Constants {
     public static final String ACTIVATION_PATH = "/account/activation";
     public static final String ACTIVATION_TOKEN = "token";
     public static final String RESULT_PATH = "/result";
-    public static final String MESSAGE_TO_USER = "message";
+    public static final String MESSAGE_PROJECT_NAMES = "message-project-names";
+    public static final String MESSAGE_STATUS = "message-status";
+    public static final String MESSAGE_STATUS_POINTS = "message-status-points";
+    public static final String STATUS_POINTS = "statusPoints";
     public static final String PROJECT_NAMES = "projectNames";
+    public static final String USER_STATUS = "issuesUser";
 }
