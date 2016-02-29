@@ -5,7 +5,7 @@
     <groupId>com.bugztracker</groupId>
     <artifactId>bugztracker</artifactId>
     <packaging>pom</packaging>
-    <version>${build.version}</version>
+    <version>FIXED</version>
     <modules>
         <module>legacy</module>
         <module>commons</module>

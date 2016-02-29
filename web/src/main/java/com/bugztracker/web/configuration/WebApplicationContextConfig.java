@@ -34,7 +34,7 @@ public class WebApplicationContextConfig {
     }
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
+    public PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         configurer.setLocations(new ClassPathResource("web.properties"));
         configurer.setIgnoreUnresolvablePlaceholders(true);

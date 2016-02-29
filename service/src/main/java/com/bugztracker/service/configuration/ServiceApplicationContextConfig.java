@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -20,15 +21,16 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan("com.bugztracker.service")
+@PropertySource({"classpath*:service.properties","classpath*:mail.properties"})
 public class ServiceApplicationContextConfig {
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
-        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocations(new ClassPathResource("mail.properties"),
-                new ClassPathResource("service.properties"));
-        return configurer;
-    }
+//    @Bean
+//    public PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
+//        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+//        configurer.setLocations(new ClassPathResource("mail.properties"),
+//                new ClassPathResource("service.properties"));
+//        return configurer;
+//    }
 
     @Bean
     public JavaMailSenderImpl provideMailSender(@Value("${mail.host}") String host,

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>bugztracker</artifactId>
         <groupId>com.bugztracker</groupId>
-        <version>${build.version}</version>
+        <version>FIXED</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
