@@ -1,7 +1,7 @@
 package com.bugztracker.web.helpers;
 
 import com.bugztracker.commons.entity.user.User;
-import com.bugztracker.web.util.MD5Encoder;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
@@ -23,44 +23,53 @@ public class UserManageHelper {
         Response response = new Response();
         if (!actual.isPresent()) {
             response.add(VIEW_ERROR, "No user found with such login!");
-        } else {
-            User credentialsUser = actual.get();
-            if (!MD5Encoder.encrypt(credentialsUser.getPassword()).startsWith(credentials.getPassword())) {
-                response.add(VIEW_ERROR, "Incorrect password! Please, check and try again!");
-            } else {
-                if (!credentialsUser.isActive()) {
-                    response.add(VIEW_ERROR, "Your account has not been activated!");
-                } else {
-                    response.add("redirect", "/main");
-                }
-            }
+            return response;
         }
+
+        User credentialsUser = actual.get();
+        String md5Hash = DigestUtils.md5Hex(credentialsUser.getPassword());
+        if (!md5Hash.startsWith(credentials.getPassword())) {
+            response.add(VIEW_ERROR, "Incorrect password! Please, check and try again!");
+            return response;
+        }
+
+        if (!credentialsUser.isActive()) {
+            response.add(VIEW_ERROR, "Your account has not been activated!");
+            return response;
+        }
+
+        response.add("redirect", "/main");
         return response;
     }
 
-    public Response register(Optional<User> foundUser, User credentials, boolean isRegisterToken, int sessionTime) {
+    public Response register(Optional<User> foundUser, User newUser, boolean isRegisterToken, int sessionTime) {
         Response response = new Response();
-        if (foundUser.isPresent() && !foundUser.get().equals(credentials)) {
+        if (foundUser.isPresent() && !foundUser.get().equals(newUser)) {
             response.add(VIEW_ERROR, "Email has already been registered! ");
-        } else if (foundUser.isPresent() && foundUser.get().equals(credentials)) {
-            response.add(VIEW_ERROR, "Registration link has already been sent to you! ");
-        } else {
-            credentials.setPassword(MD5Encoder.encrypt(credentials.getPassword()).substring(0, 10));
-            if (isRegisterToken) {
-                credentials.setActive(false);
-                credentials.setDueRegisterDate(new Timestamp(DateTime.now().plusMinutes(sessionTime).getMillis()));
-
-                String registrationToken = UUID.randomUUID().toString().substring(0, 15);
-                credentials.setRegistrationToken(registrationToken);
-
-                response.add(VIEW_SUCCESS, "Email with activation link has been sent! Please, follow it to succeed in signing up!");
-            } else {
-                credentials.setActive(true);
-                credentials.setRegistrationToken(null);
-                credentials.setDueRegisterDate(null);
-            }
-            response.add(USER_TO_REGISTER, credentials);
+            return response;
         }
+
+        if (foundUser.isPresent() && foundUser.get().equals(newUser)) {
+            response.add(VIEW_ERROR, "Registration link has already been sent to you! ");
+            return response;
+        }
+
+        String md5Hash = DigestUtils.md5Hex(newUser.getPassword());
+        newUser.setPassword(md5Hash.substring(0, 10));
+        if (isRegisterToken) {
+            newUser.setActive(false);
+            newUser.setDueRegisterDate(DateTime.now().plusMinutes(sessionTime).toDate());
+
+            String registrationToken = UUID.randomUUID().toString().substring(0, 15);
+            newUser.setRegistrationToken(registrationToken);
+
+            response.add(VIEW_SUCCESS, "Email with activation link has been sent! Please, follow it to succeed in signing up!");
+        } else {
+            newUser.setActive(true);
+            newUser.setRegistrationToken(null);
+            newUser.setDueRegisterDate(null);
+        }
+        response.add(USER_TO_REGISTER, newUser);
         return response;
     }
 

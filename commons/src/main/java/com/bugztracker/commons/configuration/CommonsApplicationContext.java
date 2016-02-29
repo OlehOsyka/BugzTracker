@@ -17,7 +17,7 @@ import javax.validation.ValidatorFactory;
  */
 @Configuration
 @ComponentScan("com.bugztracker.commons")
-public class ApplicationContext {
+public class CommonsApplicationContext {
 
     @Bean
     public IPersistenceObjectValidator initObjecteValidator() {

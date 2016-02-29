@@ -5,7 +5,7 @@
     <parent>
         <artifactId>bugztracker</artifactId>
         <groupId>com.bugztracker</groupId>
-        <version>${build.version}</version>
+        <version>LATEST</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>commons</artifactId>
@@ -52,6 +52,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson}</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.7</version>
+            <version>${joda.time}</version>
         </dependency>
 
     </dependencies>

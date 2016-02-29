@@ -30,7 +30,7 @@ public class IssueService implements IIssueService {
 
     @Override
     public List<Issue> getByProjectAndStatus(String projectName, String status) {
-       return issueRepository.getByProjectAndStatus(projectName, status);
+        return issueRepository.getByProjectAndStatus(projectName, status);
     }
 
     @Override
@@ -54,10 +54,10 @@ public class IssueService implements IIssueService {
         DateTime dateTimeTo = new DateTime(to);
         List<StatusPoint> statusPoints = new ArrayList<>();
 
-        while(dateTimeFrom.isBefore(dateTimeTo)) {
+        while (dateTimeFrom.isBefore(dateTimeTo)) {
             StatusPoint statusPoint = new StatusPoint(
-                    issueRepository.getCountByDateAndOpenedStatus(dateTimeFrom.toDate()),
-                    issueRepository.getCountByDateAndClosedStatus(dateTimeTo.toDate()),
+                    issueRepository.getCountByDateAndOpenedStatus(projectName, dateTimeFrom.toDate()),
+                    issueRepository.getCountByDateAndClosedStatus(projectName, dateTimeTo.toDate()),
                     dateTimeFrom.toDate());
             statusPoints.add(statusPoint);
             dateTimeFrom = dateTimeFrom.plusDays(1);

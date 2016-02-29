@@ -1,5 +1,6 @@
 package com.bugztracker.web.configuration;
 
+import org.joda.time.Period;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * Date: 21.02.16
  * Time: 10:10
  */
-@Configuration
-@ComponentScan("com.bugztracker.web.controllers")
 @EnableWebMvc
-@Order(3)
+@ComponentScan("com.bugztracker.web.controllers")
+@Configuration
 public class MvcContextConfig extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -30,7 +30,9 @@ public class MvcContextConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
+        registry.addResourceHandler("/resources/**").
+                addResourceLocations("/resources/").
+                setCachePeriod(Period.years(1).getSeconds());
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,17 +43,16 @@ public class IssueController {
         List<Issue> issueList = issueService.getByProjectAndUserAndStatus(projectName, status, assigneeEmail);
 
         Response response = managerHelper.getIssuesByStatusAndProjectAndUser(issueList, status);
-
         return new ResponseEntity<>(response.getResponse(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{projectName}/statuspoints", method = RequestMethod.GET)
     public ResponseEntity getStatusPointForDefaultTime(@PathVariable String projectName) {
-        List<StatusPoint> statusPoints = issueService.getStatusPointInRange(projectName,
-                DateTime.now().minusWeeks(2).toDate(), DateTime.now().toDate());
+        Date from = DateTime.now().minusWeeks(2).toDate();
+        Date to = DateTime.now().toDate();
+        List<StatusPoint> statusPoints = issueService.getStatusPointInRange(projectName, from, to);
 
         Response response = managerHelper.getStatusPointsForRange(statusPoints);
-
         return new ResponseEntity<>(response.getResponse(), HttpStatus.OK);
     }
 

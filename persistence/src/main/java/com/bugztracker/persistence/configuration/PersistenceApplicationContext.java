@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 @Configuration
 @ComponentScan(basePackages = "com.bugztracker.persistence")
-public class ApplicationContext {
+public class PersistenceApplicationContext {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {

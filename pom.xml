@@ -8,10 +8,10 @@
     <version>${build.version}</version>
     <modules>
         <module>legacy</module>
-        <module>persistence</module>
         <module>commons</module>
-        <module>web</module>
+        <module>persistence</module>
         <module>service</module>
+        <module>web</module>
     </modules>
     <name>bugztracker</name>
 
@@ -19,13 +19,20 @@
         <!--How to change version number-->
         <!--BT1 was for Shubin. Now It's BT2 version-->
         <!--# O.YMM.DDC: BT2(2.)MONTH(01.) DAY(01) COMMIT#(1)-->
-        <build.version>2.02.132</build.version>
+        <build.version>2.02.291</build.version>
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring.data.version>1.8.2.RELEASE</spring.data.version>
         <hibernate.validator>5.2.3.Final</hibernate.validator>
+
         <javax.el>3.0.0</javax.el>
+        <javax.servlet.api>3.1.0</javax.servlet.api>
+        <javax.servlet.jsp>2.2</javax.servlet.jsp>
+        <javax.servlet.jstl>1.2</javax.servlet.jstl>
+
         <apache.commons.lang3>3.4</apache.commons.lang3>
+        <apache.commons.codec>1.10</apache.commons.codec>
         <jackson>2.7.1</jackson>
+        <joda.time>2.9.2</joda.time>
         <guava>19.0</guava>
         <junit>4.12</junit>
         <slf4j>1.7.16</slf4j>
@@ -47,14 +54,21 @@
 
     <build>
         <finalName>bugztracker</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

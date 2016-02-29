@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan("com.bugztracker.service")
-public class ApplicationContextConfig {
+public class ServiceApplicationContextConfig {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {

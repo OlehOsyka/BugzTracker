@@ -13,17 +13,13 @@ public class AppInitConfig extends AbstractAnnotationConfigDispatcherServletInit
     // для инициализации бинов у нас использовалась аннотация @Bean
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{
-                MvcContextConfig.class
-        };
+        return new Class<?>[]{WebApplicationContextConfig.class};
     }
 
     // Тут добавляем конфигурацию, в которой инициализируем ViewResolver
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{
-                MvcContextConfig.class
-        };
+        return new Class<?>[]{MvcContextConfig.class};
     }
 
     @Override

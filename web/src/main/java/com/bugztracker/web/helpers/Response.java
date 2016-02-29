@@ -1,7 +1,7 @@
 package com.bugztracker.web.helpers;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author: Yuliia Vovk
@@ -13,11 +13,11 @@ public class Response {
     private Map<String, Object> response;
 
     public Response(Map<String, Object> response) {
-        this.response = new HashMap<>(response);
+        this.response = new ConcurrentHashMap<>(response);
     }
 
     public Response() {
-        response = new HashMap<>();
+        response = new ConcurrentHashMap<>();
     }
 
     public void add(String key, Object value) {
