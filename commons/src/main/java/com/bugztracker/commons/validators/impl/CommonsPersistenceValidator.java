@@ -1,6 +1,6 @@
 package com.bugztracker.commons.validators.impl;
 
-import com.bugztracker.commons.validators.IPersistenceObjectValidator;
+import com.bugztracker.commons.validators.ICommonsValidator;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +18,7 @@ import java.util.Set;
  * Time: 18:18
  */
 @Component
-public class PersistenceObjectValidator implements IPersistenceObjectValidator {
+public class CommonsPersistenceValidator implements ICommonsValidator {
 
     @Autowired
     @Qualifier("persistenceValidator")

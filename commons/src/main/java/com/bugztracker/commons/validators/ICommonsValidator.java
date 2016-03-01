@@ -5,7 +5,7 @@ package com.bugztracker.commons.validators;
  * Date: 13.02.2016
  * Time: 18:17
  */
-public interface IPersistenceObjectValidator {
+public interface ICommonsValidator {
 
     void validate(Object object);
 }

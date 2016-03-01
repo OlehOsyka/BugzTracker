@@ -16,8 +16,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * Time: 10:10
  */
 @EnableWebMvc
-@ComponentScan("com.bugztracker.web.controllers")
 @Configuration
+@ComponentScan("com.bugztracker.web.controllers")
 public class MvcContextConfig extends WebMvcConfigurerAdapter {
 
     @Bean

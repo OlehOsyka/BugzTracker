@@ -1,14 +1,15 @@
 package com.bugztracker.web.controllers;
 
 import com.bugztracker.commons.entity.user.User;
+import com.bugztracker.commons.validators.ICommonsValidator;
 import com.bugztracker.service.IEmailService;
 import com.bugztracker.service.IUserService;
 import com.bugztracker.web.helpers.Response;
 import com.bugztracker.web.helpers.UserManageHelper;
-import com.bugztracker.web.validators.EntityValidator;
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,8 @@ public class UserController {
     private UserManageHelper manageHelper;
 
     @Autowired
-    private EntityValidator<User> userValidator;
+    @Qualifier("commonsEntityValidator")
+    private ICommonsValidator userValidator;
 
     @Autowired
     private IEmailService emailService;
@@ -87,7 +89,7 @@ public class UserController {
         User userToRegister = (User) response.get(USER_TO_REGISTER);
         userService.create(userToRegister);
 
-        if(isRegisterToken) {
+        if (isRegisterToken) {
             emailService.sendRegisterEmail(userToRegister);
         }
 

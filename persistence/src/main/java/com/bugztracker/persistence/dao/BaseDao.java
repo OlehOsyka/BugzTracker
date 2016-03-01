@@ -1,10 +1,11 @@
 package com.bugztracker.persistence.dao;
 
-import com.bugztracker.commons.validators.IPersistenceObjectValidator;
+import com.bugztracker.commons.validators.ICommonsValidator;
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.Index;
@@ -29,7 +30,8 @@ public abstract class BaseDao<ENTITY> implements IBaseDao<ENTITY> {
     private MongoOperations mongoOperations;
 
     @Autowired
-    private IPersistenceObjectValidator objectValidator;
+    @Qualifier("commonsPersistenceValidator")
+    private ICommonsValidator objectValidator;
 
     @PostConstruct
     private void initIndexes() {

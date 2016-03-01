@@ -20,8 +20,8 @@ import static org.apache.logging.log4j.core.Filter.Result.*;
  * Date: 15.02.2016
  * Time: 11:07
  */
-@Plugin(name = "CustomConfigurationFactory", category = ConfigurationFactory.CATEGORY)
 @Order(1)
+@Plugin(name = "CustomConfigurationFactory", category = ConfigurationFactory.CATEGORY)
 public class Log4j2Config extends ConfigurationFactory {
 
     static Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) {

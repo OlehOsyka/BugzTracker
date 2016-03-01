@@ -19,7 +19,9 @@
         <!--How to change version number-->
         <!--BT1 was for Shubin. Now It's BT2 version-->
         <!--# O.YMM.DDC: BT2(2.)MONTH(01.) DAY(01) COMMIT#(1)-->
-        <build.version>2.02.291</build.version>
+        <build.version>2.03.011</build.version>
+        <war.module>web</war.module>
+
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring.data.version>1.8.2.RELEASE</spring.data.version>
         <hibernate.validator>5.2.3.Final</hibernate.validator>
@@ -67,6 +69,34 @@
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.7</version>
+                    <executions>
+                        <execution>
+                            <id>default-testResources</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <overwrite>true</overwrite>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <nonFilteredFileExtensions>
+                            <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        </nonFilteredFileExtensions>
+                        <outputDirectory>${user.dir}/${war.module}/src/main/resources</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/main/resources</directory>
+                                <includes>
+                                    <include>**/*.properties</include>
+                                    <include>**/*.vm</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>service</artifactId>
+    <version>${build.version}</version>
+    <name>Bugztracker Service</name>
     <packaging>jar</packaging>
 
     <dependencies>

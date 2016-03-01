@@ -1,5 +1,6 @@
-package com.bugztracker.web.validators;
+package com.bugztracker.commons.validators.impl;
 
+import com.bugztracker.commons.validators.ICommonsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,17 +16,17 @@ import java.util.Set;
  * Time: 10:56
  */
 @Component
-public class EntityValidator<T> {
+public class CommonsEntityValidator implements ICommonsValidator {
 
     @Autowired
     @Qualifier("entityValidator")
     private Validator validator;
 
-    public void validate(T obj) {
-        Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
+    public void validate(Object obj) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(obj);
         if (!constraintViolations.isEmpty()) {
             StringBuilder errors = new StringBuilder();
-            for (ConstraintViolation<T> constraintViolation : constraintViolations) {
+            for (ConstraintViolation<Object> constraintViolation : constraintViolations) {
                 errors.append(constraintViolation.getMessage());
             }
             throw new ValidationException(errors.toString());

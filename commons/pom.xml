@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>commons</artifactId>
+    <version>${build.version}</version>
+    <name>Bugztracker Commons</name>
     <packaging>jar</packaging>
 
     <dependencies>

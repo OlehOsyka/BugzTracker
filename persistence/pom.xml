@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>persistence</artifactId>
+    <version>${build.version}</version>
+    <name>Bugztracker Persistence</name>
     <packaging>jar</packaging>
 
     <dependencies>
