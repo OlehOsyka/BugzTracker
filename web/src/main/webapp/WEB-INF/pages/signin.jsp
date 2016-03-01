@@ -1,6 +1,5 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <t:template>
 
     <jsp:attribute name="header">
@@ -13,7 +12,7 @@
     </jsp:attribute>
 
     <jsp:body>
-        <body style="background: url('../../resources/images/macbook-5.jpg') center center no-repeat fixed; opacity: 0.9; background-size: cover;">
+        <body style="background: url('/bugztracker/resources/images/macbook-5.jpg') center center no-repeat fixed; opacity: 0.9; background-size: cover;">
         <div class="login-panel">
             <div class="col-md-8" style="color: white">
                 <h1>Bugztracker</h1>

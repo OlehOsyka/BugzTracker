@@ -83,9 +83,6 @@
                     <configuration>
                         <overwrite>true</overwrite>
                         <encoding>${project.build.sourceEncoding}</encoding>
-                        <nonFilteredFileExtensions>
-                            <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-                        </nonFilteredFileExtensions>
                         <outputDirectory>${user.dir}/${war.module}/src/main/resources</outputDirectory>
                         <resources>
                             <resource>
