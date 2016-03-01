@@ -48,10 +48,10 @@ public class UserController {
     @Autowired
     private IEmailService emailService;
 
-    @Value("${is.register.token:false}")
+    @Value("${web.is.register.token:false}")
     private boolean isRegisterToken;
 
-    @Value("${session.time:30}")
+    @Value("${web.session.time:30}")
     private int sessionTime;
 
     @RequestMapping(value = LOGIN_PATH, method = RequestMethod.POST)

@@ -4,7 +4,9 @@ import org.joda.time.Period;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -19,6 +21,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan("com.bugztracker.web.controllers")
 public class MvcContextConfig extends WebMvcConfigurerAdapter {
+
+    @Bean(name = "webProperties")
+    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
+        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        configurer.setPlaceholderPrefix("${web.");
+        configurer.setLocations(new ClassPathResource("web.properties"));
+        configurer.setIgnoreUnresolvablePlaceholders(true);
+        return configurer;
+    }
 
     @Bean
     public InternalResourceViewResolver provideViewResolver() {

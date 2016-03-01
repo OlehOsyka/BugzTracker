@@ -25,23 +25,23 @@ public class ServiceApplicationContextConfig {
     @Bean(name = "serviceProperties")
     public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        configurer.setPlaceholderPrefix("${service.");
         configurer.setLocations(
                 new ClassPathResource("mail.properties"),
                 new ClassPathResource("service.properties"));
-        configurer.setIgnoreUnresolvablePlaceholders(true);
         return configurer;
     }
 
     @Bean
-    public JavaMailSenderImpl provideMailSender(@Value("${mail.host}") String host,
-                                                @Value("${mail.sender}") String userName,
-                                                @Value("${mail.sender.password}") String password,
-                                                @Value("${mail.port}") int port,
-                                                @Value("${mail.debug}") String debug,
-                                                @Value("${mail.auth}") String auth,
-                                                @Value("${mail.starttls.enable}") String starttlsEnable,
-                                                @Value("${mail.charset}") String charset,
-                                                @Value("${mail.protocol}") String protocol) {
+    public JavaMailSenderImpl provideMailSender(@Value("${service.mail.host}") String host,
+                                                @Value("${service.mail.sender}") String userName,
+                                                @Value("${service.mail.sender.password}") String password,
+                                                @Value("${service.mail.port}") int port,
+                                                @Value("${service.mail.debug}") String debug,
+                                                @Value("${service.mail.auth}") String auth,
+                                                @Value("${service.mail.starttls.enable}") String starttlsEnable,
+                                                @Value("${service.mail.charset}") String charset,
+                                                @Value("${service.mail.protocol}") String protocol) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);

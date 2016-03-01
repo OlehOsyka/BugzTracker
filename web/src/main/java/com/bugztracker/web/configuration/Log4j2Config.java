@@ -26,9 +26,9 @@ public class Log4j2Config extends ConfigurationFactory {
 
     static Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) {
         builder.setConfigurationName(name);
-        builder.setStatusLevel(ERROR);
+        builder.setStatusLevel(DEBUG);
         builder.add(builder.newFilter("ThresholdFilter", ACCEPT, NEUTRAL).
-                addAttribute("level", INFO));
+                addAttribute("level", DEBUG));
 
         AppenderComponentBuilder appenderBuilder = builder.newAppender("Stdout", "CONSOLE").
                 addAttribute("target", ConsoleAppender.Target.SYSTEM_OUT);
@@ -41,7 +41,7 @@ public class Log4j2Config extends ConfigurationFactory {
         builder.add(builder.newLogger("org.apache.logging.log4j", DEBUG).
                 add(builder.newAppenderRef("Stdout")).
                 addAttribute("additivity", false));
-        builder.add(builder.newRootLogger(ERROR).
+        builder.add(builder.newRootLogger(DEBUG).
                 add(builder.newAppenderRef("Stdout")));
         return builder.build();
     }

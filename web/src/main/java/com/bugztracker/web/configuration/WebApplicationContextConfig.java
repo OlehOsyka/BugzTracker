@@ -27,11 +27,4 @@ import static org.springframework.context.annotation.FilterType.ANNOTATION;
         excludeFilters = @Filter(type = ANNOTATION, value = Controller.class))
 public class WebApplicationContextConfig {
 
-    @Bean(name = "webProperties")
-    public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
-        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocations(new ClassPathResource("web.properties"));
-        configurer.setIgnoreUnresolvablePlaceholders(true);
-        return configurer;
-    }
 }

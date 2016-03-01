@@ -22,14 +22,14 @@ public class PersistenceApplicationContext {
     @Bean(name = "persistenceProperties")
     public static PropertySourcesPlaceholderConfigurer initPropertiesConfig() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        configurer.setPlaceholderPrefix("${persistence.");
         configurer.setLocations(new ClassPathResource("db.properties"));
-        configurer.setIgnoreUnresolvablePlaceholders(true);
         return configurer;
     }
 
     @Bean
-    public MongoOperations mongoDbFactory(@Value("${db.name}") String dbName,
-                                          @Value("${db.host}") String dbHost) throws Exception {
+    public MongoOperations mongoDbFactory(@Value("${persistence.db.name}") String dbName,
+                                          @Value("${persistence.db.host}") String dbHost) throws Exception {
         return new MongoTemplate(new MongoClient(dbHost), dbName);
     }
 
